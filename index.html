@@ -711,80 +711,72 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
     var filename = (company || 'RankLocal-Proposal') + '.pdf';
 
     var pagesOut = document.getElementById('pages-out');
-    if (!pagesOut || !pagesOut.querySelector('.ppage')) {
+    var ppageEls = pagesOut ? pagesOut.querySelectorAll('.ppage') : [];
+    if (!ppageEls.length) {
       alert('Generate a proposal first, then export.');
       return;
     }
 
-    btn.textContent = 'Opening PDF...';
+    btn.textContent = 'Opening PDF... (' + ppageEls.length + ' pages)';
     btn.disabled = true;
 
-    // Collect all inline styles from the page
+    // Collect all page styles
     var css = '';
     document.querySelectorAll('style').forEach(function(s) { css += s.textContent; });
 
-    // Build page HTML — inject inline page-break on each .ppage so no CSS can override it
-    var ppageEls = pagesOut.querySelectorAll('.ppage');
-    var pagesHTML = '';
+    // Position each page at exactly N*11in from top of document.
+    // With @page{size:8.5in 11in} Chrome paginates at every 11in naturally —
+    // no CSS page-break rules needed, guaranteed N pages in = N pages out.
+    var totalPages = ppageEls.length;
+    var pagesHTML = '<div style="position:relative;width:8.5in;height:' + (totalPages * 11) + 'in;margin:0;padding:0;">';
     ppageEls.forEach(function(pg, idx) {
       var clone = pg.cloneNode(true);
-      var isLast = (idx === ppageEls.length - 1);
-      // Inline styles are highest specificity — cannot be overridden by any stylesheet
       clone.style.cssText = [
+        'position:absolute',
+        'top:' + (idx * 11) + 'in',
+        'left:0',
         'width:8.5in',
-        'min-height:11in',
+        'height:11in',
         'overflow:hidden',
         'margin:0',
-        'box-shadow:none',
-        'page-break-after:' + (isLast ? 'auto' : 'always'),
-        'break-after:' + (isLast ? 'auto' : 'page'),
-        'page-break-before:always',
-        'break-before:page',
-        'page-break-inside:avoid',
-        'break-inside:avoid',
-        'display:block'
+        'box-shadow:none'
       ].join(';') + ';';
-      if (idx === 0) {
-        clone.style.pageBreakBefore = 'auto';
-        clone.style.breakBefore = 'auto';
-      }
       pagesHTML += clone.outerHTML;
     });
+    pagesHTML += '</div>';
 
-    var win = window.open('', '_blank');
+    // Use Blob URL — avoids document.write() quirks, loads as a proper page
+    var fullHTML = [
+      '<!DOCTYPE html><html><head>',
+      '<meta charset="UTF-8"><title>' + filename + '</title>',
+      '<style>' + css + '</style>',
+      '<style>',
+        'html,body{margin:0;padding:0;background:#fff;}',
+        '*{print-color-adjust:exact;-webkit-print-color-adjust:exact;}',
+        '@page{size:8.5in 11in;margin:0;}',
+      '</style>',
+      '</head><body>',
+      pagesHTML,
+      '<scr' + 'ipt>setTimeout(function(){window.print();},1000);<\/scr' + 'ipt>',
+      '</body></html>'
+    ].join('');
+
+    var blob = new Blob([fullHTML], {type:'text/html;charset=utf-8'});
+    var blobUrl = URL.createObjectURL(blob);
+    var win = window.open(blobUrl, '_blank');
     if (!win) {
-      alert('Please allow pop-ups for this site, then click Export PDF again.');
+      alert('Please allow pop-ups for this site, then try again.');
+      URL.revokeObjectURL(blobUrl);
       btn.innerHTML = '&#128196; Export PDF';
       btn.disabled = false;
       return;
     }
-
-    var printCSS = [
-      'body{background:#fff!important;margin:0;padding:0;}',
-      '*{print-color-adjust:exact;-webkit-print-color-adjust:exact;}',
-      '@page{size:8.5in 11in;margin:0;}'
-    ].join('');
-
-    win.document.write(
-      '<!DOCTYPE html><html><head>' +
-      '<meta charset="UTF-8"><title>' + filename + '</title>' +
-      '<style>' + css + '</style>' +
-      '<style>' + printCSS + '</style>' +
-      '</head><body>' +
-      pagesHTML +
-      '<scr' + 'ipt>' +
-        'window.onload=function(){' +
-          'setTimeout(function(){window.print();},1200);' +
-        '};' +
-      '<\/scr' + 'ipt>' +
-      '</body></html>'
-    );
-    win.document.close();
+    setTimeout(function() { URL.revokeObjectURL(blobUrl); }, 60000);
 
     setTimeout(function() {
       btn.innerHTML = '&#128196; Export PDF';
       btn.disabled = false;
-    }, 2500);
+    }, 3000);
   };
   // Auto-date
   try {
