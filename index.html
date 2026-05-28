@@ -430,7 +430,7 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
           if (rate === 0) continue;
           hasAny = true;
           var amt = qty * rate;
-          rows += '<tr><td>' + esc(svc.label) + '</td><td style="color:#888;font-size:.77rem;">' + esc(type) + '</td><td style="text-align:center;">' + qty + '</td><td>' + fmtMoney(rate) + '</td><td><strong>' + fmtMoney(amt) + '</strong></td></tr>';
+          rows += '<tr><td>' + esc(svc.label) + '</td><td style="text-align:center;">' + qty + '</td><td>' + fmtMoney(rate) + '</td><td><strong>' + fmtMoney(amt) + '</strong></td></tr>';
         }
         if (!hasAny) rows += '<tr><td colspan="4" style="color:#bbb;font-style:italic;font-size:.78rem;padding:6px 10px;">No services added</td></tr>';
         return rows;
@@ -735,8 +735,14 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
     var printCSS = [
       'body{background:#fff!important;margin:0;padding:0;}',
       '#pages-out{display:block;}',
-      '.ppage{margin:0 auto!important;box-shadow:none!important;}',
-      '.ppage+.ppage{page-break-before:always;break-before:page;}',
+      '.ppage{',
+        'margin:0 auto!important;box-shadow:none!important;',
+        'width:8.5in!important;height:11in!important;',
+        'overflow:hidden!important;',
+        'page-break-before:always!important;break-before:page!important;',
+        'page-break-inside:avoid!important;break-inside:avoid!important;',
+      '}',
+      '.ppage:first-child{page-break-before:auto!important;break-before:auto!important;}',
       '*{print-color-adjust:exact;-webkit-print-color-adjust:exact;}',
       '@page{size:8.5in 11in;margin:0;}',
       '.form-panel,.topbar,.btn-pdf{display:none!important;}'
@@ -749,7 +755,7 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
       '<style>' + printCSS + '</style>' +
       '</head><body>' +
       '<div id="pages-out">' + pagesOut.innerHTML + '</div>' +
-      '<scr' + 'ipt>window.onload=function(){setTimeout(function(){window.print();},600);};<\/scr' + 'ipt>' +
+      '<scr' + 'ipt>window.onload=function(){setTimeout(function(){window.print();},1200);};<\/scr' + 'ipt>' +
       '</body></html>'
     );
     win.document.close();
