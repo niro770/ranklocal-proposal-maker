@@ -61,7 +61,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--light);min-
 .placeholder .ph-icon{font-size:3rem;}
 /* Proposal pages */
 #pages-out{display:block;}
-.ppage{background:#fff;width:816px;min-height:1056px;margin:0 auto 30px;box-shadow:0 4px 24px rgba(0,0,0,.18);position:relative;color:#1a1a1a;font-family:'Inter',sans-serif;}
+.ppage{background:#fff;width:816px;min-height:1056px;margin:0 auto 30px;box-shadow:0 4px 24px rgba(0,0,0,.18);position:relative;color:#1a1a1a;font-family:'Inter',sans-serif;page-break-before:always;break-before:page;}
 .pr{padding:56px 60px;}
 .inn{max-width:700px;margin:0 auto;}
 .ph{display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:2px solid #eee;margin-bottom:28px;font-size:.75rem;color:#888;}
@@ -713,16 +713,30 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
     btn.disabled = true;
 
     var el = document.getElementById('pages-out');
+
+    // Temporarily remove gaps between pages for clean PDF capture
+    var ppages = document.querySelectorAll('.ppage');
+    var oldMargins = [];
+    ppages.forEach(function(p, i) {
+      oldMargins[i] = p.style.margin;
+      p.style.margin = '0';
+      p.style.boxShadow = 'none';
+    });
+    if (el) { el.style.width = '816px'; el.style.margin = '0'; }
+
     var opt = {
       margin: 0,
       filename: filename,
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, logging: false },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-      pagebreak: { mode: ['css', 'legacy'], before: '.ppage' }
+      html2canvas: { scale: 2, useCORS: true, logging: false, width: 816, windowWidth: 816 },
+      jsPDF: { unit: 'px', format: [816, 1056], orientation: 'portrait', hotfixes: ['px_scaling'] },
+      pagebreak: { mode: 'css', before: '.ppage' }
     };
 
     html2pdf().set(opt).from(el).save().then(function() {
+      // Restore margins
+      ppages.forEach(function(p, i) { p.style.margin = oldMargins[i]; p.style.boxShadow = ''; });
+      if (el) { el.style.width = ''; el.style.margin = ''; }
       btn.innerHTML = '&#128196; Export PDF';
       btn.disabled = false;
     }).catch(function(err) {
