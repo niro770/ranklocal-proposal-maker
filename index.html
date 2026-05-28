@@ -32,6 +32,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--light);min-
 .chip-row{display:flex;gap:6px;}
 .chip-row input{flex:1;background:#0f0f14;border:1px solid var(--border);border-radius:5px;padding:6px 8px;font-size:.82rem;color:var(--light);font-family:'Inter',sans-serif;outline:none;}
 .chip-row input:focus{border-color:var(--blue);}
+.chip-row .radius-inp{width:72px;flex:none;}
 .chip-btn{background:var(--blue);color:#fff;border:none;border-radius:5px;padding:6px 12px;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;}
 .chip-btn:hover{background:#0090dd;}
 .ptbl{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:4px;}
@@ -173,8 +174,13 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
     <div class="section-hd">Target Markets</div>
     <div class="chips-box">
       <div class="chips-list" id="chips-list"></div>
+      <div style="display:flex;gap:4px;margin-bottom:5px;">
+        <span style="font-size:.7rem;color:var(--muted);flex:1;">City, State</span>
+        <span style="font-size:.7rem;color:var(--muted);width:72px;">Radius</span>
+      </div>
       <div class="chip-row">
-        <input type="text" id="city-input" placeholder="City, State — press Enter or Add">
+        <input type="text" id="city-input" placeholder="e.g. Atlanta, GA">
+        <input type="text" id="radius-input" class="radius-inp" placeholder="25 mi">
         <button class="chip-btn" id="add-city-btn" type="button">+ Add</button>
       </div>
     </div>
@@ -252,17 +258,18 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
     document.getElementById('ppc-wrap').style.display = this.checked ? 'block' : 'none';
   };
 
-  // Markets
+  // Markets — stored as {city, radius}
   var markets = [];
 
   function renderChips() {
     var list = document.getElementById('chips-list');
     if (!list) return;
-    var html = '';
+    var h = '';
     for (var i = 0; i < markets.length; i++) {
-      html += '<span class="chip">' + esc(markets[i]) + '<button class="chip-rm" data-i="' + i + '" type="button">&times;</button></span>';
+      var label = esc(markets[i].city) + (markets[i].radius ? ' <span style="opacity:.6;font-size:.72rem;">(' + esc(markets[i].radius) + ')</span>' : '');
+      h += '<span class="chip">' + label + '<button class="chip-rm" data-i="' + i + '" type="button">&times;</button></span>';
     }
-    list.innerHTML = html;
+    list.innerHTML = h;
     var btns = list.querySelectorAll('.chip-rm');
     for (var j = 0; j < btns.length; j++) {
       (function(btn) {
@@ -276,16 +283,22 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
 
   function addCity() {
     var inp = document.getElementById('city-input');
+    var rinp = document.getElementById('radius-input');
     var v = inp.value.trim();
     if (!v) return;
-    markets.push(v);
+    markets.push({ city: v, radius: rinp ? rinp.value.trim() : '' });
     renderChips();
     inp.value = '';
+    if (rinp) rinp.value = '';
     inp.focus();
   }
 
   document.getElementById('add-city-btn').onclick = addCity;
   document.getElementById('city-input').onkeydown = function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); addCity(); }
+  };
+  var rinpEl = document.getElementById('radius-input');
+  if (rinpEl) rinpEl.onkeydown = function(e) {
     if (e.key === 'Enter') { e.preventDefault(); addCity(); }
   };
 
@@ -381,7 +394,7 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
       var pages = '';
 
       // PAGE 1 — Cover
-      var mktLine = markets.length ? markets.join(' &nbsp;&#183;&nbsp; ') : (esc(niche) + ' across ' + n + ' market' + (n>1?'s':''));
+      var mktLine = markets.length ? markets.map(function(m){ return esc(m.city || m); }).join(' &nbsp;&#183;&nbsp; ') : (esc(niche) + ' across ' + n + ' market' + (n>1?'s':''));
       var pinSvg = '<svg class="cover-pin" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#00aaff" opacity="0.5"/><circle cx="12" cy="9" r="2.5" fill="none" stroke="#00aaff" stroke-width="1.5" opacity="0.7"/></svg>';
       pages += '<div class="ppage"><div class="cover-wrap">';
       pages += '<div class="cover-top">';
@@ -582,7 +595,7 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
   function runAIOpp() {
     var company = gv('f-company') || '[Business]';
     var niche = gv('f-niche') === 'Other' ? (gv('f-niche-custom') || 'local services') : (gv('f-niche') || 'local services');
-    var mkts = markets.length ? markets.join(', ') : 'their local markets';
+    var mkts = markets.length ? markets.map(function(m){ return m.city || m; }).join(', ') : 'their local markets';
     var btn = document.getElementById('ai-opp-btn');
     btn.textContent = 'Writing...'; btn.classList.add('loading'); btn.disabled = true;
     var prompt = 'Write a 2-3 sentence "opportunity" paragraph for a local SEO proposal targeting "' + company + '", a ' + niche + ' company serving ' + mkts + '. Explain why Google Maps visibility is critical for their business right now. Be persuasive, specific to the niche, and end with urgency. No quotes, just the paragraph.';
