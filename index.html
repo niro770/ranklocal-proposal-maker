@@ -706,54 +706,58 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
 
   // ─── PDF Export ───────────────────────────────────
   document.getElementById('pdf-btn').onclick = function() {
-    var btn = document.getElementById('pdf-btn');
-    var company = document.getElementById('f-company') ? document.getElementById('f-company').value.trim() : 'Proposal';
+    var btn = this;
+    var company = document.getElementById('f-company') ? document.getElementById('f-company').value.trim() : '';
     var filename = (company || 'RankLocal-Proposal') + '.pdf';
-    btn.textContent = 'Generating...';
+
+    var pagesOut = document.getElementById('pages-out');
+    if (!pagesOut || !pagesOut.querySelector('.ppage')) {
+      alert('Generate a proposal first, then export.');
+      return;
+    }
+
+    btn.textContent = 'Opening PDF...';
     btn.disabled = true;
 
-    // Clone pages into off-screen container
-    // position:absolute top:-9999px keeps it in normal flow so html2canvas can paint it
-    // Never use z-index:-1 (hides behind background) or position:fixed (unreliable off-screen)
-    var renderWrap = document.createElement('div');
-    renderWrap.style.cssText = 'position:absolute;top:-19999px;left:0;width:816px;background:#fff;overflow:visible;';
-    var ppages = document.querySelectorAll('.ppage');
-    if (!ppages.length) {
-      alert('No proposal content to export. Please generate a proposal first.');
+    // Collect all inline styles from the page
+    var css = '';
+    document.querySelectorAll('style').forEach(function(s) { css += s.textContent; });
+
+    // Open a dedicated print window — bypasses all html2canvas/scroll/clipping issues entirely
+    var win = window.open('', '_blank');
+    if (!win) {
+      alert('Please allow pop-ups for this site, then click Export PDF again.');
       btn.innerHTML = '&#128196; Export PDF';
       btn.disabled = false;
       return;
     }
-    ppages.forEach(function(p) {
-      var clone = p.cloneNode(true);
-      clone.style.cssText += ';margin:0;box-shadow:none;width:816px;page-break-before:always;break-before:page;';
-      renderWrap.appendChild(clone);
-    });
-    document.body.appendChild(renderWrap);
 
-    // Give browser one frame to lay out the cloned DOM before capturing
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() {
-        var opt = {
-          margin: 0,
-          filename: filename,
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2, useCORS: true, logging: false, scrollY: -window.scrollY, windowWidth: 816 },
-          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-          pagebreak: { mode: 'css', before: '.ppage' }
-        };
-        html2pdf().set(opt).from(renderWrap).save().then(function() {
-          document.body.removeChild(renderWrap);
-          btn.innerHTML = '&#128196; Export PDF';
-          btn.disabled = false;
-        }).catch(function(err) {
-          if (document.body.contains(renderWrap)) document.body.removeChild(renderWrap);
-          alert('PDF export failed: ' + err.message);
-          btn.innerHTML = '&#128196; Export PDF';
-          btn.disabled = false;
-        });
-      });
-    });
+    var printCSS = [
+      'body{background:#fff!important;margin:0;padding:0;}',
+      '#pages-out{display:block;}',
+      '.ppage{margin:0 auto!important;box-shadow:none!important;}',
+      '.ppage+.ppage{page-break-before:always;break-before:page;}',
+      '*{print-color-adjust:exact;-webkit-print-color-adjust:exact;}',
+      '@page{size:8.5in 11in;margin:0;}',
+      '.form-panel,.topbar,.btn-pdf{display:none!important;}'
+    ].join('');
+
+    win.document.write(
+      '<!DOCTYPE html><html><head>' +
+      '<meta charset="UTF-8"><title>' + filename + '</title>' +
+      '<style>' + css + '</style>' +
+      '<style>' + printCSS + '</style>' +
+      '</head><body>' +
+      '<div id="pages-out">' + pagesOut.innerHTML + '</div>' +
+      '<scr' + 'ipt>window.onload=function(){setTimeout(function(){window.print();},600);};<\/scr' + 'ipt>' +
+      '</body></html>'
+    );
+    win.document.close();
+
+    setTimeout(function() {
+      btn.innerHTML = '&#128196; Export PDF';
+      btn.disabled = false;
+    }, 2000);
   };
 
   // Auto-date
