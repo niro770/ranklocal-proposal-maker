@@ -47,16 +47,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--light);min-
 .ai-btn{background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:5px;color:#fff;font-size:.72rem;font-weight:700;padding:4px 9px;cursor:pointer;margin-bottom:5px;display:inline-flex;align-items:center;gap:4px;}
 .ai-btn:hover{opacity:.85;}
 .ai-btn.loading{opacity:.6;cursor:wait;}
-.key-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:2000;align-items:center;justify-content:center;}
-.key-modal.open{display:flex;}
-.key-box{background:#0f0f14;border:1px solid var(--border);border-radius:12px;padding:28px 32px;width:380px;max-width:95vw;}
-.key-box h3{font-size:.95rem;font-weight:700;margin-bottom:8px;}
-.key-box p{font-size:.78rem;color:var(--muted);margin-bottom:14px;line-height:1.6;}
-.key-box input{width:100%;background:#07070a;border:1px solid var(--border);border-radius:6px;padding:9px 12px;font-size:.83rem;color:var(--light);font-family:'Inter',sans-serif;outline:none;margin-bottom:12px;}
-.key-box input:focus{border-color:var(--blue);}
-.key-box-btns{display:flex;gap:8px;justify-content:flex-end;}
-.key-save{background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:6px;color:#fff;padding:8px 18px;font-size:.82rem;font-weight:700;cursor:pointer;}
-.key-cancel{background:none;border:1px solid var(--border);border-radius:6px;color:var(--muted);padding:8px 14px;font-size:.82rem;cursor:pointer;}
+
 .btn-pdf{display:none;position:fixed;bottom:28px;right:28px;padding:13px 22px;background:var(--green);border:none;border-radius:10px;color:#07070a;font-size:.9rem;font-weight:800;cursor:pointer;box-shadow:0 4px 20px rgba(0,204,136,.35);z-index:999;letter-spacing:.3px;}
 .btn-pdf:hover{background:#00e69a;transform:translateY(-1px);}
 .btn-pdf.visible{display:block;}
@@ -239,19 +230,6 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
   </div>
 </div>
 
-
-<!-- API Key Modal -->
-<div class="key-modal" id="key-modal">
-  <div class="key-box">
-    <h3>&#128273; Anthropic API Key</h3>
-    <p>Enter your Anthropic API key to enable AI writing. It's saved in your browser only — never sent anywhere except Anthropic.</p>
-    <input type="password" id="api-key-input" placeholder="sk-ant-...">
-    <div class="key-box-btns">
-      <button class="key-cancel" id="key-cancel-btn">Cancel</button>
-      <button class="key-save" id="key-save-btn">Save &amp; Generate</button>
-    </div>
-  </div>
-</div>
 
 <button class="btn-pdf" id="pdf-btn" onclick="window.print()">&#128196; Export PDF</button>
 
@@ -569,33 +547,21 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
 
 
   // ─── AI Write ─────────────────────────────────────
-  var pendingAI = false;
-
   function getApiKey() { try { return localStorage.getItem('rl_api_key') || ''; } catch(e) { return ''; } }
   function saveApiKey(k) { try { localStorage.setItem('rl_api_key', k); } catch(e) {} }
 
-  function openKeyModal() {
-    var m = document.getElementById('key-modal');
-    m.classList.add('open');
-    var inp = document.getElementById('api-key-input');
-    inp.value = getApiKey();
-    inp.focus();
+  function ensureKey() {
+    var k = getApiKey();
+    if (!k) {
+      k = window.prompt('Enter your Anthropic API key (starts with sk-ant-):\n\nGet one at: console.anthropic.com/settings/keys\nIt will be saved in your browser.', '');
+      if (!k || !k.trim()) return '';
+      saveApiKey(k.trim());
+    }
+    return k;
   }
-  function closeKeyModal() { document.getElementById('key-modal').classList.remove('open'); }
-
-  document.getElementById('key-cancel-btn').onclick = closeKeyModal;
-  document.getElementById('key-modal').onclick = function(e) { if (e.target === this) closeKeyModal(); };
-
-  document.getElementById('key-save-btn').onclick = function() {
-    var k = document.getElementById('api-key-input').value.trim();
-    if (!k) { alert('Please enter your API key.'); return; }
-    saveApiKey(k);
-    closeKeyModal();
-    if (pendingAI) { pendingAI = false; runAIDesc(); }
-  };
 
   document.getElementById('ai-desc-btn').onclick = function() {
-    if (!getApiKey()) { pendingAI = true; openKeyModal(); return; }
+    var k = ensureKey(); if (!k) return;
     runAIDesc();
   };
 
@@ -658,7 +624,7 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
     })
     .catch(function(err) {
       alert(err.message || 'AI write failed. Check your API key.');
-      if (err.message && err.message.indexOf('Invalid API key') > -1) { pendingAI = true; openKeyModal(); }
+      if (err.message && err.message.indexOf('Invalid API key') > -1) { saveApiKey(''); }
     })
     .finally(function() {
       btn.innerHTML = '&#10024; AI Write'; btn.classList.remove('loading'); btn.disabled = false;
@@ -666,11 +632,11 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
   }
 
   document.getElementById('ai-opp-btn').onclick = function() {
-    if (!getApiKey()) { pendingAI = true; openKeyModal(); return; }
+    var k = ensureKey(); if (!k) return;
     runAIOpp();
   };
   document.getElementById('ai-bul-btn').onclick = function() {
-    if (!getApiKey()) { pendingAI = true; openKeyModal(); return; }
+    var k = ensureKey(); if (!k) return;
     runAIBullets();
   };
 
