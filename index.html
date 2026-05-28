@@ -69,7 +69,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--light);min-
 .lsm .r{color:#00aaff;}.lsm .l{color:#7b4fff;}
 .pnum{font-size:.7rem;color:#aaa;text-align:right;margin-top:32px;}
 .cover-wrap{min-height:1056px;display:flex;flex-direction:column;background:#071a1f;}
-.cover-top{padding:50px 56px 50px;color:#fff;flex:1;position:relative;overflow:hidden;background:radial-gradient(ellipse at 80% 20%, #0d3a44 0%, #071a1f 60%);}
+.cover-top{padding:50px 56px 50px;color:#fff;flex:1;min-height:700px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 80% 20%, #0d3a44 0%, #071a1f 60%);}
 .cover-pin{position:absolute;top:44px;right:54px;width:54px;height:54px;opacity:.55;}
 .cover-logo-box{display:flex;align-items:center;gap:10px;margin-bottom:80px;}
 .cover-logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#00aaff,#7b4fff);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;color:#fff;flex-shrink:0;}
@@ -382,7 +382,7 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
   function mktGrid() {
     if (!markets.length) return '<div class="mkt"><div class="mc" style="grid-column:1/-1;color:#aaa;font-style:italic;font-weight:400;">No markets specified</div></div>';
     var h = '<div class="mkt">';
-    for (var i = 0; i < markets.length; i++) h += '<div class="mc">' + esc(markets[i]) + '</div>';
+    for (var i = 0; i < markets.length; i++) { var m=markets[i]; h += '<div class="mc">' + esc(m && m.city ? m.city : m) + '</div>'; }
     return h + '</div>';
   }
 
@@ -712,31 +712,30 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
     btn.textContent = 'Generating...';
     btn.disabled = true;
 
-    var el = document.getElementById('pages-out');
-
-    // Temporarily remove gaps between pages for clean PDF capture
+    // Build isolated off-screen container for clean PDF rendering
+    var renderWrap = document.createElement('div');
+    renderWrap.style.cssText = 'position:fixed;left:-9999px;top:0;width:816px;background:#fff;z-index:-1;';
     var ppages = document.querySelectorAll('.ppage');
-    var oldMargins = [];
-    ppages.forEach(function(p, i) {
-      oldMargins[i] = p.style.margin;
-      p.style.margin = '0';
-      p.style.boxShadow = 'none';
+    ppages.forEach(function(p) {
+      var clone = p.cloneNode(true);
+      clone.style.margin = '0';
+      clone.style.boxShadow = 'none';
+      clone.style.width = '816px';
+      renderWrap.appendChild(clone);
     });
-    if (el) { el.style.width = '816px'; el.style.margin = '0'; }
+    document.body.appendChild(renderWrap);
 
     var opt = {
       margin: 0,
       filename: filename,
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, logging: false, width: 816, windowWidth: 816 },
-      jsPDF: { unit: 'px', format: [816, 1056], orientation: 'portrait', hotfixes: ['px_scaling'] },
+      html2canvas: { scale: 2, useCORS: true, logging: false, scrollY: 0 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
       pagebreak: { mode: 'css', before: '.ppage' }
     };
 
-    html2pdf().set(opt).from(el).save().then(function() {
-      // Restore margins
-      ppages.forEach(function(p, i) { p.style.margin = oldMargins[i]; p.style.boxShadow = ''; });
-      if (el) { el.style.width = ''; el.style.margin = ''; }
+    html2pdf().set(opt).from(renderWrap).save().then(function() {
+      document.body.removeChild(renderWrap);
       btn.innerHTML = '&#128196; Export PDF';
       btn.disabled = false;
     }).catch(function(err) {
