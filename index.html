@@ -53,19 +53,22 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--light);min-
 .lsm{font-size:1.1rem;font-weight:800;letter-spacing:-.5px;}
 .lsm .r{color:#00aaff;}.lsm .l{color:#7b4fff;}
 .pnum{font-size:.7rem;color:#aaa;text-align:right;margin-top:32px;}
-.cover-wrap{min-height:1056px;display:flex;flex-direction:column;}
-.cover-top{background:linear-gradient(135deg,#00aaff,#7b4fff);padding:70px 60px 60px;color:#fff;flex:1;}
-.cover-logo{font-size:2rem;font-weight:900;letter-spacing:-1px;margin-bottom:6px;}
-.cover-logo .r{color:#fff;}.cover-logo .l{color:rgba(255,255,255,.7);}
-.cover-sub{font-size:.85rem;opacity:.8;margin-bottom:60px;}
-.cover-doc{font-size:.8rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;opacity:.7;margin-bottom:16px;}
-.cover-title{font-size:2.6rem;font-weight:900;line-height:1.1;margin-bottom:24px;}
-.cover-meta{display:flex;gap:32px;flex-wrap:wrap;}
-.cover-meta-item{font-size:.82rem;opacity:.85;}
-.cover-meta-item strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:1px;opacity:.7;margin-bottom:3px;}
-.cover-bottom{padding:32px 60px;background:#fff;display:flex;justify-content:space-between;align-items:center;}
-.cover-contact{font-size:.8rem;color:#555;line-height:1.8;}
-.cover-stamp{font-size:1.8rem;font-weight:900;color:#eee;letter-spacing:-1px;}
+.cover-wrap{min-height:1056px;display:flex;flex-direction:column;background:#071a1f;}
+.cover-top{padding:50px 56px 50px;color:#fff;flex:1;position:relative;overflow:hidden;background:radial-gradient(ellipse at 80% 20%, #0d3a44 0%, #071a1f 60%);}
+.cover-pin{position:absolute;top:44px;right:54px;width:54px;height:54px;opacity:.55;}
+.cover-logo-box{display:flex;align-items:center;gap:10px;margin-bottom:80px;}
+.cover-logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#00aaff,#7b4fff);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;color:#fff;flex-shrink:0;}
+.cover-logo-text{font-size:1rem;font-weight:800;letter-spacing:-.3px;line-height:1.15;}
+.cover-logo-text .r{color:#fff;}.cover-logo-text .l{color:#00aaff;}
+.cover-tag{font-size:.65rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#00cc88;margin-bottom:16px;}
+.cover-h1{font-size:2.8rem;font-weight:900;line-height:1.1;color:#fff;margin-bottom:4px;}
+.cover-h2{font-size:2.8rem;font-weight:900;line-height:1.1;color:#00aaff;margin-bottom:48px;}
+.cover-doc{font-size:.72rem;font-weight:500;color:#8aa;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.cover-client{font-size:1.45rem;font-weight:800;color:#fff;margin-bottom:8px;}
+.cover-markets{font-size:.8rem;color:#6a9aaa;line-height:1.6;}
+.cover-bottom{padding:24px 56px;background:#fff;display:flex;justify-content:space-between;align-items:center;border-top:3px solid #00aaff;}
+.cover-contact{font-size:.78rem;color:#444;line-height:1.9;}
+.cover-founder{font-size:.82rem;font-weight:700;color:#222;}
 .toc-item{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f0f0f0;font-size:.88rem;}
 .toc-item:last-child{border-bottom:none;}
 .toc-num{color:#00aaff;font-weight:700;margin-right:10px;}
@@ -349,20 +352,23 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
       var pages = '';
 
       // PAGE 1 — Cover
+      var mktLine = markets.length ? markets.join(' &nbsp;&#183;&nbsp; ') : (esc(niche) + ' across ' + n + ' market' + (n>1?'s':''));
+      var pinSvg = '<svg class="cover-pin" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#00aaff" opacity="0.5"/><circle cx="12" cy="9" r="2.5" fill="none" stroke="#00aaff" stroke-width="1.5" opacity="0.7"/></svg>';
       pages += '<div class="ppage"><div class="cover-wrap">';
       pages += '<div class="cover-top">';
-      pages += '<div class="cover-logo"><span class="r">RANK</span><span class="l">LOCAL</span></div>';
-      pages += '<div class="cover-sub">Local SEO &amp; Lead Generation</div>';
-      pages += '<div class="cover-doc">Proposal Prepared For</div>';
-      pages += '<div class="cover-title">' + esc(company) + '</div>';
-      pages += '<div class="cover-meta">';
-      pages += '<div class="cover-meta-item"><strong>Industry</strong>' + esc(niche) + '</div>';
-      pages += '<div class="cover-meta-item"><strong>Markets</strong>' + n + ' location' + (n>1?'s':'') + '</div>';
-      pages += '<div class="cover-meta-item"><strong>Date</strong>' + esc(dateStr) + '</div>';
-      pages += '</div></div>';
+      pages += pinSvg;
+      pages += '<div class="cover-logo-box"><div class="cover-logo-icon">R</div><div class="cover-logo-text"><span class="r">RANK</span><br><span class="l">LOCAL</span></div></div>';
+      pages += '<div class="cover-tag">Get More Calls From Google Maps</div>';
+      pages += '<div class="cover-h1">Local SEO &amp;</div>';
+      pages += '<div class="cover-h1">Lead Generation</div>';
+      pages += '<div class="cover-h2">Proposal</div>';
+      pages += '<div class="cover-doc">Prepared for</div>';
+      pages += '<div class="cover-client">' + esc(company) + '</div>';
+      pages += '<div class="cover-markets">' + esc(niche) + (markets.length ? ' &nbsp;&#183;&nbsp; ' + mktLine : '') + '</div>';
+      pages += '</div>';
       pages += '<div class="cover-bottom">';
-      pages += '<div class="cover-contact">isaac@ranklocall.com<br>ranklocall.com<br>(302) 899-2641</div>';
-      pages += '<div class="cover-stamp">RANK<span style="color:#7b4fff;">LOCAL</span></div>';
+      pages += '<div class="cover-contact">ranklocall.com<br>(302) 899-2641 &nbsp;&#183;&nbsp; isaac@ranklocall.com</div>';
+      pages += '<div class="cover-founder">Isaac Cohen &nbsp;&#183;&nbsp; Founder</div>';
       pages += '</div></div></div>';
 
       // PAGE 2 — TOC
