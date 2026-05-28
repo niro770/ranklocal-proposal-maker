@@ -43,6 +43,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--light);min-
 .chk-row input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--blue);}
 .btn-gen{width:100%;margin-top:16px;padding:13px;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:8px;color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;letter-spacing:.3px;}
 .btn-gen:hover{opacity:.9;}
+.btn-pdf{display:none;position:fixed;bottom:28px;right:28px;padding:13px 22px;background:var(--green);border:none;border-radius:10px;color:#07070a;font-size:.9rem;font-weight:800;cursor:pointer;box-shadow:0 4px 20px rgba(0,204,136,.35);z-index:999;letter-spacing:.3px;}
+.btn-pdf:hover{background:#00e69a;transform:translateY(-1px);}
+.btn-pdf.visible{display:block;}
 .placeholder{display:flex;align-items:center;justify-content:center;height:100%;color:#999;font-size:1rem;flex-direction:column;gap:10px;text-align:center;}
 .placeholder .ph-icon{font-size:3rem;}
 /* Proposal pages */
@@ -125,7 +128,7 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
 .stitle{font-size:.8rem;color:#666;margin-bottom:4px;}
 .scontact{font-size:.78rem;color:#888;}
 .stag{font-size:.75rem;color:#aaa;margin-top:4px;font-style:italic;}
-@media print{.form-panel,.topbar{display:none!important;}.preview-panel{padding:0;background:#fff;overflow:visible;}.app{display:block;height:auto;}.ppage{box-shadow:none;margin:0;page-break-after:always;}}
+@media print{.form-panel,.topbar,.btn-pdf{display:none!important;}.preview-panel{padding:0;background:#fff;overflow:visible;}.app{display:block;height:auto;}.ppage{box-shadow:none;margin:0;page-break-after:always;}}
 </style>
 </head>
 <body>
@@ -203,6 +206,8 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
     </div>
   </div>
 </div>
+
+<button class="btn-pdf" id="pdf-btn" onclick="window.print()">&#128196; Export PDF</button>
 
 <script>
 (function() {
@@ -508,6 +513,7 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
       pages += '</div></div></div>';
 
       document.getElementById('preview-wrap').innerHTML = pages;
+      document.getElementById('pdf-btn').classList.add('visible');
 
     } catch(err) {
       document.getElementById('preview-wrap').innerHTML =
