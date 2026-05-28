@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>RankLocal — Proposal Maker</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{--bg:#07070a;--card:#0f0f14;--border:#1e1e2e;--blue:#00aaff;--purple:#7b4fff;--muted:#8a8a9a;--light:#f0f0f8;--green:#00cc88;}
@@ -237,7 +238,7 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
 </div>
 
 
-<button class="btn-pdf" id="pdf-btn" onclick="window.print()">&#128196; Export PDF</button>
+<button class="btn-pdf" id="pdf-btn" type="button">&#128196; Export PDF</button>
 
 <script>
 (function() {
@@ -643,6 +644,34 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
   document.getElementById('ai-bul-btn').onclick = function() {
     var k = ensureKey(); if (!k) return;
     runAIBullets();
+  };
+
+  // ─── PDF Export ───────────────────────────────────
+  document.getElementById('pdf-btn').onclick = function() {
+    var btn = document.getElementById('pdf-btn');
+    var company = document.getElementById('f-company') ? document.getElementById('f-company').value.trim() : 'Proposal';
+    var filename = (company || 'RankLocal-Proposal') + '.pdf';
+    btn.textContent = 'Generating...';
+    btn.disabled = true;
+
+    var el = document.getElementById('preview-wrap');
+    var opt = {
+      margin: 0,
+      filename: filename,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, logging: false },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+      pagebreak: { mode: ['css', 'legacy'], before: '.ppage' }
+    };
+
+    html2pdf().set(opt).from(el).save().then(function() {
+      btn.innerHTML = '&#128196; Export PDF';
+      btn.disabled = false;
+    }).catch(function(err) {
+      alert('PDF export failed: ' + err.message);
+      btn.innerHTML = '&#128196; Export PDF';
+      btn.disabled = false;
+    });
   };
 
   // Auto-date
