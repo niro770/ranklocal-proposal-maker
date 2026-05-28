@@ -723,7 +723,34 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
     var css = '';
     document.querySelectorAll('style').forEach(function(s) { css += s.textContent; });
 
-    // Open a dedicated print window — bypasses all html2canvas/scroll/clipping issues entirely
+    // Build page HTML — inject inline page-break on each .ppage so no CSS can override it
+    var ppageEls = pagesOut.querySelectorAll('.ppage');
+    var pagesHTML = '';
+    ppageEls.forEach(function(pg, idx) {
+      var clone = pg.cloneNode(true);
+      var isLast = (idx === ppageEls.length - 1);
+      // Inline styles are highest specificity — cannot be overridden by any stylesheet
+      clone.style.cssText = [
+        'width:8.5in',
+        'min-height:11in',
+        'overflow:hidden',
+        'margin:0',
+        'box-shadow:none',
+        'page-break-after:' + (isLast ? 'auto' : 'always'),
+        'break-after:' + (isLast ? 'auto' : 'page'),
+        'page-break-before:always',
+        'break-before:page',
+        'page-break-inside:avoid',
+        'break-inside:avoid',
+        'display:block'
+      ].join(';') + ';';
+      if (idx === 0) {
+        clone.style.pageBreakBefore = 'auto';
+        clone.style.breakBefore = 'auto';
+      }
+      pagesHTML += clone.outerHTML;
+    });
+
     var win = window.open('', '_blank');
     if (!win) {
       alert('Please allow pop-ups for this site, then click Export PDF again.');
@@ -734,18 +761,8 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
 
     var printCSS = [
       'body{background:#fff!important;margin:0;padding:0;}',
-      '#pages-out{display:block;}',
-      '.ppage{',
-        'margin:0 auto!important;box-shadow:none!important;',
-        'width:8.5in!important;height:11in!important;',
-        'overflow:hidden!important;',
-        'page-break-before:always!important;break-before:page!important;',
-        'page-break-inside:avoid!important;break-inside:avoid!important;',
-      '}',
-      '.ppage:first-child{page-break-before:auto!important;break-before:auto!important;}',
       '*{print-color-adjust:exact;-webkit-print-color-adjust:exact;}',
-      '@page{size:8.5in 11in;margin:0;}',
-      '.form-panel,.topbar,.btn-pdf{display:none!important;}'
+      '@page{size:8.5in 11in;margin:0;}'
     ].join('');
 
     win.document.write(
@@ -754,8 +771,12 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
       '<style>' + css + '</style>' +
       '<style>' + printCSS + '</style>' +
       '</head><body>' +
-      '<div id="pages-out">' + pagesOut.innerHTML + '</div>' +
-      '<scr' + 'ipt>window.onload=function(){setTimeout(function(){window.print();},1200);};<\/scr' + 'ipt>' +
+      pagesHTML +
+      '<scr' + 'ipt>' +
+        'window.onload=function(){' +
+          'setTimeout(function(){window.print();},1200);' +
+        '};' +
+      '<\/scr' + 'ipt>' +
       '</body></html>'
     );
     win.document.close();
@@ -763,9 +784,8 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
     setTimeout(function() {
       btn.innerHTML = '&#128196; Export PDF';
       btn.disabled = false;
-    }, 2000);
+    }, 2500);
   };
-
   // Auto-date
   try {
     var d = new Date();
