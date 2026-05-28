@@ -3,752 +3,108 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RankLocal — Proposal Maker</title>
+<title>RankLocal Tools</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{--bg:#07070a;--card:#0f0f14;--border:#1e1e2e;--blue:#00aaff;--purple:#7b4fff;--muted:#8a8a9a;--light:#f0f0f8;--green:#00cc88;}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--light);min-height:100vh;display:flex;flex-direction:column;}
-.topbar{background:#0a0a0f;border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:14px;}
-.logo{font-size:1.1rem;font-weight:800;letter-spacing:-.5px;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--light);min-height:100vh;}
+
+/* Topbar */
+.topbar{background:#0a0a0f;border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:12px;}
+.logo{font-size:1.15rem;font-weight:800;letter-spacing:-.5px;}
 .logo .r{color:var(--blue);}.logo .l{color:var(--purple);}
-.topbar-sub{color:var(--muted);font-size:.85rem;}
-.app{display:flex;flex:1;overflow:hidden;height:calc(100vh - 52px);}
-.form-panel{width:380px;min-width:340px;background:var(--card);border-right:1px solid var(--border);overflow-y:auto;padding:20px;flex-shrink:0;}
-.preview-panel{flex:1;background:#0a0a0f;overflow-y:auto;padding:30px;}
-.section-hd{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin:18px 0 10px;}
-.section-hd:first-child{margin-top:0;}
-.fld{margin-bottom:12px;}
-.fld label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:4px;}
-.fld input,.fld select,.fld textarea{width:100%;background:#07070a;border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:.85rem;color:var(--light);font-family:'Inter',sans-serif;color-scheme:dark;outline:none;}
-.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--blue);}
-.fld select option{background:#07070a;color:var(--light);}
-.fld textarea{resize:vertical;min-height:70px;}
-.chips-box{background:#07070a;border:1px solid var(--border);border-radius:7px;padding:8px;margin-bottom:12px;}
-.chips-list{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px;min-height:6px;}
-.chip{background:#1a1a2e;border:1px solid var(--border);border-radius:4px;padding:3px 6px;font-size:.78rem;display:inline-flex;align-items:center;gap:4px;}
-.chip-rm{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:0 1px;line-height:1;}
-.chip-rm:hover{color:#ff4466;}
-.chip-row{display:flex;gap:6px;}
-.chip-row input{flex:1;background:#0f0f14;border:1px solid var(--border);border-radius:5px;padding:6px 8px;font-size:.82rem;color:var(--light);font-family:'Inter',sans-serif;outline:none;}
-.chip-row input:focus{border-color:var(--blue);}
-.chip-row .radius-inp{width:72px;flex:none;}
-.chip-btn{background:var(--blue);color:#fff;border:none;border-radius:5px;padding:6px 12px;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;}
-.chip-btn:hover{background:#0090dd;}
-.ptbl{width:100%;border-collapse:collapse;font-size:.74rem;margin-top:4px;table-layout:fixed;}
-.ptbl th{text-align:left;padding:5px 3px;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);font-size:.69rem;white-space:nowrap;}
-.ptbl td{padding:3px 3px;vertical-align:middle;}
-.ptbl td input[type=number]{width:100%;background:#07070a;border:1px solid var(--border);border-radius:4px;padding:4px 5px;font-size:.74rem;color:var(--light);font-family:'Inter',sans-serif;text-align:center;box-sizing:border-box;-moz-appearance:textfield;appearance:textfield;}
-.ptbl td input[type=number]::-webkit-inner-spin-button,.ptbl td input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
-.ptbl td input[type=number]:focus{border-color:var(--blue);outline:none;}
-.ptbl td select{width:100%;background:#07070a;border:1px solid var(--border);border-radius:4px;padding:3px 2px;font-size:.69rem;color:var(--light);font-family:'Inter',sans-serif;color-scheme:dark;box-sizing:border-box;}
-.ptbl td select:focus{border-color:var(--blue);outline:none;}
-.p-amt{text-align:right;font-size:.74rem;color:var(--green);font-weight:700;padding:3px 3px;white-space:nowrap;}
-.chk-row{display:flex;align-items:center;gap:7px;font-size:.82rem;color:var(--muted);margin-bottom:8px;cursor:pointer;}
-.chk-row input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--blue);}
-.btn-gen{width:100%;margin-top:16px;padding:13px;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:8px;color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;letter-spacing:.3px;}
-.btn-gen:hover{opacity:.9;}
+.topbar-sub{color:var(--muted);font-size:.85rem;margin-left:4px;}
+.topbar-link{margin-left:auto;color:var(--muted);font-size:.83rem;text-decoration:none;transition:color .2s;}
+.topbar-link:hover{color:var(--light);}
 
-.ai-btn{background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:5px;color:#fff;font-size:.72rem;font-weight:700;padding:4px 9px;cursor:pointer;margin-bottom:5px;display:inline-flex;align-items:center;gap:4px;}
-.ai-btn:hover{opacity:.85;}
-.ai-btn.loading{opacity:.6;cursor:wait;}
+/* Hero */
+.hero{padding:64px 24px 40px;text-align:center;max-width:640px;margin:0 auto;}
+.hero h1{font-size:2rem;font-weight:800;letter-spacing:-.5px;line-height:1.2;margin-bottom:12px;}
+.hero h1 span{background:linear-gradient(90deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero p{color:var(--muted);font-size:1rem;line-height:1.6;}
 
-.btn-pdf{display:none;position:fixed;bottom:28px;right:28px;padding:13px 22px;background:var(--green);border:none;border-radius:10px;color:#07070a;font-size:.9rem;font-weight:800;cursor:pointer;box-shadow:0 4px 20px rgba(0,204,136,.35);z-index:999;letter-spacing:.3px;}
-.btn-pdf:hover{background:#00e69a;transform:translateY(-1px);}
-.btn-pdf.visible{display:block;}
-.placeholder{display:flex;align-items:center;justify-content:center;height:100%;color:#999;font-size:1rem;flex-direction:column;gap:10px;text-align:center;}
-.placeholder .ph-icon{font-size:3rem;}
-/* Proposal pages */
-#pages-out{display:block;}
-.ppage{background:#fff;width:816px;min-height:1056px;margin:0 auto 30px;box-shadow:0 4px 24px rgba(0,0,0,.18);position:relative;color:#1a1a1a;font-family:'Inter',sans-serif;page-break-before:always;break-before:page;}
-.pr{padding:56px 60px;}
-.inn{max-width:700px;margin:0 auto;}
-.ph{display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:2px solid #eee;margin-bottom:28px;font-size:.75rem;color:#888;}
-.lsm{font-size:1.1rem;font-weight:800;letter-spacing:-.5px;}
-.lsm .r{color:#00aaff;}.lsm .l{color:#7b4fff;}
-.pnum{font-size:.7rem;color:#aaa;text-align:right;margin-top:32px;}
-.cover-wrap{min-height:1056px;display:flex;flex-direction:column;background:#071a1f;}
-.cover-top{padding:50px 56px 50px;color:#fff;flex:1;min-height:700px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 80% 20%, #0d3a44 0%, #071a1f 60%);}
-.cover-pin{position:absolute;top:44px;right:54px;width:54px;height:54px;opacity:.55;}
-.cover-logo-box{display:flex;align-items:center;gap:10px;margin-bottom:80px;}
-.cover-logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#00aaff,#7b4fff);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;color:#fff;flex-shrink:0;}
-.cover-logo-text{font-size:1rem;font-weight:800;letter-spacing:-.3px;line-height:1.15;}
-.cover-logo-text .r{color:#fff;}.cover-logo-text .l{color:#00aaff;}
-.cover-tag{font-size:.65rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#00cc88;margin-bottom:16px;}
-.cover-h1{font-size:2.8rem;font-weight:900;line-height:1.1;color:#fff;margin-bottom:4px;}
-.cover-h2{font-size:2.8rem;font-weight:900;line-height:1.1;color:#00aaff;margin-bottom:48px;}
-.cover-doc{font-size:.72rem;font-weight:500;color:#8aa;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
-.cover-client{font-size:1.45rem;font-weight:800;color:#fff;margin-bottom:8px;}
-.cover-markets{font-size:.8rem;color:#6a9aaa;line-height:1.6;}
-.cover-bottom{padding:24px 56px;background:#fff;display:flex;justify-content:space-between;align-items:center;border-top:3px solid #00aaff;}
-.cover-contact{font-size:.78rem;color:#444;line-height:1.9;}
-.cover-founder{font-size:.82rem;font-weight:700;color:#222;}
-.toc-item{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f0f0f0;font-size:.88rem;}
-.toc-item:last-child{border-bottom:none;}
-.toc-num{color:#00aaff;font-weight:700;margin-right:10px;}
-.toc-pg{color:#aaa;font-size:.8rem;}
-.sec{margin-bottom:32px;}
-.sec h2{font-size:1.1rem;font-weight:800;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #f0f0f0;color:#111;}
-.sec h3{font-size:.95rem;font-weight:700;margin:14px 0 6px;color:#222;}
-.sec p{font-size:.88rem;line-height:1.7;color:#333;margin-bottom:10px;}
-.sec ul{padding-left:20px;margin-bottom:10px;}
-.sec ul li{font-size:.85rem;line-height:1.7;color:#333;margin-bottom:4px;}
-.hbox{background:linear-gradient(135deg,#f0f8ff,#f5f0ff);border-left:4px solid #00aaff;border-radius:6px;padding:16px 20px;margin:16px 0;}
-.hbox p{margin:0;font-size:.88rem;color:#222;font-style:italic;}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0;}
-.stat-card{background:#f8f8ff;border:1px solid #e8e0ff;border-radius:8px;padding:16px;text-align:center;}
-.stat-n{font-size:1.6rem;font-weight:900;background:linear-gradient(135deg,#00aaff,#7b4fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.stat-l{font-size:.72rem;color:#888;margin-top:2px;}
-.mkt{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0;}
-.mc{background:#f8f8ff;border:1px solid #e8e8f8;border-radius:6px;padding:8px 12px;font-size:.8rem;font-weight:600;color:#333;text-align:center;}
-.svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;}
-.svc-card{background:#f8f8ff;border:1px solid #e8e0ff;border-radius:8px;padding:14px;}
-.svc-icon{font-size:1.4rem;margin-bottom:6px;}
-.svc-title{font-size:.82rem;font-weight:700;color:#222;margin-bottom:4px;}
-.svc-desc{font-size:.76rem;color:#666;line-height:1.5;}
-.chklist{list-style:none;padding:0;}
-.chklist li{padding:5px 0 5px 22px;position:relative;font-size:.86rem;color:#333;line-height:1.6;}
-.chklist li::before{content:'checkmark';position:absolute;left:0;color:#00cc88;font-weight:700;}
-.steps{display:flex;flex-direction:column;gap:10px;margin:12px 0;}
-.step{display:flex;gap:14px;align-items:flex-start;}
-.step-num{background:linear-gradient(135deg,#00aaff,#7b4fff);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0;}
-.step-body{flex:1;}
-.step-title{font-size:.85rem;font-weight:700;color:#222;margin-bottom:2px;}
-.step-desc{font-size:.79rem;color:#666;line-height:1.5;}
-.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;}
-.why-item{padding:12px;background:#f8f8ff;border-radius:8px;border:1px solid #eee;}
-.why-icon{font-size:1.2rem;margin-bottom:5px;}
-.why-title{font-size:.8rem;font-weight:700;color:#222;margin-bottom:3px;}
-.why-desc{font-size:.74rem;color:#666;line-height:1.5;}
-.pricing-tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:.83rem;}
-.pricing-tbl thead tr{background:linear-gradient(135deg,#00aaff,#7b4fff);color:#fff;}
-.pricing-tbl th{padding:10px 14px;text-align:left;font-weight:600;font-size:.78rem;}
-.pricing-tbl td{padding:9px 14px;border-bottom:1px solid #f0f0f0;color:#333;}
-.pricing-tbl tbody tr:nth-child(even){background:#f8f8ff;}
-.pricing-total{background:#111 !important;}
-.pricing-total td{color:#fff !important;font-weight:700;font-size:.88rem;}
-table.roadmap{width:100%;border-collapse:collapse;font-size:.83rem;margin:10px 0;}
-table.roadmap thead tr{background:#f0f0f8;}
-table.roadmap th{padding:9px 12px;text-align:left;font-weight:700;font-size:.78rem;color:#444;}
-table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
-.ctabox{background:linear-gradient(135deg,#00aaff,#7b4fff);border-radius:10px;padding:24px;text-align:center;margin:20px 0;}
-.ctabook{color:#fff;font-size:1rem;font-weight:700;margin-bottom:6px;}
-.ctaphone{color:rgba(255,255,255,.9);font-size:1.4rem;font-weight:900;}
-.sig{margin-top:20px;padding-top:16px;border-top:1px solid #eee;}
-.sname{font-size:1rem;font-weight:800;color:#111;margin-bottom:2px;}
-.stitle{font-size:.8rem;color:#666;margin-bottom:4px;}
-.scontact{font-size:.78rem;color:#888;}
-.stag{font-size:.75rem;color:#aaa;margin-top:4px;font-style:italic;}
-@page{size:8.5in 11in;margin:0;}
-@media print{
-  .form-panel,.topbar,.btn-pdf{display:none!important;}
-  .app{display:block!important;height:auto!important;overflow:visible!important;}
-  .preview-panel{padding:0!important;background:#fff!important;overflow:visible!important;height:auto!important;flex:none!important;}
-  #preview-wrap{overflow:visible!important;height:auto!important;}
-  #pages-out{display:block!important;}
-  .ppage{
-    display:block!important;
-    width:8.5in!important;
-    height:11in!important;
-    min-height:auto!important;
-    max-height:11in!important;
-    overflow:hidden!important;
-    box-shadow:none!important;
-    margin:0!important;
-    padding:0!important;
-    page-break-after:always!important;
-    break-after:page!important;
-    page-break-inside:avoid!important;
-    break-inside:avoid!important;
-  }
-  .ppage:last-child{page-break-after:auto!important;break-after:auto!important;}
-  *{print-color-adjust:exact!important;-webkit-print-color-adjust:exact!important;}
-}
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;max-width:1000px;margin:0 auto;padding:0 24px 64px;}
+
+/* Tool card */
+.tool-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px;text-decoration:none;color:var(--light);display:flex;flex-direction:column;gap:14px;transition:border-color .2s,transform .18s,box-shadow .18s;position:relative;overflow:hidden;}
+.tool-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,170,255,.04),rgba(123,79,255,.04));opacity:0;transition:opacity .2s;}
+.tool-card:hover{border-color:var(--blue);transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,170,255,.12);}
+.tool-card:hover::before{opacity:1;}
+.tool-icon{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;}
+.tool-icon.blue{background:rgba(0,170,255,.12);}
+.tool-icon.purple{background:rgba(123,79,255,.12);}
+.tool-icon.green{background:rgba(0,204,136,.12);}
+.tool-name{font-size:1.05rem;font-weight:700;letter-spacing:-.2px;}
+.tool-desc{color:var(--muted);font-size:.88rem;line-height:1.55;flex:1;}
+.tool-tag{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;font-weight:600;color:var(--blue);background:rgba(0,170,255,.1);border-radius:20px;padding:3px 10px;width:fit-content;}
+.tool-tag.purple{color:var(--purple);background:rgba(123,79,255,.1);}
+.tool-tag.green{color:var(--green);background:rgba(0,204,136,.1);}
+
+/* Coming soon card */
+.tool-card.soon{opacity:.55;cursor:default;pointer-events:none;}
+.tool-card.soon:hover{transform:none;box-shadow:none;border-color:var(--border);}
+.soon-badge{position:absolute;top:16px;right:16px;font-size:.7rem;font-weight:700;background:var(--border);color:var(--muted);border-radius:6px;padding:3px 8px;letter-spacing:.5px;text-transform:uppercase;}
+
+/* Footer */
+.footer{text-align:center;padding:20px 24px 40px;color:var(--muted);font-size:.82rem;}
+.footer a{color:var(--muted);text-decoration:none;}
+.footer a:hover{color:var(--light);}
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <div class="logo"><span class="r">RANK</span><span class="l">LOCAL</span></div>
-  <div class="topbar-sub">Proposal Generator</div>
+  <div class="topbar-sub">Tools</div>
+  <a href="https://ranklocall.com" class="topbar-link">ranklocall.com &rarr;</a>
 </div>
 
-<div class="app">
-  <div class="form-panel">
-    <div class="section-hd">Client Info</div>
-    <div class="fld"><label>Company Name</label><input type="text" id="f-company" placeholder="e.g. Proforce Pest Control"></div>
-    <div class="fld">
-      <label>Industry / Niche</label>
-      <select id="f-niche">
-        <option value="">— Select —</option>
-        <option>Pest Control</option><option>HVAC</option><option>Plumbing</option><option>Roofing</option>
-        <option>Landscaping</option><option>Tree Service</option><option>Electrical</option><option>Pool Service</option>
-        <option>Cleaning Service</option><option>Moving Company</option><option>Garage Door</option><option>Locksmith</option>
-        <option>Window Cleaning</option><option>Pressure Washing</option><option>Painting</option><option>General Contractor</option>
-        <option>Flooring</option><option>Fence Company</option><option>Concrete / Paving</option><option>Junk Removal</option>
-        <option>Handyman</option><option>Law Firm</option><option>Dental Office</option><option>Med Spa</option>
-        <option>Chiropractic</option><option>Auto Repair</option><option>Auto Detailing</option><option>Storage</option>
-        <option>Real Estate</option><option>Other</option>
-      </select>
-    </div>
-    <div class="fld" id="niche-custom-wrap" style="display:none;"><label>Custom Niche</label><input type="text" id="f-niche-custom" placeholder="Describe the service"></div>
-    <div class="fld">
-      <label style="display:flex;align-items:center;justify-content:space-between;">
-        <span>Short Business Description (optional)</span>
-        <button class="ai-btn" id="ai-desc-btn" type="button">&#10024; AI Write</button>
-      </label>
-      <textarea id="f-desc" rows="2" placeholder="e.g. Family-owned pest control serving South Jersey since 2015"></textarea>
-    </div>
-    <div class="fld"><label>Proposal Date</label><input type="date" id="f-date"></div>
-    <div class="section-hd">Target Markets</div>
-    <div class="chips-box">
-      <div class="chips-list" id="chips-list"></div>
-      <div style="display:flex;gap:4px;margin-bottom:5px;">
-        <span style="font-size:.7rem;color:var(--muted);flex:1;">City, State</span>
-        <span style="font-size:.7rem;color:var(--muted);width:72px;">Radius</span>
-      </div>
-      <div class="chip-row">
-        <input type="text" id="city-input" placeholder="e.g. Atlanta, GA">
-        <input type="text" id="radius-input" class="radius-inp" placeholder="25 mi">
-        <button class="chip-btn" id="add-city-btn" type="button">+ Add</button>
-      </div>
-    </div>
-    <div class="section-hd">Opportunity (optional)</div>
-    <div class="fld">
-      <label style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-        <span></span>
-        <button class="ai-btn" id="ai-opp-btn" type="button">&#10024; AI Write</button>
-      </label>
-      <textarea id="f-opp" rows="3" placeholder="Describe the client's current situation and opportunity..."></textarea>
-    </div>
-    <div class="section-hd">Custom Bullet Points (optional)</div>
-    <div class="fld">
-      <label style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-        <span></span>
-        <button class="ai-btn" id="ai-bul-btn" type="button">&#10024; AI Write</button>
-      </label>
-      <textarea id="f-bullets" rows="3" placeholder="One bullet per line"></textarea>
-    </div>
-    <div class="section-hd">Pricing</div>
-    <table class="ptbl" style="font-size:.74rem;">
-      <thead><tr><th style="width:45%;">Service</th><th style="width:18%;">Qty</th><th style="width:22%;">Rate ($)</th><th style="width:15%;">Amt</th></tr></thead>
-      <tbody>
-        <tr><td colspan="4" style="padding:6px 8px;font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#00aaff;background:#07070a;">One-Time / Setup</td></tr><tr><td style="font-size:.76rem;">GBP Setup, Claiming &amp; Verification</td><td><input type="number" id="s1-qty" value="1" min="0" step="1" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td><input type="number" id="s1-rate" value="" min="0" placeholder="0" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td class="p-amt" id="s1-amt">—</td></tr><tr><td style="font-size:.76rem;">GBP Optimization (categories, services, description, attributes)</td><td><input type="number" id="s2-qty" value="1" min="0" step="1" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td><input type="number" id="s2-rate" value="" min="0" placeholder="0" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td class="p-amt" id="s2-amt">—</td></tr><tr><td style="font-size:.76rem;">Citation Building &amp; NAP Cleanup</td><td><input type="number" id="s3-qty" value="1" min="0" step="1" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td><input type="number" id="s3-rate" value="" min="0" placeholder="0" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td class="p-amt" id="s3-amt">—</td></tr><tr><td style="font-size:.76rem;">Local Landing Pages &amp; Schema Markup</td><td><input type="number" id="s4-qty" value="1" min="0" step="1" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td><input type="number" id="s4-rate" value="" min="0" placeholder="0" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td class="p-amt" id="s4-amt">—</td></tr><tr><td style="font-size:.76rem;">Local SEO Audit</td><td><input type="number" id="s5-qty" value="1" min="0" step="1" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td><input type="number" id="s5-rate" value="" min="0" placeholder="0" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td class="p-amt" id="s5-amt">—</td></tr><tr><td colspan="4" style="padding:6px 8px;font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#7b4fff;background:#07070a;">Monthly Retainer</td></tr><tr><td style="font-size:.76rem;">GBP Ongoing Management (posts, Q&amp;A, monitoring)</td><td><input type="number" id="m1-qty" value="1" min="0" step="1" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td><input type="number" id="m1-rate" value="" min="0" placeholder="0" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td class="p-amt" id="m1-amt">—</td></tr><tr><td style="font-size:.76rem;">Review Generation &amp; Response Management</td><td><input type="number" id="m2-qty" value="1" min="0" step="1" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td><input type="number" id="m2-rate" value="" min="0" placeholder="0" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td class="p-amt" id="m2-amt">—</td></tr><tr><td style="font-size:.76rem;">Listings Management &amp; Sync</td><td><input type="number" id="m3-qty" value="1" min="0" step="1" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td><input type="number" id="m3-rate" value="" min="0" placeholder="0" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td class="p-amt" id="m3-amt">—</td></tr><tr><td style="font-size:.76rem;">Geo-Grid Rank Tracking &amp; Reporting</td><td><input type="number" id="m4-qty" value="1" min="0" step="1" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td><input type="number" id="m4-rate" value="" min="0" placeholder="0" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td class="p-amt" id="m4-amt">—</td></tr><tr><td style="font-size:.76rem;">Local Content (blogs / service pages)</td><td><input type="number" id="m5-qty" value="1" min="0" step="1" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td><input type="number" id="m5-rate" value="" min="0" placeholder="0" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td class="p-amt" id="m5-amt">—</td></tr><tr><td style="font-size:.76rem;">Local Link Building</td><td><input type="number" id="m6-qty" value="1" min="0" step="1" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td><input type="number" id="m6-rate" value="" min="0" placeholder="0" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td class="p-amt" id="m6-amt">—</td></tr><tr><td style="font-size:.76rem;">Reputation Management</td><td><input type="number" id="m7-qty" value="1" min="0" step="1" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td><input type="number" id="m7-rate" value="" min="0" placeholder="0" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td class="p-amt" id="m7-amt">—</td></tr><tr><td style="font-size:.76rem;">Strategy Consulting</td><td><input type="number" id="m8-qty" value="1" min="0" step="1" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td><input type="number" id="m8-rate" value="" min="0" placeholder="0" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td class="p-amt" id="m8-amt">—</td></tr><tr><td colspan="4" style="padding:6px 8px;font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#00cc88;background:#07070a;">Pay-Per-Call</td></tr><tr><td style="font-size:.76rem;">Inbound Qualified Calls (billable, 60+ sec)</td><td><input type="number" id="c1-qty" value="1" min="0" step="1" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td><input type="number" id="c1-rate" value="" min="0" placeholder="0" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td class="p-amt" id="c1-amt">—</td></tr><tr><td style="font-size:.76rem;">Call Tracking &amp; Number Provisioning</td><td><input type="number" id="c2-qty" value="1" min="0" step="1" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td><input type="number" id="c2-rate" value="" min="0" placeholder="0" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td class="p-amt" id="c2-amt">—</td></tr><tr><td style="font-size:.76rem;">Pay-Per-Call Setup &amp; Integration (Ringba/routing)</td><td><input type="number" id="c3-qty" value="1" min="0" step="1" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td><input type="number" id="c3-rate" value="" min="0" placeholder="0" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td class="p-amt" id="c3-amt">—</td></tr><tr><td style="font-size:.76rem;">Premium / Exclusive Lead Calls</td><td><input type="number" id="c4-qty" value="1" min="0" step="1" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td><input type="number" id="c4-rate" value="" min="0" placeholder="0" style="background:#07070a;color:#e8e8f0;border-color:#2a2a3a;"></td><td class="p-amt" id="c4-amt">—</td></tr>
-      </tbody>
-    </table>
-        <button class="btn-gen" id="gen-btn" type="button">&#9889; Generate Proposal</button>
-  </div>
-
-  <div class="preview-panel">
-    <div id="preview-wrap">
-      <div class="placeholder">
-        <div class="ph-icon">&#128196;</div>
-        <div>Fill in the form and click <strong>Generate Proposal</strong></div>
-        <div style="font-size:.8rem;color:#555;">Your branded proposal will appear here</div>
-      </div>
-    </div>
-  </div>
+<div class="hero">
+  <h1>Free Tools for<br><span>Local SEO Growth</span></h1>
+  <p>Built for local businesses and agencies. No login required — just open and use.</p>
 </div>
 
+<div class="grid">
 
-<button class="btn-pdf" id="pdf-btn" type="button">&#128196; Export PDF</button>
+  <!-- Proposal Maker -->
+  <a href="/proposal-maker/" class="tool-card">
+    <div class="tool-icon blue">&#128196;</div>
+    <div>
+      <div class="tool-name">Proposal Maker</div>
+    </div>
+    <div class="tool-desc">Build a professional local SEO proposal in minutes. Enter client info, add markets and services, and export a branded PDF ready to send.</div>
+    <div class="tool-tag">&#9679; Live</div>
+  </a>
 
-<script>
-(function() {
-  'use strict';
+  <!-- Placeholder 2 -->
+  <div class="tool-card soon">
+    <div class="soon-badge">Coming Soon</div>
+    <div class="tool-icon purple">&#128205;</div>
+    <div>
+      <div class="tool-name">Market Opportunity Finder</div>
+    </div>
+    <div class="tool-desc">Enter a city and niche — get a ranked list of nearby markets by competition level, search volume, and ranking difficulty.</div>
+    <div class="tool-tag purple">&#9679; Soon</div>
+  </div>
 
-  // Toggle custom niche
-  document.getElementById('f-niche').onchange = function() {
-    document.getElementById('niche-custom-wrap').style.display = (this.value === 'Other') ? 'block' : 'none';
-  };
+  <!-- Placeholder 3 -->
+  <div class="tool-card soon">
+    <div class="soon-badge">Coming Soon</div>
+    <div class="tool-icon green">&#128200;</div>
+    <div>
+      <div class="tool-name">ROI Calculator</div>
+    </div>
+    <div class="tool-desc">Show a prospect exactly what ranking on Google Maps is worth. Inputs: niche, market size, current call volume. Output: revenue upside per month.</div>
+    <div class="tool-tag green">&#9679; Soon</div>
+  </div>
 
-  // Markets — stored as {city, radius}
-  var markets = [];
+</div>
 
-  function renderChips() {
-    var list = document.getElementById('chips-list');
-    if (!list) return;
-    var h = '';
-    for (var i = 0; i < markets.length; i++) {
-      var label = esc(markets[i].city) + (markets[i].radius ? ' <span style="opacity:.6;font-size:.72rem;">(' + esc(markets[i].radius) + ')</span>' : '');
-      h += '<span class="chip">' + label + '<button class="chip-rm" data-i="' + i + '" type="button">&times;</button></span>';
-    }
-    list.innerHTML = h;
-    var btns = list.querySelectorAll('.chip-rm');
-    for (var j = 0; j < btns.length; j++) {
-      (function(btn) {
-        btn.onclick = function() {
-          markets.splice(parseInt(btn.getAttribute('data-i')), 1);
-          renderChips();
-        };
-      })(btns[j]);
-    }
-  }
+<div class="footer">
+  &copy; 2025 RankLocal &nbsp;&middot;&nbsp; <a href="https://ranklocall.com">ranklocall.com</a> &nbsp;&middot;&nbsp; (302) 899-2641
+</div>
 
-  function addCity() {
-    var inp = document.getElementById('city-input');
-    var rinp = document.getElementById('radius-input');
-    var v = inp.value.trim();
-    if (!v) return;
-    markets.push({ city: v, radius: rinp ? rinp.value.trim() : '' });
-    renderChips();
-    inp.value = '';
-    if (rinp) rinp.value = '';
-    inp.focus();
-  }
-
-  document.getElementById('add-city-btn').onclick = addCity;
-  document.getElementById('city-input').onkeydown = function(e) {
-    if (e.key === 'Enter') { e.preventDefault(); addCity(); }
-  };
-  var rinpEl = document.getElementById('radius-input');
-  if (rinpEl) rinpEl.onkeydown = function(e) {
-    if (e.key === 'Enter') { e.preventDefault(); addCity(); }
-  };
-
-  // ─── Services definition ────────────────────────────
-  var SERVICES = {
-    setup: [
-      {id:'s1', label:'GBP Setup, Claiming & Verification', type:'One-time'},
-      {id:'s2', label:'GBP Optimization (categories, services, description, attributes)', type:'One-time'},
-      {id:'s3', label:'Citation Building & NAP Cleanup', type:'One-time'},
-      {id:'s4', label:'Local Landing Pages & Schema Markup', type:'Per page'},
-      {id:'s5', label:'Local SEO Audit', type:'One-time'}
-    ],
-    monthly: [
-      {id:'m1', label:'GBP Ongoing Management (posts, Q&A, monitoring)', type:'Monthly'},
-      {id:'m2', label:'Review Generation & Response Management', type:'Monthly'},
-      {id:'m3', label:'Listings Management & Sync', type:'Monthly'},
-      {id:'m4', label:'Geo-Grid Rank Tracking & Reporting', type:'Monthly'},
-      {id:'m5', label:'Local Content (blogs / service pages)', type:'Monthly'},
-      {id:'m6', label:'Local Link Building', type:'Monthly'},
-      {id:'m7', label:'Reputation Management', type:'Monthly'},
-      {id:'m8', label:'Strategy Consulting', type:'Monthly'}
-    ],
-    ppc: [
-      {id:'c1', label:'Inbound Qualified Calls (billable, 60+ sec)', type:'Per call'},
-      {id:'c2', label:'Call Tracking & Number Provisioning', type:'Monthly'},
-      {id:'c3', label:'Pay-Per-Call Setup & Integration (Ringba/routing)', type:'One-time'},
-      {id:'c4', label:'Premium / Exclusive Lead Calls', type:'Per call'}
-    ]
-  };
-
-  function calcAmt(id) {
-    var qEl = document.getElementById(id+'-qty');
-    var rEl = document.getElementById(id+'-rate');
-    var q = qEl ? (parseFloat(qEl.value) || 0) : 0;
-    var r = rEl ? (parseFloat(rEl.value) || 0) : 0;
-    return q * r;
-  }
-
-  function getType(id) {
-    var el = document.getElementById(id+'-type');
-    return el ? el.value : '';
-  }
-
-  function updateAmts() {
-    var cats = ['setup','monthly','ppc'];
-    for (var ci = 0; ci < cats.length; ci++) {
-      var cat = SERVICES[cats[ci]];
-      for (var si = 0; si < cat.length; si++) {
-        var id = cat[si].id;
-        var amt = calcAmt(id);
-        var el = document.getElementById(id+'-amt');
-        if (el) el.textContent = amt > 0 ? ('$' + amt.toLocaleString('en-US')) : '—';
-      }
-    }
-  }
-
-  // Attach live update to all pricing inputs and selects
-  (function() {
-    var inputs = document.querySelectorAll('.ptbl input[type="number"], .ptbl select');
-    for (var i = 0; i < inputs.length; i++) {
-      inputs[i].oninput = updateAmts;
-      inputs[i].onchange = updateAmts;
-    }
-  })();
-
-
-
-  // Helpers
-  function esc(s) {
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
-  function gv(id) {
-    var el = document.getElementById(id);
-    return el ? el.value.trim() : '';
-  }
-  function gc(id) {
-    var el = document.getElementById(id);
-    return el ? el.checked : false;
-  }
-  function gn(id) {
-    return parseFloat(gv(id)) || 0;
-  }
-  function fmtMoney(n) {
-    return '$' + Math.round(n).toLocaleString('en-US');
-  }
-  function fmtDate(s) {
-    if (!s) return '';
-    try {
-      var p = s.split('-');
-      return new Date(+p[0], +p[1]-1, +p[2]).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-    } catch(e) { return s; }
-  }
-
-  // Page header
-  function pgHeader() {
-    return '<div class="ph"><div class="lsm"><span class="r">RANK</span><span class="l">LOCAL</span></div><span style="color:#888;font-size:.75rem;">Local SEO &amp; Lead Generation Proposal</span></div>';
-  }
-
-  // Markets grid
-  function mktGrid() {
-    if (!markets.length) return '<div class="mkt"><div class="mc" style="grid-column:1/-1;color:#aaa;font-style:italic;font-weight:400;">No markets specified</div></div>';
-    var h = '<div class="mkt">';
-    for (var i = 0; i < markets.length; i++) { var m=markets[i]; h += '<div class="mc">' + esc(m && m.city ? m.city : m) + '</div>'; }
-    return h + '</div>';
-  }
-
-  // Bullets
-  function bullets(raw) {
-    var lines = raw ? raw.split('\n').filter(function(l){return l.trim();}) : [];
-    if (!lines.length) lines = [
-      'High intent: "near me" searches come from people ready to call right now.',
-      'The 3-Pack rules: the top 3 Maps results capture the majority of clicks and calls.',
-      'Every market you serve is a new stream of high-intent inbound calls.'
-    ];
-    var h = '<ul style="list-style:none;padding:0;">';
-    for (var i = 0; i < lines.length; i++) {
-      h += '<li style="padding:5px 0 5px 22px;position:relative;font-size:.86rem;color:#333;line-height:1.6;">' +
-           '<span style="position:absolute;left:0;color:#00cc88;font-weight:700;">&#10003;</span>' +
-           esc(lines[i].trim()) + '</li>';
-    }
-    return h + '</ul>';
-  }
-
-  // GENERATE
-  document.getElementById('gen-btn').onclick = function() {
-    try {
-      var company  = gv('f-company') || '[Client Name]';
-      var niche    = gv('f-niche') === 'Other' ? (gv('f-niche-custom') || 'Local Services') : (gv('f-niche') || 'Local Services');
-      var desc     = gv('f-desc') || (niche + ' services');
-      var dateStr  = fmtDate(gv('f-date')) || new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-      var opp      = gv('f-opp') || ('When a customer searches for "' + niche.toLowerCase() + ' near me," the top 3 Maps results win. Our job is to put ' + company + ' in that 3-Pack across every market you serve.');
-      var rawBullets = gv('f-bullets');
-      var n        = markets.length || 1;
-
-      // Build pricing from new services
-      function svcRows(cat, label, color) {
-        var svcList = SERVICES[cat];
-        var rows = '<tr><td colspan="4" style="padding:7px 10px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:' + color + ';background:#f5f5fa;">' + label + '</td></tr>';
-        var hasAny = false;
-        for (var i = 0; i < svcList.length; i++) {
-          var svc = svcList[i];
-          var qEl = document.getElementById(svc.id+'-qty');
-          var rEl = document.getElementById(svc.id+'-rate');
-          var tEl = document.getElementById(svc.id+'-type');
-          var qty = qEl ? (parseFloat(qEl.value) || 0) : 0;
-          var rate = rEl ? (parseFloat(rEl.value) || 0) : 0;
-          var type = tEl ? tEl.value : svc.type;
-          if (rate === 0) continue;
-          hasAny = true;
-          var amt = qty * rate;
-          rows += '<tr><td>' + esc(svc.label) + '</td><td style="text-align:center;">' + qty + '</td><td>' + fmtMoney(rate) + '</td><td><strong>' + fmtMoney(amt) + '</strong></td></tr>';
-        }
-        if (!hasAny) rows += '<tr><td colspan="4" style="color:#bbb;font-style:italic;font-size:.78rem;padding:6px 10px;">No services added</td></tr>';
-        return rows;
-      }
-
-      var totalSetup = 0, totalMonthly = 0, totalPPC = 0;
-      var allSvcs = SERVICES.setup.concat(SERVICES.monthly).concat(SERVICES.ppc);
-      for (var xi=0; xi<allSvcs.length; xi++) {
-        var xid = allSvcs[xi].id;
-        var xamt = calcAmt(xid);
-        var xtype = getType(xid);
-        if (xtype === 'Monthly' || xtype === 'Per month') { totalMonthly += xamt; }
-        else if (xtype === 'Per call') { totalPPC += xamt; }
-        else { totalSetup += xamt; }
-      }
-      var grandTotal = totalSetup + totalMonthly + totalPPC;
-
-      var pRows = svcRows('setup','One-Time / Setup','#00aaff') + svcRows('monthly','Monthly Retainer','#7b4fff') + svcRows('ppc','Pay-Per-Call','#00cc88');
-
-      var pages = '';
-
-      // PAGE 1 — Cover
-      var mktLine = markets.length ? markets.map(function(m){ return esc(m.city || m); }).join(' &nbsp;&#183;&nbsp; ') : (esc(niche) + ' across ' + n + ' market' + (n>1?'s':''));
-      var pinSvg = '<svg class="cover-pin" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#00aaff" opacity="0.5"/><circle cx="12" cy="9" r="2.5" fill="none" stroke="#00aaff" stroke-width="1.5" opacity="0.7"/></svg>';
-      pages += '<div class="ppage"><div class="cover-wrap">';
-      pages += '<div class="cover-top">';
-      pages += pinSvg;
-      pages += '<div class="cover-logo-box"><div class="cover-logo-icon">R</div><div class="cover-logo-text"><span class="r">RANK</span><br><span class="l">LOCAL</span></div></div>';
-      pages += '<div class="cover-tag">Get More Calls From Google Maps</div>';
-      pages += '<div class="cover-h1">Local SEO &amp;</div>';
-      pages += '<div class="cover-h1">Lead Generation</div>';
-      pages += '<div class="cover-h2">Proposal</div>';
-      pages += '<div class="cover-doc">Prepared for</div>';
-      pages += '<div class="cover-client">' + esc(company) + '</div>';
-      pages += '<div class="cover-markets">' + esc(niche) + (markets.length ? ' &nbsp;&#183;&nbsp; ' + mktLine : '') + '</div>';
-      pages += '</div>';
-      pages += '<div class="cover-bottom">';
-      pages += '<div class="cover-contact">ranklocall.com<br>(302) 899-2641 &nbsp;&#183;&nbsp; isaac@ranklocall.com</div>';
-      pages += '<div class="cover-founder">Isaac Cohen &nbsp;&#183;&nbsp; Founder</div>';
-      pages += '</div></div></div>';
-
-      // PAGE 2 — TOC
-      var toc = [['Executive Summary','3'],['About RankLocal','3'],['The Opportunity','3'],['What We Do','4'],['Citation Strategy','5'],['The Process','5'],['Why RankLocal','6'],['Investment Summary','7'],['90-Day Roadmap','8'],['Next Steps','8']];
-      pages += '<div class="ppage"><div class="pr"><div class="inn">' + pgHeader();
-      pages += '<div class="sec"><h2>Table of Contents</h2>';
-      for (var t2 = 0; t2 < toc.length; t2++) {
-        pages += '<div class="toc-item"><div><span class="toc-num">' + (t2+1) + '.&nbsp;</span>' + toc[t2][0] + '</div><div class="toc-pg">Page ' + toc[t2][1] + '</div></div>';
-      }
-      pages += '</div><div class="pnum">ranklocall.com &nbsp;&#183;&nbsp; (302) 899-2641 &nbsp;&#183;&nbsp; Since 2019 &nbsp;&nbsp; Page 2</div>';
-      pages += '</div></div></div>';
-
-      // PAGE 3 — Exec + About + Opportunity
-      pages += '<div class="ppage"><div class="pr"><div class="inn">' + pgHeader();
-      pages += '<div class="sec"><h2>1. Executive Summary</h2>';
-      pages += '<p>This proposal outlines how RankLocal will help <strong>' + esc(company) + '</strong> dominate Google Maps search results across <strong>' + n + ' market' + (n>1?'s':'') + '</strong>, generating a consistent flow of inbound calls and booked jobs.</p>';
-      pages += '<p>Our proven local SEO system combines GBP optimization, local authority building, and a proprietary local sites network to rank your business at the top — and keep it there.</p>';
-      pages += '</div>';
-      pages += '<div class="sec"><h2>2. About RankLocal</h2>';
-      pages += '<p>RankLocal is a boutique local SEO agency founded by Isaac Cohen in 2019, built specifically for home-service and local businesses. Every strategy we build is engineered around one goal: more calls from local customers searching for your service.</p>';
-      pages += '<div class="stats">';
-      pages += '<div class="stat-card"><div class="stat-n">500+</div><div class="stat-l">GBP Profiles Managed</div></div>';
-      pages += '<div class="stat-card"><div class="stat-n">Top 3</div><div class="stat-l">Maps Rankings Delivered</div></div>';
-      pages += '<div class="stat-card"><div class="stat-n">2019</div><div class="stat-l">Established</div></div>';
-      pages += '</div></div>';
-      pages += '<div class="sec"><h2>3. The Opportunity</h2>';
-      pages += '<div class="hbox"><p>' + esc(opp.replace(/^#+\s*/gm,'').replace(/\*\*(.*?)\*\*/g,'$1').trim()) + '</p></div>';
-      pages += bullets(rawBullets);
-      pages += '</div>';
-      pages += '<div class="pnum">ranklocall.com &nbsp;&#183;&nbsp; (302) 899-2641 &nbsp;&#183;&nbsp; Since 2019 &nbsp;&nbsp; Page 3</div>';
-      pages += '</div></div></div>';
-
-      // PAGE 4 — What We Do
-      pages += '<div class="ppage"><div class="pr"><div class="inn">' + pgHeader();
-      pages += '<div class="sec"><h2>4. What We Do</h2>';
-      pages += '<p>We deliver a complete local search dominance system — combining Maps optimization, review velocity, and web authority to rank <strong>' + esc(company) + '</strong> in the 3-Pack across all ' + n + ' target market' + (n>1?'s':'') + '.</p>';
-      pages += '<div class="svc-grid">';
-      var svcs = [
-        ['&#128205;','GBP Optimization','Full audit and rebuild of your Google Business Profile — categories, services, photos, posts, Q&A, and attributes tuned for maximum Maps visibility.'],
-        ['&#11088;','Review Generation','Automated system to request, collect, and respond to reviews — driving review velocity and star rating, two of the top local ranking signals.'],
-        ['&#127760;','Local Sites Network','Proprietary network of city-specific landing pages that build geographic authority and help you rank in markets where you have no physical address.'],
-        ['&#128279;','Citation Building','Complete NAP consistency audit and citation buildout across 80+ directories — the foundation every Maps ranking is built on.'],
-        ['&#128202;','Rank Tracking','Real-time Maps rank tracking across all your target markets and keywords — you always know exactly where you stand.'],
-        ['&#128222;','Call Tracking','Dedicated tracking numbers by market so you see exactly how many calls your Maps rankings generate each month.']
-      ];
-      for (var s = 0; s < svcs.length; s++) {
-        pages += '<div class="svc-card"><div class="svc-icon">' + svcs[s][0] + '</div><div class="svc-title">' + svcs[s][1] + '</div><div class="svc-desc">' + svcs[s][2] + '</div></div>';
-      }
-      pages += '</div></div>';
-      pages += '<div class="sec"><h2>Target Markets</h2>' + mktGrid() + '</div>';
-      pages += '<div class="pnum">ranklocall.com &nbsp;&#183;&nbsp; (302) 899-2641 &nbsp;&#183;&nbsp; Since 2019 &nbsp;&nbsp; Page 4</div>';
-      pages += '</div></div></div>';
-
-      // PAGE 5 — Citation + Process
-      pages += '<div class="ppage"><div class="pr"><div class="inn">' + pgHeader();
-      pages += '<div class="sec"><h2>5. Our Citation Strategy</h2>';
-      pages += '<p>Citations — mentions of your business name, address, and phone (NAP) across the web — are the foundation of local Maps rankings. Inconsistent citations are the most common reason businesses fail to crack the 3-Pack.</p>';
-      var citBullets = ['Full NAP audit across 80+ major directories (Google, Yelp, BBB, Angi, HomeAdvisor, and more)','Correction of all inconsistencies — wrong addresses, duplicate listings, outdated phone numbers','New citation creation across all major directories where you are missing','Niche-specific citations in ' + esc(niche) + ' industry directories','Ongoing citation monitoring to catch any drift or new duplicates'];
-      pages += '<ul style="list-style:none;padding:0;">';
-      for (var c = 0; c < citBullets.length; c++) {
-        pages += '<li style="padding:5px 0 5px 22px;position:relative;font-size:.86rem;color:#333;line-height:1.6;"><span style="position:absolute;left:0;color:#00cc88;font-weight:700;">&#10003;</span>' + citBullets[c] + '</li>';
-      }
-      pages += '</ul></div>';
-      pages += '<div class="sec"><h2>6. The Process</h2><div class="steps">';
-      var steps = [
-        ['Discovery &amp; Audit','Deep dive into your current GBP performance, citation landscape, competitor rankings, and keyword opportunities across all target markets.'],
-        ['Profile Optimization','Rebuild and optimize every GBP profile from the ground up — categories, services, photos, descriptions, and all ranking signals.'],
-        ['Authority Building','Deploy citations, launch local landing pages, and activate the review generation system to build real geographic authority.'],
-        ['Ranking &amp; Expansion','Push into the 3-Pack for priority keywords. Scale across all markets. Track rankings, calls, and revenue in real time.'],
-        ['Monthly Optimization','Continuous optimization based on ranking data. Monthly reporting on Maps position, call volume, and ROI by market.']
-      ];
-      for (var st = 0; st < steps.length; st++) {
-        pages += '<div class="step"><div class="step-num">' + (st+1) + '</div><div class="step-body"><div class="step-title">' + steps[st][0] + '</div><div class="step-desc">' + steps[st][1] + '</div></div></div>';
-      }
-      pages += '</div></div>';
-      pages += '<div class="pnum">ranklocall.com &nbsp;&#183;&nbsp; (302) 899-2641 &nbsp;&#183;&nbsp; Since 2019 &nbsp;&nbsp; Page 5</div>';
-      pages += '</div></div></div>';
-
-      // PAGE 6 — Why RankLocal
-      pages += '<div class="ppage"><div class="pr"><div class="inn">' + pgHeader();
-      pages += '<div class="sec"><h2>7. Why RankLocal</h2><div class="why-grid">';
-      var whys = [
-        ['&#127919;','Local SEO Only','We don\'t do general SEO, social, or web design. Local Maps rankings is all we do — which means we\'re better at it than anyone.'],
-        ['&#128205;','Multi-Market System','Most agencies can only rank you where you have a physical address. Our local sites network lets you rank in any market you serve.'],
-        ['&#128222;','Tracked to the Call','Every market gets a dedicated tracking number. You see exactly how many calls your rankings generate — no mystery metrics.'],
-        ['&#9889;','Fast Results','Most clients see first ranking movement within 30–45 days. We\'re aggressive because we know what actually moves the needle.'],
-        ['&#128274;','Proprietary Technology','Our local sites network is a custom-built system competitors can\'t replicate — built over 5 years of testing and refinement.'],
-        ['&#129309;','Direct Access','Work directly with Isaac and our senior team — no handoffs to junior account managers or overseas contractors.']
-      ];
-      for (var w = 0; w < whys.length; w++) {
-        pages += '<div class="why-item"><div class="why-icon">' + whys[w][0] + '</div><div class="why-title">' + whys[w][1] + '</div><div class="why-desc">' + whys[w][2] + '</div></div>';
-      }
-      pages += '</div></div></div>';
-      pages += '<div class="pnum">ranklocall.com &nbsp;&#183;&nbsp; (302) 899-2641 &nbsp;&#183;&nbsp; Since 2019 &nbsp;&nbsp; Page 6</div>';
-      pages += '</div></div></div>';
-
-      // PAGE 7 — Pricing
-      pages += '<div class="ppage"><div class="pr"><div class="inn">' + pgHeader();
-      pages += '<div class="sec"><h2>8. Investment Summary</h2>';
-      pages += '<p>Below is a detailed breakdown of services and investment for <strong>' + esc(company) + '</strong>. Pricing reflects your selected markets, scope, and service mix.</p>';
-      pages += '<table class="pricing-tbl"><thead><tr><th>Service</th><th>One-Time Setup</th><th>Rate</th><th>Monthly Total</th></tr></thead><tbody>';
-      pages += pRows;
-      pages += '<tr class="pricing-total"><td><strong>TOTAL</strong></td><td><strong>' + fmtMoney(totalSetup) + '</strong></td><td></td><td><strong>' + fmtMoney(totalMonthly) + '/mo</strong></td></tr>';
-      pages += '</tbody></table>';
-      pages += '<div class="hbox"><p><strong>Investment perspective:</strong> At ' + fmtMoney(totalMonthly) + '/month, you need just ' + Math.ceil(totalMonthly/150) + '&#8211;' + Math.ceil(totalMonthly/80) + ' additional jobs per month to cover this investment — jobs you\'re currently losing to competitors ranking above you.</p></div>';
-      pages += '<h3 style="font-size:.95rem;font-weight:700;margin:14px 0 8px;color:#222;">What\'s Included</h3><ul style="list-style:none;padding:0;">';
-      var inc = ['GBP optimization & ongoing management across all ' + n + ' market' + (n>1?'s':''),'Citation building & NAP cleanup across 80+ directories','Geo-grid rank tracking & monthly reporting','Review generation & reputation management','Local content, landing pages & schema markup','Local link building & authority growth','Strategy consulting & dedicated account support'];
-      for (var i2 = 0; i2 < inc.length; i2++) {
-        pages += '<li style="padding:5px 0 5px 22px;position:relative;font-size:.86rem;color:#333;line-height:1.6;"><span style="position:absolute;left:0;color:#00cc88;font-weight:700;">&#10003;</span>' + inc[i2] + '</li>';
-      }
-      pages += '</ul></div>';
-      pages += '<div class="pnum">ranklocall.com &nbsp;&#183;&nbsp; (302) 899-2641 &nbsp;&#183;&nbsp; Since 2019 &nbsp;&nbsp; Page 7</div>';
-      pages += '</div></div></div>';
-
-      // PAGE 8 — Roadmap + Next Steps
-      pages += '<div class="ppage"><div class="pr"><div class="inn">' + pgHeader();
-      pages += '<div class="sec"><h2>9. 90-Day Roadmap</h2>';
-      pages += '<table class="roadmap"><thead><tr><th>Phase</th><th>Focus</th></tr></thead><tbody>';
-      var road = [
-        ['Days 1&#8211;15','Deep audit of all ' + n + ' market' + (n>1?'s':'') + '. Rebuild and optimize Google Business Profiles. Fix citations and NAP consistency.'],
-        ['Days 16&#8211;45','Launch review-generation system, local landing pages, and authority building. First ranking movement begins.'],
-        ['Days 46&#8211;75','Push into the 3-Pack for priority keywords. Scale the local sites network. Turn on call tracking.'],
-        ['Days 76&#8211;90','Optimize toward the best-performing markets and keywords. Review results, report on calls and revenue, plan the next quarter.']
-      ];
-      for (var r = 0; r < road.length; r++) {
-        pages += '<tr><td><strong>' + road[r][0] + '</strong></td><td>' + road[r][1] + '</td></tr>';
-      }
-      pages += '</tbody></table>';
-      pages += '<p style="font-size:.83rem;color:#555;font-style:italic;margin-top:8px;">Tracked every step: Maps ranking by market, call volume, cost per call, lead-to-job rate, and review growth.</p>';
-      pages += '</div>';
-      pages += '<div class="sec"><h2>10. Next Steps</h2>';
-      pages += '<p>Let\'s find out exactly where <strong>' + esc(company) + '</strong> is losing calls to competitors, and how fast we can fix it. Your free strategy call includes a full GBP analysis, a 3-Pack ranking assessment, a citation audit, a competitor comparison, and a custom roadmap.</p>';
-      pages += '<div class="ctabox"><div class="ctabook">Book your free strategy call today.</div><div class="ctaphone">(302) 899-2641</div></div>';
-      pages += '<div class="sig"><div class="sname">Isaac Cohen</div><div class="stitle">Founder | RankLocal</div><div class="scontact">isaac@ranklocall.com &nbsp;&#183;&nbsp; ranklocall.com</div><div class="stag">Helping local businesses dominate Google Maps &amp; generate more calls.</div></div>';
-      pages += '</div>';
-      pages += '<div class="pnum">ranklocall.com &nbsp;&#183;&nbsp; (302) 899-2641 &nbsp;&#183;&nbsp; Since 2019 &nbsp;&nbsp; Page 8</div>';
-      pages += '</div></div></div>';
-
-      document.getElementById('preview-wrap').innerHTML = '<div id="pages-out">' + pages + '</div>';
-      document.getElementById('pdf-btn').classList.add('visible');
-
-    } catch(err) {
-      document.getElementById('preview-wrap').innerHTML =
-        '<div style="padding:40px;color:#ff4466;font-family:sans-serif;background:#fff;border-radius:8px;"><strong>Error:</strong> ' + err.message + '</div>';
-    }
-  };
-
-
-  // ─── AI Write ─────────────────────────────────────
-  function _dk(){return [115,107,45,97,110,116,45,97,112,105,48,51,45,119,98,113,51,122,102,74,98,77,108,73,113,65,88,51,113,54,68,79,87,87,76,57,104,90,76,121,65,114,66,86,74,51,76,102,108,111,53,79,111,79,90,75,54,99,90,119,110,57,76,49,104,51,82,88,99,79,105,69,119,101,53,97,104,111,89,101,113,75,77,82,116,113,105,70,88,72,107,57,110,108,79,119,51,80,65,45,74,117,83,115,84,65,65,65].map(function(c){return String.fromCharCode(c);}).join('');}
-  function getApiKey() { try { return localStorage.getItem('rl_api_key') || _dk(); } catch(e) { return _dk(); } }
-  function saveApiKey(k) { try { localStorage.setItem('rl_api_key', k); } catch(e) {} }
-  function ensureKey() { return getApiKey(); }
-
-  document.getElementById('ai-desc-btn').onclick = function() {
-    var k = ensureKey(); if (!k) return;
-    runAIDesc();
-  };
-
-  function runAIDesc() {
-    var company = gv('f-company') || '[Business]';
-    var niche = gv('f-niche') === 'Other' ? (gv('f-niche-custom') || 'local services') : (gv('f-niche') || 'local services');
-    var btn = document.getElementById('ai-desc-btn');
-    btn.textContent = 'Writing...';
-    btn.classList.add('loading');
-    btn.disabled = true;
-
-    var prompt = 'Write a 1-2 sentence business description for a ' + niche + ' company called "' + company + '". Keep it professional, local-focused, and concise. Do not use quotes around the description. Just the description itself.';
-
-    callClaude(prompt, 'f-desc', btn);
-  }
-
-
-  function runAIOpp() {
-    var company = gv('f-company') || '[Business]';
-    var niche = gv('f-niche') === 'Other' ? (gv('f-niche-custom') || 'local services') : (gv('f-niche') || 'local services');
-    var mkts = markets.length ? markets.map(function(m){ return m.city || m; }).join(', ') : 'their local markets';
-    var btn = document.getElementById('ai-opp-btn');
-    btn.textContent = 'Writing...'; btn.classList.add('loading'); btn.disabled = true;
-    var prompt = 'Write a 2-3 sentence "opportunity" paragraph for a local SEO proposal targeting "' + company + '", a ' + niche + ' company serving ' + mkts + '. Explain why Google Maps visibility is critical for their business right now. Be persuasive, specific to the niche, and end with urgency. No quotes, just the paragraph.';
-    callClaude(prompt, 'f-opp', btn);
-  }
-
-  function runAIBullets() {
-    var company = gv('f-company') || '[Business]';
-    var niche = gv('f-niche') === 'Other' ? (gv('f-niche-custom') || 'local services') : (gv('f-niche') || 'local services');
-    var btn = document.getElementById('ai-bul-btn');
-    btn.textContent = 'Writing...'; btn.classList.add('loading'); btn.disabled = true;
-    var prompt = 'Write exactly 3 short bullet points (one per line, no dashes or bullets, just plain text lines) explaining why local Google Maps SEO matters for a ' + niche + ' company. Each line should be a single punchy sentence. No intro, no formatting, just 3 lines.';
-    callClaude(prompt, 'f-bullets', btn);
-  }
-
-  function callClaude(prompt, fieldId, btn) {
-    fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': getApiKey(),
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5',
-        max_tokens: 200,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    })
-    .then(function(res) {
-      if (res.status === 401) { saveApiKey(''); throw new Error('Invalid API key — please re-enter.'); }
-      if (!res.ok) throw new Error('API error: ' + res.status);
-      return res.json();
-    })
-    .then(function(data) {
-      var text = data.content && data.content[0] && data.content[0].text;
-      if (text) document.getElementById(fieldId).value = text.trim();
-    })
-    .catch(function(err) {
-      alert(err.message || 'AI write failed. Check your API key.');
-      if (err.message && err.message.indexOf('Invalid API key') > -1) { saveApiKey(''); }
-    })
-    .finally(function() {
-      btn.innerHTML = '&#10024; AI Write'; btn.classList.remove('loading'); btn.disabled = false;
-    });
-  }
-
-  document.getElementById('ai-opp-btn').onclick = function() {
-    var k = ensureKey(); if (!k) return;
-    runAIOpp();
-  };
-  document.getElementById('ai-bul-btn').onclick = function() {
-    var k = ensureKey(); if (!k) return;
-    runAIBullets();
-  };
-
-  // ─── PDF Export ───────────────────────────────────
-  document.getElementById('pdf-btn').onclick = function() {
-    var pagesOut = document.getElementById('pages-out');
-    var ppageEls = pagesOut ? pagesOut.querySelectorAll('.ppage') : [];
-    if (!ppageEls.length) {
-      alert('Generate a proposal first, then export.');
-      return;
-    }
-    // Print the current page — all fonts/resources already loaded, no CORS issues.
-    // @media print CSS handles layout: hides UI, shows only .ppage elements at 8.5x11in.
-    window.print();
-  };
-  // Auto-date
-  try {
-    var d = new Date();
-    var mm = String(d.getMonth()+1).padStart(2,'0');
-    var dd = String(d.getDate()).padStart(2,'0');
-    document.getElementById('f-date').value = d.getFullYear() + '-' + mm + '-' + dd;
-  } catch(e) {}
-
-})();
-</script>
 </body>
 </html>
