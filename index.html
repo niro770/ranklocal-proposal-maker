@@ -40,6 +40,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--light);min-
 .ptbl th{text-align:left;padding:4px 6px;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);}
 .ptbl td{padding:4px 6px;}
 .ptbl td input{width:100%;background:#07070a;border:1px solid var(--border);border-radius:4px;padding:4px 6px;font-size:.78rem;color:var(--light);font-family:'Inter',sans-serif;text-align:right;}
+.p-amt{text-align:right;font-size:.76rem;color:var(--light);padding:4px 6px;}
 .ptbl td input:focus{border-color:var(--blue);outline:none;}
 .chk-row{display:flex;align-items:center;gap:7px;font-size:.82rem;color:var(--muted);margin-bottom:8px;cursor:pointer;}
 .chk-row input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--blue);}
@@ -202,27 +203,31 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
       <textarea id="f-bullets" rows="3" placeholder="One bullet per line"></textarea>
     </div>
     <div class="section-hd">Pricing</div>
-    <label class="chk-row"><input type="checkbox" id="show-infra" checked> Include Infrastructure Setup fee</label>
-    <label class="chk-row"><input type="checkbox" id="show-ppc"> Include PPC / Ad Management</label>
-    <table class="ptbl">
-      <thead><tr><th>Service</th><th>Setup ($)</th><th>Monthly ($)</th></tr></thead>
+    <table class="ptbl" style="font-size:.74rem;">
+      <thead><tr><th style="width:42%;">Service</th><th style="width:14%;">Type</th><th style="width:12%;">Qty</th><th style="width:16%;">Rate ($)</th><th style="width:16%;">Amount</th></tr></thead>
       <tbody>
-        <tr><td>Local SEO (GBP)</td><td><input type="number" id="p-seo-s" value="500"></td><td><input type="number" id="p-seo-m" value="800"></td></tr>
-        <tr><td>GBP Management</td><td><input type="number" id="p-gbp-s" value="0"></td><td><input type="number" id="p-gbp-m" value="200"></td></tr>
-        <tr><td>Local Sites Network</td><td><input type="number" id="p-sites-s" value="300"></td><td><input type="number" id="p-sites-m" value="150"></td></tr>
-        <tr id="infra-row"><td>Infrastructure Setup</td><td><input type="number" id="p-infra-s" value="500"></td><td><input type="number" id="p-infra-m" value="0"></td></tr>
+        <tr><td colspan="5" style="padding:6px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--blue);background:#07070a;">One-Time / Setup</td></tr>
+        <tr><td>GBP Setup, Claiming &amp; Verification</td><td style="color:var(--muted);font-size:.72rem;">One-time</td><td><input type="number" id="s1-qty" value="1" min="0"></td><td><input type="number" id="s1-rate" value="0" min="0"></td><td class="p-amt" id="s1-amt">—</td></tr>
+        <tr><td>GBP Optimization</td><td style="color:var(--muted);font-size:.72rem;">One-time</td><td><input type="number" id="s2-qty" value="1" min="0"></td><td><input type="number" id="s2-rate" value="0" min="0"></td><td class="p-amt" id="s2-amt">—</td></tr>
+        <tr><td>Citation Building &amp; NAP Cleanup</td><td style="color:var(--muted);font-size:.72rem;">One-time</td><td><input type="number" id="s3-qty" value="1" min="0"></td><td><input type="number" id="s3-rate" value="0" min="0"></td><td class="p-amt" id="s3-amt">—</td></tr>
+        <tr><td>Local Landing Pages &amp; Schema</td><td style="color:var(--muted);font-size:.72rem;">Per page</td><td><input type="number" id="s4-qty" value="0" min="0"></td><td><input type="number" id="s4-rate" value="0" min="0"></td><td class="p-amt" id="s4-amt">—</td></tr>
+        <tr><td>Local SEO Audit</td><td style="color:var(--muted);font-size:.72rem;">One-time</td><td><input type="number" id="s5-qty" value="1" min="0"></td><td><input type="number" id="s5-rate" value="0" min="0"></td><td class="p-amt" id="s5-amt">—</td></tr>
+        <tr><td colspan="5" style="padding:6px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--purple);background:#07070a;">Monthly Retainer</td></tr>
+        <tr><td>GBP Ongoing Management</td><td style="color:var(--muted);font-size:.72rem;">Monthly</td><td><input type="number" id="m1-qty" value="1" min="0"></td><td><input type="number" id="m1-rate" value="0" min="0"></td><td class="p-amt" id="m1-amt">—</td></tr>
+        <tr><td>Review Generation &amp; Response</td><td style="color:var(--muted);font-size:.72rem;">Monthly</td><td><input type="number" id="m2-qty" value="1" min="0"></td><td><input type="number" id="m2-rate" value="0" min="0"></td><td class="p-amt" id="m2-amt">—</td></tr>
+        <tr><td>Listings Management &amp; Sync</td><td style="color:var(--muted);font-size:.72rem;">Monthly</td><td><input type="number" id="m3-qty" value="1" min="0"></td><td><input type="number" id="m3-rate" value="0" min="0"></td><td class="p-amt" id="m3-amt">—</td></tr>
+        <tr><td>Geo-Grid Rank Tracking &amp; Reporting</td><td style="color:var(--muted);font-size:.72rem;">Monthly</td><td><input type="number" id="m4-qty" value="1" min="0"></td><td><input type="number" id="m4-rate" value="0" min="0"></td><td class="p-amt" id="m4-amt">—</td></tr>
+        <tr><td>Local Content (blogs / service pages)</td><td style="color:var(--muted);font-size:.72rem;">Monthly</td><td><input type="number" id="m5-qty" value="1" min="0"></td><td><input type="number" id="m5-rate" value="0" min="0"></td><td class="p-amt" id="m5-amt">—</td></tr>
+        <tr><td>Local Link Building</td><td style="color:var(--muted);font-size:.72rem;">Monthly</td><td><input type="number" id="m6-qty" value="1" min="0"></td><td><input type="number" id="m6-rate" value="0" min="0"></td><td class="p-amt" id="m6-amt">—</td></tr>
+        <tr><td>Reputation Management</td><td style="color:var(--muted);font-size:.72rem;">Monthly</td><td><input type="number" id="m7-qty" value="1" min="0"></td><td><input type="number" id="m7-rate" value="0" min="0"></td><td class="p-amt" id="m7-amt">—</td></tr>
+        <tr><td>Strategy Consulting</td><td style="color:var(--muted);font-size:.72rem;">Monthly</td><td><input type="number" id="m8-qty" value="1" min="0"></td><td><input type="number" id="m8-rate" value="0" min="0"></td><td class="p-amt" id="m8-amt">—</td></tr>
+        <tr><td colspan="5" style="padding:6px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--green);background:#07070a;">Pay-Per-Call</td></tr>
+        <tr><td>Inbound Qualified Calls (60+ sec)</td><td style="color:var(--muted);font-size:.72rem;">Per call</td><td><input type="number" id="c1-qty" value="0" min="0"></td><td><input type="number" id="c1-rate" value="0" min="0"></td><td class="p-amt" id="c1-amt">—</td></tr>
+        <tr><td>Call Tracking &amp; Number Provisioning</td><td style="color:var(--muted);font-size:.72rem;">Monthly</td><td><input type="number" id="c2-qty" value="1" min="0"></td><td><input type="number" id="c2-rate" value="0" min="0"></td><td class="p-amt" id="c2-amt">—</td></tr>
+        <tr><td>Pay-Per-Call Setup &amp; Integration</td><td style="color:var(--muted);font-size:.72rem;">One-time</td><td><input type="number" id="c3-qty" value="1" min="0"></td><td><input type="number" id="c3-rate" value="0" min="0"></td><td class="p-amt" id="c3-amt">—</td></tr>
+        <tr><td>Premium / Exclusive Lead Calls</td><td style="color:var(--muted);font-size:.72rem;">Per call</td><td><input type="number" id="c4-qty" value="0" min="0"></td><td><input type="number" id="c4-rate" value="0" min="0"></td><td class="p-amt" id="c4-amt">—</td></tr>
       </tbody>
     </table>
-    <div id="ppc-wrap" style="display:none;margin-top:10px;">
-      <table class="ptbl">
-        <thead><tr><th>PPC Label</th><th>Qty</th><th>Rate/mo ($)</th></tr></thead>
-        <tbody><tr>
-          <td><input type="text" id="p-ppc-label" value="Google Ads Mgmt" style="text-align:left;"></td>
-          <td><input type="number" id="p-ppc-qty" value="1"></td>
-          <td><input type="number" id="p-ppc-rate" value="500"></td>
-        </tr></tbody>
-      </table>
-    </div>
     <button class="btn-gen" id="gen-btn" type="button">&#9889; Generate Proposal</button>
   </div>
 
@@ -247,16 +252,6 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
   // Toggle custom niche
   document.getElementById('f-niche').onchange = function() {
     document.getElementById('niche-custom-wrap').style.display = (this.value === 'Other') ? 'block' : 'none';
-  };
-
-  // Toggle infra
-  document.getElementById('show-infra').onchange = function() {
-    document.getElementById('infra-row').style.display = this.checked ? '' : 'none';
-  };
-
-  // Toggle PPC
-  document.getElementById('show-ppc').onchange = function() {
-    document.getElementById('ppc-wrap').style.display = this.checked ? 'block' : 'none';
   };
 
   // Markets — stored as {city, radius}
@@ -302,6 +297,63 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
   if (rinpEl) rinpEl.onkeydown = function(e) {
     if (e.key === 'Enter') { e.preventDefault(); addCity(); }
   };
+
+  // ─── Services definition ────────────────────────────
+  var SERVICES = {
+    setup: [
+      {id:'s1', label:'GBP Setup, Claiming & Verification', type:'One-time'},
+      {id:'s2', label:'GBP Optimization (categories, services, description, attributes)', type:'One-time'},
+      {id:'s3', label:'Citation Building & NAP Cleanup', type:'One-time'},
+      {id:'s4', label:'Local Landing Pages & Schema Markup', type:'Per page'},
+      {id:'s5', label:'Local SEO Audit', type:'One-time'}
+    ],
+    monthly: [
+      {id:'m1', label:'GBP Ongoing Management (posts, Q&A, monitoring)', type:'Monthly'},
+      {id:'m2', label:'Review Generation & Response Management', type:'Monthly'},
+      {id:'m3', label:'Listings Management & Sync', type:'Monthly'},
+      {id:'m4', label:'Geo-Grid Rank Tracking & Reporting', type:'Monthly'},
+      {id:'m5', label:'Local Content (blogs / service pages)', type:'Monthly'},
+      {id:'m6', label:'Local Link Building', type:'Monthly'},
+      {id:'m7', label:'Reputation Management', type:'Monthly'},
+      {id:'m8', label:'Strategy Consulting', type:'Monthly'}
+    ],
+    ppc: [
+      {id:'c1', label:'Inbound Qualified Calls (billable, 60+ sec)', type:'Per call'},
+      {id:'c2', label:'Call Tracking & Number Provisioning', type:'Monthly'},
+      {id:'c3', label:'Pay-Per-Call Setup & Integration (Ringba/routing)', type:'One-time'},
+      {id:'c4', label:'Premium / Exclusive Lead Calls', type:'Per call'}
+    ]
+  };
+
+  function calcAmt(id) {
+    var q = parseFloat(document.getElementById(id+'-qty') ? document.getElementById(id+'-qty').value : 0) || 0;
+    var r = parseFloat(document.getElementById(id+'-rate') ? document.getElementById(id+'-rate').value : 0) || 0;
+    return q * r;
+  }
+
+  function updateAmts() {
+    var allIds = [];
+    var cats = ['setup','monthly','ppc'];
+    for (var ci = 0; ci < cats.length; ci++) {
+      var cat = SERVICES[cats[ci]];
+      for (var si = 0; si < cat.length; si++) {
+        var id = cat[si].id;
+        var amt = calcAmt(id);
+        var el = document.getElementById(id+'-amt');
+        if (el) el.textContent = amt > 0 ? '$' + amt.toLocaleString('en-US') : '—';
+      }
+    }
+  }
+
+  // Attach live update to all pricing inputs
+  (function() {
+    var inputs = document.querySelectorAll('.ptbl input[type="number"]');
+    for (var i = 0; i < inputs.length; i++) {
+      inputs[i].oninput = updateAmts;
+    }
+  })();
+
+
 
   // Helpers
   function esc(s) {
@@ -370,27 +422,32 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
       var rawBullets = gv('f-bullets');
       var n        = markets.length || 1;
 
-      var seoS   = gn('p-seo-s'), seoM  = gn('p-seo-m');
-      var gbpS   = gn('p-gbp-s'), gbpM  = gn('p-gbp-m');
-      var sitS   = gn('p-sites-s'), sitM = gn('p-sites-m');
-      var infra  = gc('show-infra');
-      var infS   = infra ? gn('p-infra-s') : 0;
-      var infM   = infra ? gn('p-infra-m') : 0;
-      var hasPPC = gc('show-ppc');
-      var ppcLbl = gv('p-ppc-label') || 'Google Ads Mgmt';
-      var ppcQty = gn('p-ppc-qty') || 1;
-      var ppcRt  = gn('p-ppc-rate');
-      var ppcM   = hasPPC ? ppcQty * ppcRt : 0;
+      // Build pricing from new services
+      function svcRows(cat, label, color) {
+        var svcList = SERVICES[cat];
+        var rows = '<tr><td colspan="5" style="padding:7px 10px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:' + color + ';background:#f5f5fa;">' + label + '</td></tr>';
+        var hasAny = false;
+        for (var i = 0; i < svcList.length; i++) {
+          var svc = svcList[i];
+          var qty = parseFloat(document.getElementById(svc.id+'-qty') ? document.getElementById(svc.id+'-qty').value : 0) || 0;
+          var rate = parseFloat(document.getElementById(svc.id+'-rate') ? document.getElementById(svc.id+'-rate').value : 0) || 0;
+          if (rate === 0 && qty === 0) continue;
+          hasAny = true;
+          var amt = qty * rate;
+          rows += '<tr><td>' + esc(svc.label) + '</td><td style="color:#888;font-size:.77rem;">' + svc.type + '</td><td style="text-align:center;">' + qty + '</td><td>' + fmtMoney(rate) + '</td><td><strong>' + fmtMoney(amt) + '</strong></td></tr>';
+        }
+        if (!hasAny) rows += '<tr><td colspan="5" style="color:#bbb;font-style:italic;font-size:.78rem;padding:6px 10px;">No services selected</td></tr>';
+        return rows;
+      }
 
-      var totalSetup   = seoS + gbpS + sitS + infS;
-      var totalMonthly = (seoM + gbpM + sitM + infM) * n + ppcM;
+      var totalSetup = 0, totalMonthly = 0, totalPPC = 0;
+      var setupSvcs = SERVICES.setup, mthSvcs = SERVICES.monthly, ppcSvcs = SERVICES.ppc;
+      for (var si=0; si<setupSvcs.length; si++) { totalSetup += calcAmt(setupSvcs[si].id); }
+      for (var mi=0; mi<mthSvcs.length; mi++) { totalMonthly += calcAmt(mthSvcs[mi].id); }
+      for (var pi=0; pi<ppcSvcs.length; pi++) { totalPPC += calcAmt(ppcSvcs[pi].id); }
+      var grandTotal = totalSetup + totalMonthly + totalPPC;
 
-      var pRows = '';
-      pRows += '<tr><td>Local SEO (GBP Optimization)</td><td>' + fmtMoney(seoS) + '</td><td>' + fmtMoney(seoM) + '/mkt</td><td>' + fmtMoney(seoM*n) + '</td></tr>';
-      pRows += '<tr><td>GBP Management &amp; Review Generation</td><td>' + fmtMoney(gbpS) + '</td><td>' + fmtMoney(gbpM) + '/mkt</td><td>' + fmtMoney(gbpM*n) + '</td></tr>';
-      pRows += '<tr><td>Local Sites Network (' + n + ' market' + (n>1?'s':'') + ')</td><td>' + fmtMoney(sitS) + '</td><td>' + fmtMoney(sitM) + '/mkt</td><td>' + fmtMoney(sitM*n) + '</td></tr>';
-      if (infra) pRows += '<tr><td>Infrastructure Setup</td><td>' + fmtMoney(infS) + '</td><td>—</td><td>—</td></tr>';
-      if (hasPPC) pRows += '<tr><td>' + esc(ppcLbl) + ' (' + ppcQty + ')</td><td>—</td><td>' + fmtMoney(ppcRt) + '</td><td>' + fmtMoney(ppcM) + '</td></tr>';
+      var pRows = svcRows('setup','One-Time / Setup','#00aaff') + svcRows('monthly','Monthly Retainer','#7b4fff') + svcRows('ppc','Pay-Per-Call','#00cc88');
 
       var pages = '';
 
@@ -511,14 +568,14 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
       // PAGE 7 — Pricing
       pages += '<div class="ppage"><div class="pr"><div class="inn">' + pgHeader();
       pages += '<div class="sec"><h2>8. Investment Summary</h2>';
-      pages += '<p>Pricing below is based on <strong>' + n + ' target market' + (n>1?'s':'') + '</strong>. Monthly fees scale with markets — every additional market is another stream of inbound calls.</p>';
+      pages += '<p>Below is a detailed breakdown of services and investment for <strong>' + esc(company) + '</strong>. Pricing reflects your selected markets, scope, and service mix.</p>';
       pages += '<table class="pricing-tbl"><thead><tr><th>Service</th><th>One-Time Setup</th><th>Rate</th><th>Monthly Total</th></tr></thead><tbody>';
       pages += pRows;
       pages += '<tr class="pricing-total"><td><strong>TOTAL</strong></td><td><strong>' + fmtMoney(totalSetup) + '</strong></td><td></td><td><strong>' + fmtMoney(totalMonthly) + '/mo</strong></td></tr>';
       pages += '</tbody></table>';
       pages += '<div class="hbox"><p><strong>Investment perspective:</strong> At ' + fmtMoney(totalMonthly) + '/month, you need just ' + Math.ceil(totalMonthly/150) + '&#8211;' + Math.ceil(totalMonthly/80) + ' additional jobs per month to cover this investment — jobs you\'re currently losing to competitors ranking above you.</p></div>';
       pages += '<h3 style="font-size:.95rem;font-weight:700;margin:14px 0 8px;color:#222;">What\'s Included</h3><ul style="list-style:none;padding:0;">';
-      var inc = ['Full GBP optimization across all ' + n + ' market' + (n>1?'s':''),'Local sites network deployment for multi-market coverage','Complete citation audit and buildout (80+ directories)','Monthly review generation system','Real-time rank tracking dashboard','Dedicated call tracking per market','Monthly performance report and strategy call'];
+      var inc = ['GBP optimization & ongoing management across all ' + n + ' market' + (n>1?'s':''),'Citation building & NAP cleanup across 80+ directories','Geo-grid rank tracking & monthly reporting','Review generation & reputation management','Local content, landing pages & schema markup','Local link building & authority growth','Strategy consulting & dedicated account support'];
       for (var i2 = 0; i2 < inc.length; i2++) {
         pages += '<li style="padding:5px 0 5px 22px;position:relative;font-size:.86rem;color:#333;line-height:1.6;"><span style="position:absolute;left:0;color:#00cc88;font-weight:700;">&#10003;</span>' + inc[i2] + '</li>';
       }
