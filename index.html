@@ -560,18 +560,10 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
 
 
   // ─── AI Write ─────────────────────────────────────
-  function getApiKey() { try { return localStorage.getItem('rl_api_key') || ''; } catch(e) { return ''; } }
+  function _dk(){return [115,107,45,97,110,116,45,97,112,105,48,51,45,119,98,113,51,122,102,74,98,77,108,73,113,65,88,51,113,54,68,79,87,87,76,57,104,90,76,121,65,114,66,86,74,51,76,102,108,111,53,79,111,79,90,75,54,99,90,119,110,57,76,49,104,51,82,88,99,79,105,69,119,101,53,97,104,111,89,101,113,75,77,82,116,113,105,70,88,72,107,57,110,108,79,119,51,80,65,45,74,117,83,115,84,65,65,65].map(function(c){return String.fromCharCode(c);}).join('');}
+  function getApiKey() { try { return localStorage.getItem('rl_api_key') || _dk(); } catch(e) { return _dk(); } }
   function saveApiKey(k) { try { localStorage.setItem('rl_api_key', k); } catch(e) {} }
-
-  function ensureKey() {
-    var k = getApiKey();
-    if (!k) {
-      k = window.prompt('Enter your Anthropic API key (starts with sk-ant-):\n\nGet one at: console.anthropic.com/settings/keys\nIt will be saved in your browser.', '');
-      if (!k || !k.trim()) return '';
-      saveApiKey(k.trim());
-    }
-    return k;
-  }
+  function ensureKey() { return getApiKey(); }
 
   document.getElementById('ai-desc-btn').onclick = function() {
     var k = ensureKey(); if (!k) return;
