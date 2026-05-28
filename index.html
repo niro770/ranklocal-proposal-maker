@@ -204,31 +204,12 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
     </div>
     <div class="section-hd">Pricing</div>
     <table class="ptbl" style="font-size:.74rem;">
-      <thead><tr><th style="width:42%;">Service</th><th style="width:14%;">Type</th><th style="width:12%;">Qty</th><th style="width:16%;">Rate ($)</th><th style="width:16%;">Amount</th></tr></thead>
+      <thead><tr><th style="width:38%;">Service</th><th style="width:17%;">Type</th><th style="width:10%;">Qty</th><th style="width:17%;">Rate ($)</th><th style="width:18%;">Amount</th></tr></thead>
       <tbody>
-        <tr><td colspan="5" style="padding:6px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--blue);background:#07070a;">One-Time / Setup</td></tr>
-        <tr><td>GBP Setup, Claiming &amp; Verification</td><td style="color:var(--muted);font-size:.72rem;">One-time</td><td><input type="number" id="s1-qty" value="1" min="0"></td><td><input type="number" id="s1-rate" value="0" min="0"></td><td class="p-amt" id="s1-amt">—</td></tr>
-        <tr><td>GBP Optimization</td><td style="color:var(--muted);font-size:.72rem;">One-time</td><td><input type="number" id="s2-qty" value="1" min="0"></td><td><input type="number" id="s2-rate" value="0" min="0"></td><td class="p-amt" id="s2-amt">—</td></tr>
-        <tr><td>Citation Building &amp; NAP Cleanup</td><td style="color:var(--muted);font-size:.72rem;">One-time</td><td><input type="number" id="s3-qty" value="1" min="0"></td><td><input type="number" id="s3-rate" value="0" min="0"></td><td class="p-amt" id="s3-amt">—</td></tr>
-        <tr><td>Local Landing Pages &amp; Schema</td><td style="color:var(--muted);font-size:.72rem;">Per page</td><td><input type="number" id="s4-qty" value="0" min="0"></td><td><input type="number" id="s4-rate" value="0" min="0"></td><td class="p-amt" id="s4-amt">—</td></tr>
-        <tr><td>Local SEO Audit</td><td style="color:var(--muted);font-size:.72rem;">One-time</td><td><input type="number" id="s5-qty" value="1" min="0"></td><td><input type="number" id="s5-rate" value="0" min="0"></td><td class="p-amt" id="s5-amt">—</td></tr>
-        <tr><td colspan="5" style="padding:6px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--purple);background:#07070a;">Monthly Retainer</td></tr>
-        <tr><td>GBP Ongoing Management</td><td style="color:var(--muted);font-size:.72rem;">Monthly</td><td><input type="number" id="m1-qty" value="1" min="0"></td><td><input type="number" id="m1-rate" value="0" min="0"></td><td class="p-amt" id="m1-amt">—</td></tr>
-        <tr><td>Review Generation &amp; Response</td><td style="color:var(--muted);font-size:.72rem;">Monthly</td><td><input type="number" id="m2-qty" value="1" min="0"></td><td><input type="number" id="m2-rate" value="0" min="0"></td><td class="p-amt" id="m2-amt">—</td></tr>
-        <tr><td>Listings Management &amp; Sync</td><td style="color:var(--muted);font-size:.72rem;">Monthly</td><td><input type="number" id="m3-qty" value="1" min="0"></td><td><input type="number" id="m3-rate" value="0" min="0"></td><td class="p-amt" id="m3-amt">—</td></tr>
-        <tr><td>Geo-Grid Rank Tracking &amp; Reporting</td><td style="color:var(--muted);font-size:.72rem;">Monthly</td><td><input type="number" id="m4-qty" value="1" min="0"></td><td><input type="number" id="m4-rate" value="0" min="0"></td><td class="p-amt" id="m4-amt">—</td></tr>
-        <tr><td>Local Content (blogs / service pages)</td><td style="color:var(--muted);font-size:.72rem;">Monthly</td><td><input type="number" id="m5-qty" value="1" min="0"></td><td><input type="number" id="m5-rate" value="0" min="0"></td><td class="p-amt" id="m5-amt">—</td></tr>
-        <tr><td>Local Link Building</td><td style="color:var(--muted);font-size:.72rem;">Monthly</td><td><input type="number" id="m6-qty" value="1" min="0"></td><td><input type="number" id="m6-rate" value="0" min="0"></td><td class="p-amt" id="m6-amt">—</td></tr>
-        <tr><td>Reputation Management</td><td style="color:var(--muted);font-size:.72rem;">Monthly</td><td><input type="number" id="m7-qty" value="1" min="0"></td><td><input type="number" id="m7-rate" value="0" min="0"></td><td class="p-amt" id="m7-amt">—</td></tr>
-        <tr><td>Strategy Consulting</td><td style="color:var(--muted);font-size:.72rem;">Monthly</td><td><input type="number" id="m8-qty" value="1" min="0"></td><td><input type="number" id="m8-rate" value="0" min="0"></td><td class="p-amt" id="m8-amt">—</td></tr>
-        <tr><td colspan="5" style="padding:6px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--green);background:#07070a;">Pay-Per-Call</td></tr>
-        <tr><td>Inbound Qualified Calls (60+ sec)</td><td style="color:var(--muted);font-size:.72rem;">Per call</td><td><input type="number" id="c1-qty" value="0" min="0"></td><td><input type="number" id="c1-rate" value="0" min="0"></td><td class="p-amt" id="c1-amt">—</td></tr>
-        <tr><td>Call Tracking &amp; Number Provisioning</td><td style="color:var(--muted);font-size:.72rem;">Monthly</td><td><input type="number" id="c2-qty" value="1" min="0"></td><td><input type="number" id="c2-rate" value="0" min="0"></td><td class="p-amt" id="c2-amt">—</td></tr>
-        <tr><td>Pay-Per-Call Setup &amp; Integration</td><td style="color:var(--muted);font-size:.72rem;">One-time</td><td><input type="number" id="c3-qty" value="1" min="0"></td><td><input type="number" id="c3-rate" value="0" min="0"></td><td class="p-amt" id="c3-amt">—</td></tr>
-        <tr><td>Premium / Exclusive Lead Calls</td><td style="color:var(--muted);font-size:.72rem;">Per call</td><td><input type="number" id="c4-qty" value="0" min="0"></td><td><input type="number" id="c4-rate" value="0" min="0"></td><td class="p-amt" id="c4-amt">—</td></tr>
+        <tr><td colspan="5" style="padding:6px 8px;font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#00aaff;background:#07070a;">One-Time / Setup</td></tr><tr><td style="font-size:.76rem;">GBP Setup, Claiming &amp; Verification</td><td><select id="s1-type" style="background:#07070a;border:1px solid var(--border);border-radius:4px;padding:3px 4px;font-size:.72rem;color:var(--light);width:100%;color-scheme:dark;"><option  selected>One-time</option><option>Monthly</option><option>Per page</option><option>Per call</option><option>Per location</option><option>Per month</option></select></td><td><input type="number" id="s1-qty" value="1" min="0" step="1"></td><td><input type="number" id="s1-rate" value="" min="0" placeholder="0"></td><td class="p-amt" id="s1-amt">—</td></tr><tr><td style="font-size:.76rem;">GBP Optimization (categories, services, description, attributes)</td><td><select id="s2-type" style="background:#07070a;border:1px solid var(--border);border-radius:4px;padding:3px 4px;font-size:.72rem;color:var(--light);width:100%;color-scheme:dark;"><option  selected>One-time</option><option>Monthly</option><option>Per page</option><option>Per call</option><option>Per location</option><option>Per month</option></select></td><td><input type="number" id="s2-qty" value="1" min="0" step="1"></td><td><input type="number" id="s2-rate" value="" min="0" placeholder="0"></td><td class="p-amt" id="s2-amt">—</td></tr><tr><td style="font-size:.76rem;">Citation Building &amp; NAP Cleanup</td><td><select id="s3-type" style="background:#07070a;border:1px solid var(--border);border-radius:4px;padding:3px 4px;font-size:.72rem;color:var(--light);width:100%;color-scheme:dark;"><option  selected>One-time</option><option>Monthly</option><option>Per page</option><option>Per call</option><option>Per location</option><option>Per month</option></select></td><td><input type="number" id="s3-qty" value="1" min="0" step="1"></td><td><input type="number" id="s3-rate" value="" min="0" placeholder="0"></td><td class="p-amt" id="s3-amt">—</td></tr><tr><td style="font-size:.76rem;">Local Landing Pages &amp; Schema Markup</td><td><select id="s4-type" style="background:#07070a;border:1px solid var(--border);border-radius:4px;padding:3px 4px;font-size:.72rem;color:var(--light);width:100%;color-scheme:dark;"><option>One-time</option><option>Monthly</option><option  selected>Per page</option><option>Per call</option><option>Per location</option><option>Per month</option></select></td><td><input type="number" id="s4-qty" value="1" min="0" step="1"></td><td><input type="number" id="s4-rate" value="" min="0" placeholder="0"></td><td class="p-amt" id="s4-amt">—</td></tr><tr><td style="font-size:.76rem;">Local SEO Audit</td><td><select id="s5-type" style="background:#07070a;border:1px solid var(--border);border-radius:4px;padding:3px 4px;font-size:.72rem;color:var(--light);width:100%;color-scheme:dark;"><option  selected>One-time</option><option>Monthly</option><option>Per page</option><option>Per call</option><option>Per location</option><option>Per month</option></select></td><td><input type="number" id="s5-qty" value="1" min="0" step="1"></td><td><input type="number" id="s5-rate" value="" min="0" placeholder="0"></td><td class="p-amt" id="s5-amt">—</td></tr><tr><td colspan="5" style="padding:6px 8px;font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#7b4fff;background:#07070a;">Monthly Retainer</td></tr><tr><td style="font-size:.76rem;">GBP Ongoing Management (posts, Q&amp;A, monitoring)</td><td><select id="m1-type" style="background:#07070a;border:1px solid var(--border);border-radius:4px;padding:3px 4px;font-size:.72rem;color:var(--light);width:100%;color-scheme:dark;"><option>One-time</option><option  selected>Monthly</option><option>Per page</option><option>Per call</option><option>Per location</option><option>Per month</option></select></td><td><input type="number" id="m1-qty" value="1" min="0" step="1"></td><td><input type="number" id="m1-rate" value="" min="0" placeholder="0"></td><td class="p-amt" id="m1-amt">—</td></tr><tr><td style="font-size:.76rem;">Review Generation &amp; Response Management</td><td><select id="m2-type" style="background:#07070a;border:1px solid var(--border);border-radius:4px;padding:3px 4px;font-size:.72rem;color:var(--light);width:100%;color-scheme:dark;"><option>One-time</option><option  selected>Monthly</option><option>Per page</option><option>Per call</option><option>Per location</option><option>Per month</option></select></td><td><input type="number" id="m2-qty" value="1" min="0" step="1"></td><td><input type="number" id="m2-rate" value="" min="0" placeholder="0"></td><td class="p-amt" id="m2-amt">—</td></tr><tr><td style="font-size:.76rem;">Listings Management &amp; Sync</td><td><select id="m3-type" style="background:#07070a;border:1px solid var(--border);border-radius:4px;padding:3px 4px;font-size:.72rem;color:var(--light);width:100%;color-scheme:dark;"><option>One-time</option><option  selected>Monthly</option><option>Per page</option><option>Per call</option><option>Per location</option><option>Per month</option></select></td><td><input type="number" id="m3-qty" value="1" min="0" step="1"></td><td><input type="number" id="m3-rate" value="" min="0" placeholder="0"></td><td class="p-amt" id="m3-amt">—</td></tr><tr><td style="font-size:.76rem;">Geo-Grid Rank Tracking &amp; Reporting</td><td><select id="m4-type" style="background:#07070a;border:1px solid var(--border);border-radius:4px;padding:3px 4px;font-size:.72rem;color:var(--light);width:100%;color-scheme:dark;"><option>One-time</option><option  selected>Monthly</option><option>Per page</option><option>Per call</option><option>Per location</option><option>Per month</option></select></td><td><input type="number" id="m4-qty" value="1" min="0" step="1"></td><td><input type="number" id="m4-rate" value="" min="0" placeholder="0"></td><td class="p-amt" id="m4-amt">—</td></tr><tr><td style="font-size:.76rem;">Local Content (blogs / service pages)</td><td><select id="m5-type" style="background:#07070a;border:1px solid var(--border);border-radius:4px;padding:3px 4px;font-size:.72rem;color:var(--light);width:100%;color-scheme:dark;"><option>One-time</option><option  selected>Monthly</option><option>Per page</option><option>Per call</option><option>Per location</option><option>Per month</option></select></td><td><input type="number" id="m5-qty" value="1" min="0" step="1"></td><td><input type="number" id="m5-rate" value="" min="0" placeholder="0"></td><td class="p-amt" id="m5-amt">—</td></tr><tr><td style="font-size:.76rem;">Local Link Building</td><td><select id="m6-type" style="background:#07070a;border:1px solid var(--border);border-radius:4px;padding:3px 4px;font-size:.72rem;color:var(--light);width:100%;color-scheme:dark;"><option>One-time</option><option  selected>Monthly</option><option>Per page</option><option>Per call</option><option>Per location</option><option>Per month</option></select></td><td><input type="number" id="m6-qty" value="1" min="0" step="1"></td><td><input type="number" id="m6-rate" value="" min="0" placeholder="0"></td><td class="p-amt" id="m6-amt">—</td></tr><tr><td style="font-size:.76rem;">Reputation Management</td><td><select id="m7-type" style="background:#07070a;border:1px solid var(--border);border-radius:4px;padding:3px 4px;font-size:.72rem;color:var(--light);width:100%;color-scheme:dark;"><option>One-time</option><option  selected>Monthly</option><option>Per page</option><option>Per call</option><option>Per location</option><option>Per month</option></select></td><td><input type="number" id="m7-qty" value="1" min="0" step="1"></td><td><input type="number" id="m7-rate" value="" min="0" placeholder="0"></td><td class="p-amt" id="m7-amt">—</td></tr><tr><td style="font-size:.76rem;">Strategy Consulting</td><td><select id="m8-type" style="background:#07070a;border:1px solid var(--border);border-radius:4px;padding:3px 4px;font-size:.72rem;color:var(--light);width:100%;color-scheme:dark;"><option>One-time</option><option  selected>Monthly</option><option>Per page</option><option>Per call</option><option>Per location</option><option>Per month</option></select></td><td><input type="number" id="m8-qty" value="1" min="0" step="1"></td><td><input type="number" id="m8-rate" value="" min="0" placeholder="0"></td><td class="p-amt" id="m8-amt">—</td></tr><tr><td colspan="5" style="padding:6px 8px;font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#00cc88;background:#07070a;">Pay-Per-Call</td></tr><tr><td style="font-size:.76rem;">Inbound Qualified Calls (billable, 60+ sec)</td><td><select id="c1-type" style="background:#07070a;border:1px solid var(--border);border-radius:4px;padding:3px 4px;font-size:.72rem;color:var(--light);width:100%;color-scheme:dark;"><option>One-time</option><option>Monthly</option><option>Per page</option><option  selected>Per call</option><option>Per location</option><option>Per month</option></select></td><td><input type="number" id="c1-qty" value="1" min="0" step="1"></td><td><input type="number" id="c1-rate" value="" min="0" placeholder="0"></td><td class="p-amt" id="c1-amt">—</td></tr><tr><td style="font-size:.76rem;">Call Tracking &amp; Number Provisioning</td><td><select id="c2-type" style="background:#07070a;border:1px solid var(--border);border-radius:4px;padding:3px 4px;font-size:.72rem;color:var(--light);width:100%;color-scheme:dark;"><option>One-time</option><option  selected>Monthly</option><option>Per page</option><option>Per call</option><option>Per location</option><option>Per month</option></select></td><td><input type="number" id="c2-qty" value="1" min="0" step="1"></td><td><input type="number" id="c2-rate" value="" min="0" placeholder="0"></td><td class="p-amt" id="c2-amt">—</td></tr><tr><td style="font-size:.76rem;">Pay-Per-Call Setup &amp; Integration (Ringba/routing)</td><td><select id="c3-type" style="background:#07070a;border:1px solid var(--border);border-radius:4px;padding:3px 4px;font-size:.72rem;color:var(--light);width:100%;color-scheme:dark;"><option  selected>One-time</option><option>Monthly</option><option>Per page</option><option>Per call</option><option>Per location</option><option>Per month</option></select></td><td><input type="number" id="c3-qty" value="1" min="0" step="1"></td><td><input type="number" id="c3-rate" value="" min="0" placeholder="0"></td><td class="p-amt" id="c3-amt">—</td></tr><tr><td style="font-size:.76rem;">Premium / Exclusive Lead Calls</td><td><select id="c4-type" style="background:#07070a;border:1px solid var(--border);border-radius:4px;padding:3px 4px;font-size:.72rem;color:var(--light);width:100%;color-scheme:dark;"><option>One-time</option><option>Monthly</option><option>Per page</option><option  selected>Per call</option><option>Per location</option><option>Per month</option></select></td><td><input type="number" id="c4-qty" value="1" min="0" step="1"></td><td><input type="number" id="c4-rate" value="" min="0" placeholder="0"></td><td class="p-amt" id="c4-amt">—</td></tr>
       </tbody>
     </table>
-    <button class="btn-gen" id="gen-btn" type="button">&#9889; Generate Proposal</button>
+        <button class="btn-gen" id="gen-btn" type="button">&#9889; Generate Proposal</button>
   </div>
 
   <div class="preview-panel">
@@ -326,13 +307,19 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
   };
 
   function calcAmt(id) {
-    var q = parseFloat(document.getElementById(id+'-qty') ? document.getElementById(id+'-qty').value : 0) || 0;
-    var r = parseFloat(document.getElementById(id+'-rate') ? document.getElementById(id+'-rate').value : 0) || 0;
+    var qEl = document.getElementById(id+'-qty');
+    var rEl = document.getElementById(id+'-rate');
+    var q = qEl ? (parseFloat(qEl.value) || 0) : 0;
+    var r = rEl ? (parseFloat(rEl.value) || 0) : 0;
     return q * r;
   }
 
+  function getType(id) {
+    var el = document.getElementById(id+'-type');
+    return el ? el.value : '';
+  }
+
   function updateAmts() {
-    var allIds = [];
     var cats = ['setup','monthly','ppc'];
     for (var ci = 0; ci < cats.length; ci++) {
       var cat = SERVICES[cats[ci]];
@@ -340,16 +327,17 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
         var id = cat[si].id;
         var amt = calcAmt(id);
         var el = document.getElementById(id+'-amt');
-        if (el) el.textContent = amt > 0 ? '$' + amt.toLocaleString('en-US') : '—';
+        if (el) el.textContent = amt > 0 ? ('$' + amt.toLocaleString('en-US')) : '—';
       }
     }
   }
 
-  // Attach live update to all pricing inputs
+  // Attach live update to all pricing inputs and selects
   (function() {
-    var inputs = document.querySelectorAll('.ptbl input[type="number"]');
+    var inputs = document.querySelectorAll('.ptbl input[type="number"], .ptbl select');
     for (var i = 0; i < inputs.length; i++) {
       inputs[i].oninput = updateAmts;
+      inputs[i].onchange = updateAmts;
     }
   })();
 
@@ -429,22 +417,31 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
         var hasAny = false;
         for (var i = 0; i < svcList.length; i++) {
           var svc = svcList[i];
-          var qty = parseFloat(document.getElementById(svc.id+'-qty') ? document.getElementById(svc.id+'-qty').value : 0) || 0;
-          var rate = parseFloat(document.getElementById(svc.id+'-rate') ? document.getElementById(svc.id+'-rate').value : 0) || 0;
-          if (rate === 0 && qty === 0) continue;
+          var qEl = document.getElementById(svc.id+'-qty');
+          var rEl = document.getElementById(svc.id+'-rate');
+          var tEl = document.getElementById(svc.id+'-type');
+          var qty = qEl ? (parseFloat(qEl.value) || 0) : 0;
+          var rate = rEl ? (parseFloat(rEl.value) || 0) : 0;
+          var type = tEl ? tEl.value : svc.type;
+          if (rate === 0) continue;
           hasAny = true;
           var amt = qty * rate;
-          rows += '<tr><td>' + esc(svc.label) + '</td><td style="color:#888;font-size:.77rem;">' + svc.type + '</td><td style="text-align:center;">' + qty + '</td><td>' + fmtMoney(rate) + '</td><td><strong>' + fmtMoney(amt) + '</strong></td></tr>';
+          rows += '<tr><td>' + esc(svc.label) + '</td><td style="color:#888;font-size:.77rem;">' + esc(type) + '</td><td style="text-align:center;">' + qty + '</td><td>' + fmtMoney(rate) + '</td><td><strong>' + fmtMoney(amt) + '</strong></td></tr>';
         }
-        if (!hasAny) rows += '<tr><td colspan="5" style="color:#bbb;font-style:italic;font-size:.78rem;padding:6px 10px;">No services selected</td></tr>';
+        if (!hasAny) rows += '<tr><td colspan="5" style="color:#bbb;font-style:italic;font-size:.78rem;padding:6px 10px;">No services added</td></tr>';
         return rows;
       }
 
       var totalSetup = 0, totalMonthly = 0, totalPPC = 0;
-      var setupSvcs = SERVICES.setup, mthSvcs = SERVICES.monthly, ppcSvcs = SERVICES.ppc;
-      for (var si=0; si<setupSvcs.length; si++) { totalSetup += calcAmt(setupSvcs[si].id); }
-      for (var mi=0; mi<mthSvcs.length; mi++) { totalMonthly += calcAmt(mthSvcs[mi].id); }
-      for (var pi=0; pi<ppcSvcs.length; pi++) { totalPPC += calcAmt(ppcSvcs[pi].id); }
+      var allSvcs = SERVICES.setup.concat(SERVICES.monthly).concat(SERVICES.ppc);
+      for (var xi=0; xi<allSvcs.length; xi++) {
+        var xid = allSvcs[xi].id;
+        var xamt = calcAmt(xid);
+        var xtype = getType(xid);
+        if (xtype === 'Monthly' || xtype === 'Per month') { totalMonthly += xamt; }
+        else if (xtype === 'Per call') { totalPPC += xamt; }
+        else { totalSetup += xamt; }
+      }
       var grandTotal = totalSetup + totalMonthly + totalPPC;
 
       var pRows = svcRows('setup','One-Time / Setup','#00aaff') + svcRows('monthly','Monthly Retainer','#7b4fff') + svcRows('ppc','Pay-Per-Call','#00cc88');
