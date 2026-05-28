@@ -140,7 +140,31 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
 .stitle{font-size:.8rem;color:#666;margin-bottom:4px;}
 .scontact{font-size:.78rem;color:#888;}
 .stag{font-size:.75rem;color:#aaa;margin-top:4px;font-style:italic;}
-@media print{.form-panel,.topbar,.btn-pdf{display:none!important;}.preview-panel{padding:0;background:#fff;overflow:visible;}.app{display:block;height:auto;}.ppage{box-shadow:none;margin:0;page-break-after:always;}}
+@page{size:8.5in 11in;margin:0;}
+@media print{
+  .form-panel,.topbar,.btn-pdf{display:none!important;}
+  .app{display:block!important;height:auto!important;overflow:visible!important;}
+  .preview-panel{padding:0!important;background:#fff!important;overflow:visible!important;height:auto!important;flex:none!important;}
+  #preview-wrap{overflow:visible!important;height:auto!important;}
+  #pages-out{display:block!important;}
+  .ppage{
+    display:block!important;
+    width:8.5in!important;
+    height:11in!important;
+    min-height:auto!important;
+    max-height:11in!important;
+    overflow:hidden!important;
+    box-shadow:none!important;
+    margin:0!important;
+    padding:0!important;
+    page-break-after:always!important;
+    break-after:page!important;
+    page-break-inside:avoid!important;
+    break-inside:avoid!important;
+  }
+  .ppage:last-child{page-break-after:auto!important;break-after:auto!important;}
+  *{print-color-adjust:exact!important;-webkit-print-color-adjust:exact!important;}
+}
 </style>
 </head>
 <body>
@@ -706,98 +730,15 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
 
   // ─── PDF Export ───────────────────────────────────
   document.getElementById('pdf-btn').onclick = function() {
-    var btn = this;
-    var company = document.getElementById('f-company') ? document.getElementById('f-company').value.trim() : '';
-    var filename = (company || 'RankLocal-Proposal') + '.pdf';
-
     var pagesOut = document.getElementById('pages-out');
-    var ppageEls = pagesOut ? Array.from(pagesOut.querySelectorAll('.ppage')) : [];
+    var ppageEls = pagesOut ? pagesOut.querySelectorAll('.ppage') : [];
     if (!ppageEls.length) {
       alert('Generate a proposal first, then export.');
       return;
     }
-
-    btn.textContent = 'Capturing page 1 of ' + ppageEls.length + '...';
-    btn.disabled = true;
-
-    // Capture each .ppage with html2canvas, then open a print window with
-    // one <img> per page at 8.5in x 11in — guaranteed N pages in, N pages out.
-    var images = [];
-    var idx = 0;
-
-    function captureNext() {
-      if (idx >= ppageEls.length) {
-        openPrintWindow();
-        return;
-      }
-      btn.textContent = 'Capturing page ' + (idx + 1) + ' of ' + ppageEls.length + '...';
-      var pg = ppageEls[idx];
-      html2canvas(pg, {
-        width: 816,
-        height: 1056,
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        backgroundColor: '#ffffff',
-        scrollX: 0,
-        scrollY: 0,
-        windowWidth: 816,
-        windowHeight: 1056
-      }).then(function(canvas) {
-        images.push(canvas.toDataURL('image/jpeg', 0.92));
-        idx++;
-        captureNext();
-      }).catch(function(err) {
-        alert('Capture error on page ' + (idx + 1) + ': ' + err.message);
-        btn.innerHTML = '&#128196; Export PDF';
-        btn.disabled = false;
-      });
-    }
-
-    function openPrintWindow() {
-      btn.textContent = 'Opening PDF...';
-      var imgTags = images.map(function(src) {
-        return '<img src="' + src + '" style="display:block;width:8.5in;height:11in;margin:0;padding:0;page-break-after:always;break-after:page;">';
-      }).join('\n');
-
-      var fullHTML = [
-        '<!DOCTYPE html><html><head>',
-        '<meta charset="UTF-8"><title>' + filename + '</title>',
-        '<style>',
-          '@page{size:8.5in 11in;margin:0;}',
-          'html,body{margin:0;padding:0;background:#fff;}',
-          'img{display:block;width:8.5in;height:11in;page-break-after:always;break-after:page;}',
-          'img:last-child{page-break-after:auto;break-after:auto;}',
-          '*{print-color-adjust:exact;-webkit-print-color-adjust:exact;}',
-        '</style>',
-        '</head><body>',
-        imgTags,
-        '<scr' + 'ipt>',
-          'window.onload = function() {',
-            'setTimeout(function() { window.print(); }, 800);',
-          '};',
-        '<\/scr' + 'ipt>',
-        '</body></html>'
-      ].join('');
-
-      var blob = new Blob([fullHTML], {type:'text/html;charset=utf-8'});
-      var blobUrl = URL.createObjectURL(blob);
-      var win = window.open(blobUrl, '_blank');
-      if (!win) {
-        alert('Please allow pop-ups for this site, then try again.');
-        URL.revokeObjectURL(blobUrl);
-        btn.innerHTML = '&#128196; Export PDF';
-        btn.disabled = false;
-        return;
-      }
-      setTimeout(function() { URL.revokeObjectURL(blobUrl); }, 120000);
-      setTimeout(function() {
-        btn.innerHTML = '&#128196; Export PDF';
-        btn.disabled = false;
-      }, 4000);
-    }
-
-    captureNext();
+    // Print the current page — all fonts/resources already loaded, no CORS issues.
+    // @media print CSS handles layout: hides UI, shows only .ppage elements at 8.5x11in.
+    window.print();
   };
   // Auto-date
   try {
