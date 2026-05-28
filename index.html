@@ -712,36 +712,47 @@ table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
     btn.textContent = 'Generating...';
     btn.disabled = true;
 
-    // Build isolated off-screen container for clean PDF rendering
+    // Clone pages into off-screen container
+    // position:absolute top:-9999px keeps it in normal flow so html2canvas can paint it
+    // Never use z-index:-1 (hides behind background) or position:fixed (unreliable off-screen)
     var renderWrap = document.createElement('div');
-    renderWrap.style.cssText = 'position:fixed;left:-9999px;top:0;width:816px;background:#fff;z-index:-1;';
+    renderWrap.style.cssText = 'position:absolute;top:-19999px;left:0;width:816px;background:#fff;overflow:visible;';
     var ppages = document.querySelectorAll('.ppage');
+    if (!ppages.length) {
+      alert('No proposal content to export. Please generate a proposal first.');
+      btn.innerHTML = '&#128196; Export PDF';
+      btn.disabled = false;
+      return;
+    }
     ppages.forEach(function(p) {
       var clone = p.cloneNode(true);
-      clone.style.margin = '0';
-      clone.style.boxShadow = 'none';
-      clone.style.width = '816px';
+      clone.style.cssText += ';margin:0;box-shadow:none;width:816px;page-break-before:always;break-before:page;';
       renderWrap.appendChild(clone);
     });
     document.body.appendChild(renderWrap);
 
-    var opt = {
-      margin: 0,
-      filename: filename,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, logging: false, scrollY: 0 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-      pagebreak: { mode: 'css', before: '.ppage' }
-    };
-
-    html2pdf().set(opt).from(renderWrap).save().then(function() {
-      document.body.removeChild(renderWrap);
-      btn.innerHTML = '&#128196; Export PDF';
-      btn.disabled = false;
-    }).catch(function(err) {
-      alert('PDF export failed: ' + err.message);
-      btn.innerHTML = '&#128196; Export PDF';
-      btn.disabled = false;
+    // Give browser one frame to lay out the cloned DOM before capturing
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        var opt = {
+          margin: 0,
+          filename: filename,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true, logging: false, scrollY: -window.scrollY, windowWidth: 816 },
+          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+          pagebreak: { mode: 'css', before: '.ppage' }
+        };
+        html2pdf().set(opt).from(renderWrap).save().then(function() {
+          document.body.removeChild(renderWrap);
+          btn.innerHTML = '&#128196; Export PDF';
+          btn.disabled = false;
+        }).catch(function(err) {
+          if (document.body.contains(renderWrap)) document.body.removeChild(renderWrap);
+          alert('PDF export failed: ' + err.message);
+          btn.innerHTML = '&#128196; Export PDF';
+          btn.disabled = false;
+        });
+      });
     });
   };
 
