@@ -34,6 +34,8 @@ body{font-family:'Inter',sans-serif;background:var(--dark);display:flex;flex-dir
 .fld label{display:block;font-size:.7rem;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;}
 .fld input,.fld textarea,.fld select{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:7px;padding:7px 10px;color:var(--light);font-family:inherit;font-size:.85rem;outline:none;transition:.2s;resize:vertical;}
 .fld input:focus,.fld textarea:focus,.fld select:focus{border-color:rgba(0,170,255,.4);background:rgba(0,170,255,.03);}
+.fld select option{background:#0f0f14;color:#f0f0f8;}
+.fld select{color-scheme:dark;}
 .fld textarea{min-height:65px;}
 .fld .hint{font-size:.68rem;color:var(--muted);margin-top:3px;}
 .cols2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
@@ -644,10 +646,4 @@ function generate(){
 }
 
 // Set today's date by default
-document.getElementById('prop-date').valueAsDate = new Date();
-
-// Initial generate with default data
-generate();
-</script>
-</body>
-</html>
+document.getElementById('prop-date').valueAsDate = new
