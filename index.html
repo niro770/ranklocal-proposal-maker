@@ -4,699 +4,520 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>RankLocal — Proposal Maker</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --blue:#00aaff;--dark:#07070a;--card:#0f0f14;
-  --border:rgba(0,170,255,0.13);--muted:#8a8a9a;--light:#f0f0f8;
-  --green:#00cc88;--purple:#7b4fff;
-  --grad:linear-gradient(135deg,#00aaff,#7b4fff);
-}
 *{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;overflow:hidden;}
-body{font-family:'Inter',sans-serif;background:var(--dark);display:flex;flex-direction:column;}
-
-/* TOP BAR */
-.topbar{
-  background:var(--card);border-bottom:1px solid var(--border);
-  padding:12px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
-}
-.tb-logo{font-size:1rem;font-weight:900;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.tb-tag{font-size:.7rem;background:rgba(0,170,255,.1);border:1px solid rgba(0,170,255,.2);color:var(--blue);padding:3px 10px;border-radius:100px;font-weight:600;margin-left:10px;}
-.tb-btns{display:flex;gap:8px;}
-.btn-gen{
-  padding:8px 18px;background:var(--grad);border:none;border-radius:8px;
-  color:#fff;font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s;
-}
-.btn-gen:hover{opacity:.85;}
-.btn-print{
-  padding:8px 18px;background:transparent;border:1px solid var(--border);border-radius:8px;
-  color:var(--light);font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s;
-}
-.btn-print:hover{border-color:var(--blue);color:var(--blue);}
-
-/* LAYOUT */
-.main{display:flex;flex:1;overflow:hidden;}
-
-/* FORM PANEL */
-.form-panel{
-  width:380px;min-width:380px;background:var(--card);
-  border-right:1px solid var(--border);overflow-y:auto;padding:16px;
-}
-.fsec{
-  font-size:.64rem;font-weight:700;color:var(--blue);text-transform:uppercase;
-  letter-spacing:.1em;margin:16px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--border);
-}
-.fsec:first-child{margin-top:0;}
-.fld{margin-bottom:10px;}
-.fld label{
-  display:block;font-size:.7rem;font-weight:600;color:var(--muted);
-  margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em;
-}
-.fld input[type=text],.fld input[type=date],.fld input[type=number],.fld textarea,.fld select{
-  width:100%;background:#0b0b10;border:1px solid var(--border);
-  border-radius:7px;padding:8px 10px;color:var(--light);font-family:inherit;
-  font-size:.86rem;outline:none;transition:.2s;resize:vertical;
-  color-scheme:dark;
-}
-.fld select option{background:#0b0b10;color:#f0f0f8;}
-.fld input:focus,.fld textarea:focus,.fld select:focus{
-  border-color:rgba(0,170,255,.5);background:#0d1520;
-}
-.fld textarea{min-height:64px;}
-.fld .hint{font-size:.68rem;color:var(--muted);margin-top:3px;}
-.cols2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-
-/* CHIP INPUT */
-.chips-box{background:#0b0b10;border:1px solid var(--border);border-radius:7px;padding:8px;}
+:root{--bg:#07070a;--card:#0f0f14;--border:#1e1e2e;--blue:#00aaff;--purple:#7b4fff;--muted:#8a8a9a;--light:#f0f0f8;--green:#00cc88;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--light);min-height:100vh;display:flex;flex-direction:column;}
+.topbar{background:#0a0a0f;border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:14px;}
+.logo{font-size:1.1rem;font-weight:800;letter-spacing:-.5px;}
+.logo .r{color:var(--blue);}.logo .l{color:var(--purple);}
+.topbar-sub{color:var(--muted);font-size:.85rem;}
+.app{display:flex;flex:1;overflow:hidden;height:calc(100vh - 52px);}
+.form-panel{width:380px;min-width:340px;background:var(--card);border-right:1px solid var(--border);overflow-y:auto;padding:20px;flex-shrink:0;}
+.preview-panel{flex:1;background:#e8e8ef;overflow-y:auto;padding:30px;}
+.section-hd{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin:18px 0 10px;}
+.section-hd:first-child{margin-top:0;}
+.fld{margin-bottom:12px;}
+.fld label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:4px;}
+.fld input,.fld select,.fld textarea{width:100%;background:#07070a;border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:.85rem;color:var(--light);font-family:'Inter',sans-serif;color-scheme:dark;outline:none;}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--blue);}
+.fld select option{background:#07070a;color:var(--light);}
+.fld textarea{resize:vertical;min-height:70px;}
+.chips-box{background:#07070a;border:1px solid var(--border);border-radius:7px;padding:8px;margin-bottom:12px;}
 .chips-list{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px;min-height:6px;}
-.chip{
-  display:inline-flex;align-items:center;gap:5px;
-  background:rgba(0,170,255,.12);border:1px solid rgba(0,170,255,.25);
-  border-radius:100px;padding:3px 9px;font-size:.75rem;color:var(--blue);
-}
-.chip-rm{
-  background:none;border:none;color:var(--muted);cursor:pointer;
-  font-size:1rem;line-height:1;padding:0;display:flex;align-items:center;
-}
-.chip-rm:hover{color:#ff5555;}
+.chip{background:#1a1a2e;border:1px solid var(--border);border-radius:4px;padding:3px 6px;font-size:.78rem;display:inline-flex;align-items:center;gap:4px;}
+.chip-rm{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:0 1px;line-height:1;}
+.chip-rm:hover{color:#ff4466;}
 .chip-row{display:flex;gap:6px;}
-.chip-row input{
-  flex:1;background:transparent;border:none;outline:none;
-  color:var(--light);font-family:inherit;font-size:.86rem;
-  padding:2px 0;
-}
-.chip-row input::placeholder{color:var(--muted);}
-.chip-btn{
-  background:rgba(0,170,255,.15);border:1px solid rgba(0,170,255,.3);
-  border-radius:6px;color:var(--blue);font-size:.8rem;font-weight:700;
-  padding:5px 12px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:.2s;
-}
-.chip-btn:hover{background:rgba(0,170,255,.28);}
-
-/* PRICING ROWS */
-.ptable-hdr{
-  display:grid;grid-template-columns:1fr 82px 82px;gap:5px;
-  margin-bottom:5px;
-}
-.ptable-hdr span{font-size:.62rem;font-weight:700;color:var(--muted);text-transform:uppercase;}
-.prow{display:grid;grid-template-columns:1fr 82px 82px;gap:5px;align-items:center;margin-bottom:5px;}
-.prow .plbl{font-size:.78rem;color:var(--light);}
-.prow .plbl small{display:block;font-size:.63rem;color:var(--muted);}
-.prow input{
-  background:#0b0b10;border:1px solid var(--border);border-radius:6px;
-  padding:5px 7px;color:var(--light);font-family:inherit;font-size:.8rem;
-  outline:none;width:100%;transition:.2s;
-}
-.prow input:focus{border-color:rgba(0,170,255,.4);}
-
-/* TOGGLE */
-.tog{display:flex;align-items:center;gap:7px;margin:6px 0 8px;}
-.tog input{accent-color:var(--blue);width:14px;height:14px;cursor:pointer;flex-shrink:0;}
-.tog label{font-size:.8rem;color:var(--muted);cursor:pointer;}
-
-/* PREVIEW */
-.preview-panel{flex:1;background:#c8cdd3;overflow-y:auto;padding:20px;}
-.preview-wrap{width:760px;margin:0 auto;}
-.ppage{background:#fff;margin-bottom:12px;box-shadow:0 2px 20px rgba(0,0,0,.22);overflow:hidden;}
-.placeholder{text-align:center;padding:60px 40px;color:var(--muted);}
-.placeholder .ico{font-size:2.5rem;margin-bottom:10px;}
-.placeholder h3{font-size:.95rem;font-weight:700;color:var(--light);margin-bottom:5px;}
-
-/* PRINT */
-@media print{
-  .topbar,.form-panel{display:none!important;}
-  html,body{height:auto!important;overflow:visible!important;}
-  .main{display:block;height:auto;overflow:visible;}
-  .preview-panel{background:white!important;padding:0!important;overflow:visible!important;}
-  .preview-wrap{width:100%!important;margin:0!important;}
-  .ppage{box-shadow:none!important;margin:0!important;page-break-after:always;page-break-inside:avoid;}
-  .ppage:last-child{page-break-after:auto;}
-}
-
-/* ==============================
-   PROPOSAL STYLES
-   ============================== */
-.pr{font-family:'Inter',Arial,sans-serif;color:#1a1a2e;line-height:1.6;font-size:10pt;}
-
-/* COVER */
-.pr .cv{
-  background:linear-gradient(155deg,#061120 0%,#0c2040 55%,#061624 100%);
-  min-height:870px;padding:50px 56px 36px;
-  display:flex;flex-direction:column;justify-content:space-between;
-  position:relative;overflow:hidden;
-}
-.pr .cv::after{
-  content:'';position:absolute;top:-100px;right:-80px;
-  width:460px;height:460px;
-  background:radial-gradient(circle,rgba(0,110,160,.16) 0%,transparent 65%);
-  border-radius:50%;
-}
-.pr .cv-logo{display:flex;align-items:center;gap:12px;position:relative;z-index:2;}
-.pr .cv-lbox{
-  width:44px;height:44px;background:linear-gradient(135deg,#00aaff,#00cc88);
-  border-radius:10px;display:flex;align-items:center;justify-content:center;
-  font-size:1.2rem;font-weight:900;color:#fff;flex-shrink:0;
-}
-.pr .cv-ltxt .r{font-size:.88rem;font-weight:900;color:#fff;letter-spacing:.08em;display:block;line-height:1.2;}
-.pr .cv-ltxt .l{font-size:.88rem;font-weight:900;color:#00aaff;letter-spacing:.08em;display:block;line-height:1.2;}
-.pr .cv-pin{
-  position:absolute;top:50px;right:56px;z-index:2;
-  width:54px;height:54px;background:rgba(0,170,255,.07);
-  border:1px solid rgba(0,170,255,.12);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;font-size:1.6rem;
-}
-.pr .cv-body{position:relative;z-index:2;padding:68px 0 34px;}
-.pr .cv-eye{font-size:.6rem;font-weight:700;color:#00cc88;letter-spacing:.18em;text-transform:uppercase;margin-bottom:12px;}
-.pr .cv-h1{font-size:2.4rem;font-weight:900;color:#fff;line-height:1.12;margin-bottom:5px;}
-.pr .cv-h1 em{color:#00aaff;font-style:normal;}
-.pr .cv-rule{width:56px;height:3px;background:linear-gradient(90deg,#00aaff,#00cc88);margin:15px 0 18px;border-radius:2px;}
-.pr .cv-prep{font-size:.73rem;color:rgba(255,255,255,.38);margin-bottom:3px;}
-.pr .cv-client{font-size:1.22rem;font-weight:800;color:#fff;}
-.pr .cv-desc{font-size:.77rem;color:rgba(255,255,255,.3);margin-top:4px;}
-.pr .cv-date{font-size:.72rem;color:rgba(255,255,255,.24);margin-top:16px;}
-.pr .cv-foot{
-  position:relative;z-index:2;
-  border-top:1px solid rgba(255,255,255,.07);
-  padding-top:15px;display:flex;justify-content:space-between;align-items:center;
-}
-.pr .cv-fl{font-size:.75rem;color:#00aaff;}
-.pr .cv-fl span{display:block;color:rgba(255,255,255,.27);font-size:.69rem;margin-top:1px;}
-.pr .cv-fr{font-size:.77rem;color:rgba(255,255,255,.42);font-weight:600;}
-
-/* INNER */
-.pr .inn{padding:44px 56px 34px;position:relative;min-height:870px;display:flex;flex-direction:column;}
-.pr .ph{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:28px;padding-bottom:8px;border-bottom:2px solid #eaeff5;
-  font-size:.65rem;color:#aaa;font-weight:600;
-}
-.pr .ph .lsm .r{font-weight:900;color:#1a1a2e;font-size:.78rem;}
-.pr .ph .lsm .l{font-weight:900;color:#00aaff;font-size:.78rem;}
-.pr .pnum{text-align:right;font-size:.65rem;color:#bbb;margin-top:auto;padding-top:20px;}
-
-.pr .sec{margin-bottom:24px;}
-.pr h2{font-size:1rem;font-weight:800;color:#1a1a2e;margin-bottom:7px;padding-bottom:7px;border-bottom:2px solid #00aaff;}
-.pr h3{font-size:.82rem;font-weight:700;color:#00aaff;margin:10px 0 4px;}
-.pr p{font-size:.81rem;color:#333;line-height:1.72;margin-bottom:6px;}
-.pr .callout{border-left:3px solid #00aaff;background:#f0f8ff;padding:8px 12px;border-radius:0 5px 5px 0;margin:8px 0;}
-.pr .callout p{font-size:.79rem;color:#1a1a2e;margin:0;font-style:italic;}
-.pr .loopbox{border-left:3px solid #00cc88;background:#f0fff8;padding:8px 12px;border-radius:0 5px 5px 0;margin:8px 0;}
-.pr .loopbox p{font-size:.79rem;color:#1a1a2e;margin:0;font-style:italic;}
-
-.pr table{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:.79rem;}
-.pr table thead th{background:#1a1a2e;color:#fff;padding:7px 11px;text-align:left;font-weight:700;}
-.pr table tbody tr:nth-child(even){background:#f6f9fc;}
-.pr table tbody td{padding:7px 11px;color:#333;border-bottom:1px solid #eaeff5;vertical-align:top;}
-.pr table tbody td strong{color:#1a1a2e;font-weight:700;}
-.pr .bl{color:#00aaff;font-weight:700;}
-.pr .ck{color:#00cc88;font-weight:700;}
-.pr .gry{color:#999;}
-
-.pr .mkt{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid #eaeff5;border-radius:4px;overflow:hidden;margin:6px 0 12px;}
-.pr .mc{padding:7px 11px;font-size:.79rem;font-weight:700;color:#1a1a2e;border-right:1px solid #eaeff5;border-bottom:1px solid #eaeff5;}
-.pr .mc:nth-child(3n){border-right:none;}
-
-.pr .trow{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px dotted #ddd;font-size:.82rem;}
-.pr .trow span{color:#444;}
-.pr .trow .pg{color:#00aaff;font-weight:700;}
-
-.pr ul.chk{list-style:none;padding:0;}
-.pr ul.chk li{padding:3px 0 3px 19px;position:relative;font-size:.81rem;color:#333;}
-.pr ul.chk li::before{content:'✓';position:absolute;left:0;color:#00cc88;font-weight:700;}
-
-.pr .cmp thead th:nth-child(1){background:#f0f4f8;color:#555;}
-.pr .cmp thead th:nth-child(2){background:#1a1a2e;color:#fff;}
-.pr .cmp thead th:nth-child(3){background:#e8eef5;color:#666;}
-.pr .hl{font-weight:700;color:#1a1a2e;}
-.pr .dim{color:#999;}
-
-.pr .psh{font-size:.67rem;font-weight:700;color:#00aaff;text-transform:uppercase;letter-spacing:.08em;margin:12px 0 5px;}
-.pr .ppcbox{background:#f0f8ff;border:1px solid #c5e2f8;border-radius:7px;padding:10px;margin:8px 0;}
-.pr .ppcbox p{font-size:.78rem;color:#555;margin-bottom:6px;}
-.pr table tfoot td{font-weight:800;color:#1a1a2e;font-size:.81rem;border-top:2px solid #1a1a2e;padding-top:8px;}
-.pr .totnote{margin-top:8px;padding:7px 11px;background:#f6f9fc;border-radius:5px;border:1px solid #dce6f0;font-size:.75rem;color:#777;font-style:italic;}
-
-.pr .ctabox{text-align:center;padding:24px;background:#f0f8ff;border-radius:9px;margin:12px 0;border:1px solid #c5e2f8;}
-.pr .ctabox p{font-size:.81rem;color:#555;margin-bottom:4px;}
-.pr .ctabook{font-size:.88rem;font-weight:800;color:#1a1a2e;margin-bottom:3px;}
-.pr .ctaphone{font-size:1.3rem;font-weight:900;color:#00aaff;}
-.pr .sig{text-align:center;margin-top:16px;padding-top:14px;border-top:1px solid #eaeff5;}
-.pr .sname{font-weight:800;color:#1a1a2e;font-size:.9rem;}
-.pr .stitle{font-size:.75rem;color:#666;}
-.pr .scontact{color:#00aaff;font-size:.75rem;font-style:italic;margin-top:2px;}
-.pr .stag{color:#00cc88;font-size:.73rem;font-style:italic;margin-top:2px;}
+.chip-row input{flex:1;background:#0f0f14;border:1px solid var(--border);border-radius:5px;padding:6px 8px;font-size:.82rem;color:var(--light);font-family:'Inter',sans-serif;outline:none;}
+.chip-row input:focus{border-color:var(--blue);}
+.chip-btn{background:var(--blue);color:#fff;border:none;border-radius:5px;padding:6px 12px;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;}
+.chip-btn:hover{background:#0090dd;}
+.ptbl{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:4px;}
+.ptbl th{text-align:left;padding:4px 6px;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);}
+.ptbl td{padding:4px 6px;}
+.ptbl td input{width:100%;background:#07070a;border:1px solid var(--border);border-radius:4px;padding:4px 6px;font-size:.78rem;color:var(--light);font-family:'Inter',sans-serif;text-align:right;}
+.ptbl td input:focus{border-color:var(--blue);outline:none;}
+.chk-row{display:flex;align-items:center;gap:7px;font-size:.82rem;color:var(--muted);margin-bottom:8px;cursor:pointer;}
+.chk-row input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--blue);}
+.btn-gen{width:100%;margin-top:16px;padding:13px;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:8px;color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;letter-spacing:.3px;}
+.btn-gen:hover{opacity:.9;}
+.placeholder{display:flex;align-items:center;justify-content:center;height:100%;color:#999;font-size:1rem;flex-direction:column;gap:10px;text-align:center;}
+.placeholder .ph-icon{font-size:3rem;}
+/* Proposal pages */
+.ppage{background:#fff;width:816px;min-height:1056px;margin:0 auto 30px;box-shadow:0 4px 24px rgba(0,0,0,.18);position:relative;color:#1a1a1a;font-family:'Inter',sans-serif;}
+.pr{padding:56px 60px;}
+.inn{max-width:700px;margin:0 auto;}
+.ph{display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:2px solid #eee;margin-bottom:28px;font-size:.75rem;color:#888;}
+.lsm{font-size:1.1rem;font-weight:800;letter-spacing:-.5px;}
+.lsm .r{color:#00aaff;}.lsm .l{color:#7b4fff;}
+.pnum{font-size:.7rem;color:#aaa;text-align:right;margin-top:32px;}
+.cover-wrap{min-height:1056px;display:flex;flex-direction:column;}
+.cover-top{background:linear-gradient(135deg,#00aaff,#7b4fff);padding:70px 60px 60px;color:#fff;flex:1;}
+.cover-logo{font-size:2rem;font-weight:900;letter-spacing:-1px;margin-bottom:6px;}
+.cover-logo .r{color:#fff;}.cover-logo .l{color:rgba(255,255,255,.7);}
+.cover-sub{font-size:.85rem;opacity:.8;margin-bottom:60px;}
+.cover-doc{font-size:.8rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;opacity:.7;margin-bottom:16px;}
+.cover-title{font-size:2.6rem;font-weight:900;line-height:1.1;margin-bottom:24px;}
+.cover-meta{display:flex;gap:32px;flex-wrap:wrap;}
+.cover-meta-item{font-size:.82rem;opacity:.85;}
+.cover-meta-item strong{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:1px;opacity:.7;margin-bottom:3px;}
+.cover-bottom{padding:32px 60px;background:#fff;display:flex;justify-content:space-between;align-items:center;}
+.cover-contact{font-size:.8rem;color:#555;line-height:1.8;}
+.cover-stamp{font-size:1.8rem;font-weight:900;color:#eee;letter-spacing:-1px;}
+.toc-item{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f0f0f0;font-size:.88rem;}
+.toc-item:last-child{border-bottom:none;}
+.toc-num{color:#00aaff;font-weight:700;margin-right:10px;}
+.toc-pg{color:#aaa;font-size:.8rem;}
+.sec{margin-bottom:32px;}
+.sec h2{font-size:1.1rem;font-weight:800;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #f0f0f0;color:#111;}
+.sec h3{font-size:.95rem;font-weight:700;margin:14px 0 6px;color:#222;}
+.sec p{font-size:.88rem;line-height:1.7;color:#333;margin-bottom:10px;}
+.sec ul{padding-left:20px;margin-bottom:10px;}
+.sec ul li{font-size:.85rem;line-height:1.7;color:#333;margin-bottom:4px;}
+.hbox{background:linear-gradient(135deg,#f0f8ff,#f5f0ff);border-left:4px solid #00aaff;border-radius:6px;padding:16px 20px;margin:16px 0;}
+.hbox p{margin:0;font-size:.88rem;color:#222;font-style:italic;}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0;}
+.stat-card{background:#f8f8ff;border:1px solid #e8e0ff;border-radius:8px;padding:16px;text-align:center;}
+.stat-n{font-size:1.6rem;font-weight:900;background:linear-gradient(135deg,#00aaff,#7b4fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.stat-l{font-size:.72rem;color:#888;margin-top:2px;}
+.mkt{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0;}
+.mc{background:#f8f8ff;border:1px solid #e8e8f8;border-radius:6px;padding:8px 12px;font-size:.8rem;font-weight:600;color:#333;text-align:center;}
+.svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;}
+.svc-card{background:#f8f8ff;border:1px solid #e8e0ff;border-radius:8px;padding:14px;}
+.svc-icon{font-size:1.4rem;margin-bottom:6px;}
+.svc-title{font-size:.82rem;font-weight:700;color:#222;margin-bottom:4px;}
+.svc-desc{font-size:.76rem;color:#666;line-height:1.5;}
+.chklist{list-style:none;padding:0;}
+.chklist li{padding:5px 0 5px 22px;position:relative;font-size:.86rem;color:#333;line-height:1.6;}
+.chklist li::before{content:'checkmark';position:absolute;left:0;color:#00cc88;font-weight:700;}
+.steps{display:flex;flex-direction:column;gap:10px;margin:12px 0;}
+.step{display:flex;gap:14px;align-items:flex-start;}
+.step-num{background:linear-gradient(135deg,#00aaff,#7b4fff);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0;}
+.step-body{flex:1;}
+.step-title{font-size:.85rem;font-weight:700;color:#222;margin-bottom:2px;}
+.step-desc{font-size:.79rem;color:#666;line-height:1.5;}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;}
+.why-item{padding:12px;background:#f8f8ff;border-radius:8px;border:1px solid #eee;}
+.why-icon{font-size:1.2rem;margin-bottom:5px;}
+.why-title{font-size:.8rem;font-weight:700;color:#222;margin-bottom:3px;}
+.why-desc{font-size:.74rem;color:#666;line-height:1.5;}
+.pricing-tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:.83rem;}
+.pricing-tbl thead tr{background:linear-gradient(135deg,#00aaff,#7b4fff);color:#fff;}
+.pricing-tbl th{padding:10px 14px;text-align:left;font-weight:600;font-size:.78rem;}
+.pricing-tbl td{padding:9px 14px;border-bottom:1px solid #f0f0f0;color:#333;}
+.pricing-tbl tbody tr:nth-child(even){background:#f8f8ff;}
+.pricing-total{background:#111 !important;}
+.pricing-total td{color:#fff !important;font-weight:700;font-size:.88rem;}
+table.roadmap{width:100%;border-collapse:collapse;font-size:.83rem;margin:10px 0;}
+table.roadmap thead tr{background:#f0f0f8;}
+table.roadmap th{padding:9px 12px;text-align:left;font-weight:700;font-size:.78rem;color:#444;}
+table.roadmap td{padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#333;}
+.ctabox{background:linear-gradient(135deg,#00aaff,#7b4fff);border-radius:10px;padding:24px;text-align:center;margin:20px 0;}
+.ctabook{color:#fff;font-size:1rem;font-weight:700;margin-bottom:6px;}
+.ctaphone{color:rgba(255,255,255,.9);font-size:1.4rem;font-weight:900;}
+.sig{margin-top:20px;padding-top:16px;border-top:1px solid #eee;}
+.sname{font-size:1rem;font-weight:800;color:#111;margin-bottom:2px;}
+.stitle{font-size:.8rem;color:#666;margin-bottom:4px;}
+.scontact{font-size:.78rem;color:#888;}
+.stag{font-size:.75rem;color:#aaa;margin-top:4px;font-style:italic;}
+@media print{.form-panel,.topbar{display:none!important;}.preview-panel{padding:0;background:#fff;overflow:visible;}.app{display:block;height:auto;}.ppage{box-shadow:none;margin:0;page-break-after:always;}}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div style="display:flex;align-items:center;">
-    <span class="tb-logo">RankLocal™</span>
-    <span class="tb-tag">Proposal Maker</span>
-  </div>
-  <div class="tb-btns">
-    <button class="btn-gen" id="gen-btn">⚡ Generate Proposal</button>
-    <button class="btn-print" onclick="window.print()">🖨️ Print / PDF</button>
-  </div>
+  <div class="logo"><span class="r">RANK</span><span class="l">LOCAL</span></div>
+  <div class="topbar-sub">Proposal Generator</div>
 </div>
 
-<div class="main">
-
-  <!-- FORM -->
+<div class="app">
   <div class="form-panel">
-
-    <div class="fsec">📋 Client Information</div>
-    <div class="fld">
-      <label>Company Name</label>
-      <input type="text" id="f-company" placeholder="e.g. Proforce Pest Control">
-    </div>
+    <div class="section-hd">Client Info</div>
+    <div class="fld"><label>Company Name</label><input type="text" id="f-company" placeholder="e.g. Proforce Pest Control"></div>
     <div class="fld">
       <label>Industry / Niche</label>
       <select id="f-niche">
-        <option>Pest Control</option>
-        <option>HVAC</option>
-        <option>Plumbing</option>
-        <option>Roofing</option>
-        <option>Legal / Attorney</option>
-        <option>Dental</option>
-        <option>Home Remodeling</option>
-        <option>Moving</option>
-        <option>Landscaping</option>
-        <option>Electrical</option>
-        <option>Cleaning Services</option>
-        <option>Insurance</option>
-        <option>Other</option>
+        <option value="">— Select —</option>
+        <option>Pest Control</option><option>HVAC</option><option>Plumbing</option><option>Roofing</option>
+        <option>Landscaping</option><option>Tree Service</option><option>Electrical</option><option>Pool Service</option>
+        <option>Cleaning Service</option><option>Moving Company</option><option>Garage Door</option><option>Locksmith</option>
+        <option>Window Cleaning</option><option>Pressure Washing</option><option>Painting</option><option>General Contractor</option>
+        <option>Flooring</option><option>Fence Company</option><option>Concrete / Paving</option><option>Junk Removal</option>
+        <option>Handyman</option><option>Law Firm</option><option>Dental Office</option><option>Med Spa</option>
+        <option>Chiropractic</option><option>Auto Repair</option><option>Auto Detailing</option><option>Storage</option>
+        <option>Real Estate</option><option>Other</option>
       </select>
     </div>
-    <div class="fld">
-      <label>Custom Niche (if Other)</label>
-      <input type="text" id="f-niche-custom" placeholder="e.g. Solar Installation">
-    </div>
-    <div class="fld">
-      <label>Cover Subtitle</label>
-      <input type="text" id="f-desc" placeholder="e.g. Residential &amp; Commercial across 13 metros in GA · FL · SC">
-    </div>
-    <div class="fld">
-      <label>Proposal Date</label>
-      <input type="date" id="f-date">
-    </div>
-
-    <div class="fsec">📍 Target Markets</div>
-    <div class="fld">
-      <div class="chips-box">
-        <div class="chips-list" id="chips-list"></div>
-        <div class="chip-row">
-          <input type="text" id="city-input" placeholder="Type city, state then click Add">
-          <button class="chip-btn" id="add-city-btn">+ Add</button>
-        </div>
+    <div class="fld" id="niche-custom-wrap" style="display:none;"><label>Custom Niche</label><input type="text" id="f-niche-custom" placeholder="Describe the service"></div>
+    <div class="fld"><label>Short Business Description (optional)</label><textarea id="f-desc" rows="2" placeholder="e.g. Family-owned pest control serving South Jersey since 2015"></textarea></div>
+    <div class="fld"><label>Proposal Date</label><input type="date" id="f-date"></div>
+    <div class="section-hd">Target Markets</div>
+    <div class="chips-box">
+      <div class="chips-list" id="chips-list"></div>
+      <div class="chip-row">
+        <input type="text" id="city-input" placeholder="City, State — press Enter or Add">
+        <button class="chip-btn" id="add-city-btn" type="button">+ Add</button>
       </div>
-      <div class="hint">e.g. Atlanta, GA &nbsp;·&nbsp; Tampa, FL &nbsp;·&nbsp; Charlotte, NC</div>
     </div>
-
-    <div class="fsec">📝 The Opportunity</div>
-    <div class="fld">
-      <label>Opening Paragraph</label>
-      <textarea id="f-opp" placeholder="e.g. The Southeast is one of the highest-demand pest control regions in the country. It's warm, humid, and busy year-round. Demand is not the problem — visibility is."></textarea>
+    <div class="section-hd">Opportunity (optional)</div>
+    <div class="fld"><textarea id="f-opp" rows="3" placeholder="Describe the client's current situation and opportunity..."></textarea></div>
+    <div class="section-hd">Custom Bullet Points (optional)</div>
+    <div class="fld"><textarea id="f-bullets" rows="3" placeholder="One bullet per line"></textarea></div>
+    <div class="section-hd">Pricing</div>
+    <label class="chk-row"><input type="checkbox" id="show-infra" checked> Include Infrastructure Setup fee</label>
+    <label class="chk-row"><input type="checkbox" id="show-ppc"> Include PPC / Ad Management</label>
+    <table class="ptbl">
+      <thead><tr><th>Service</th><th>Setup ($)</th><th>Monthly ($)</th></tr></thead>
+      <tbody>
+        <tr><td>Local SEO (GBP)</td><td><input type="number" id="p-seo-s" value="500"></td><td><input type="number" id="p-seo-m" value="800"></td></tr>
+        <tr><td>GBP Management</td><td><input type="number" id="p-gbp-s" value="0"></td><td><input type="number" id="p-gbp-m" value="200"></td></tr>
+        <tr><td>Local Sites Network</td><td><input type="number" id="p-sites-s" value="300"></td><td><input type="number" id="p-sites-m" value="150"></td></tr>
+        <tr id="infra-row"><td>Infrastructure Setup</td><td><input type="number" id="p-infra-s" value="500"></td><td><input type="number" id="p-infra-m" value="0"></td></tr>
+      </tbody>
+    </table>
+    <div id="ppc-wrap" style="display:none;margin-top:10px;">
+      <table class="ptbl">
+        <thead><tr><th>PPC Label</th><th>Qty</th><th>Rate/mo ($)</th></tr></thead>
+        <tbody><tr>
+          <td><input type="text" id="p-ppc-label" value="Google Ads Mgmt" style="text-align:left;"></td>
+          <td><input type="number" id="p-ppc-qty" value="1"></td>
+          <td><input type="number" id="p-ppc-rate" value="500"></td>
+        </tr></tbody>
+      </table>
     </div>
-    <div class="fld">
-      <label>Why Google Maps Wins (one bullet per line)</label>
-      <textarea id="f-bullets" placeholder="High intent: 'near me' searches come from mobile, ready to call&#10;The 3-Pack rules: top 3 results get the large majority of calls&#10;Your footprint: each market is a new stream of calls"></textarea>
-    </div>
-
-    <div class="fsec">💲 Core Services Pricing</div>
-    <div class="ptable-hdr"><span>Service</span><span>Setup</span><span>Monthly</span></div>
-    <div class="prow"><div class="plbl">Local SEO</div><input type="text" id="p-seo-s" placeholder="—"><input type="text" id="p-seo-m" placeholder="—"></div>
-    <div class="prow"><div class="plbl">Google Business Profile</div><input type="text" id="p-gbp-s" placeholder="—"><input type="text" id="p-gbp-m" placeholder="—"></div>
-    <div class="prow"><div class="plbl">Google Maps Ranking</div><input type="text" id="p-maps-s" placeholder="—"><input type="text" id="p-maps-m" placeholder="—"></div>
-    <div class="prow"><div class="plbl">Reputation Mgmt</div><input type="text" id="p-rep-s" placeholder="—"><input type="text" id="p-rep-m" placeholder="—"></div>
-    <div class="prow"><div class="plbl">Website SEO</div><input type="text" id="p-wseo-s" placeholder="—"><input type="text" id="p-wseo-m" placeholder="—"></div>
-    <div class="prow"><div class="plbl">Citation Building</div><input type="text" id="p-cit-s" placeholder="—"><input type="text" id="p-cit-m" placeholder="—"></div>
-
-    <div class="fsec">🏗️ Infrastructure</div>
-    <div class="tog"><input type="checkbox" id="show-infra"><label for="show-infra">Include At Scale Infrastructure section</label></div>
-    <div class="prow"><div class="plbl">1,000 GMB Profiles</div><input type="text" id="p-gmb-s" placeholder="—"><input type="text" id="p-gmb-m" placeholder="—"></div>
-    <div class="prow"><div class="plbl">1,000 Local Websites</div><input type="text" id="p-web-s" placeholder="—"><input type="text" id="p-web-m" placeholder="—"></div>
-    <div class="prow"><div class="plbl">Local Sites Network</div><input type="text" id="p-net-s" placeholder="—"><input type="text" id="p-net-m" placeholder="—"></div>
-    <div class="prow"><div class="plbl">GMB Optimization</div><input type="text" id="p-gopt-s" placeholder="—"><input type="text" id="p-gopt-m" placeholder="—"></div>
-    <div class="prow"><div class="plbl">GMB Ranking</div><input type="text" id="p-grnk-s" placeholder="—"><input type="text" id="p-grnk-m" placeholder="—"></div>
-    <div class="prow"><div class="plbl">Reviews Management</div><input type="text" id="p-rev-s" placeholder="—"><input type="text" id="p-rev-m" placeholder="—"></div>
-    <div class="prow"><div class="plbl">GBP Insurance</div><input type="text" id="p-ins-s" placeholder="—"><input type="text" id="p-ins-m" placeholder="—"></div>
-
-    <div class="fsec">📞 Pay-Per-Call</div>
-    <div class="tog"><input type="checkbox" id="show-ppc" checked><label for="show-ppc">Include Pay-Per-Call section</label></div>
-    <div class="fld">
-      <label>Call Type Label</label>
-      <input type="text" id="p-ppc-label" placeholder="e.g. Pest control calls (60+ sec after IVR)">
-    </div>
-    <div class="cols2">
-      <div class="fld"><label>Quantity</label><input type="number" id="p-ppc-qty" value="1000"></div>
-      <div class="fld"><label>Rate per Call ($)</label><input type="number" id="p-ppc-rate" value="75"></div>
-    </div>
-    <div style="height:16px;"></div>
+    <button class="btn-gen" id="gen-btn" type="button">&#9889; Generate Proposal</button>
   </div>
 
-  <!-- PREVIEW -->
-  <div class="preview-panel" id="preview-panel">
-    <div class="preview-wrap" id="preview-wrap">
+  <div class="preview-panel">
+    <div id="preview-wrap">
       <div class="placeholder">
-        <div class="ico">📄</div>
-        <h3>Click "Generate Proposal" to preview</h3>
-        <p style="font-size:.82rem;">Fill in the form on the left, then click the button above.</p>
+        <div class="ph-icon">&#128196;</div>
+        <div>Fill in the form and click <strong>Generate Proposal</strong></div>
+        <div style="font-size:.8rem;color:#aaa;">Your branded proposal will appear here</div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-// ─── Markets list ─────────────────────────────────
-var markets = [];
+(function() {
+  'use strict';
 
-function renderChips() {
-  var list = document.getElementById('chips-list');
-  if (!list) return;
-  var html = '';
-  for (var i = 0; i < markets.length; i++) {
-    html += '<span class="chip">' + markets[i] +
-      '<button class="chip-rm" data-idx="' + i + '">×</button></span>';
+  // Toggle custom niche
+  document.getElementById('f-niche').onchange = function() {
+    document.getElementById('niche-custom-wrap').style.display = (this.value === 'Other') ? 'block' : 'none';
+  };
+
+  // Toggle infra
+  document.getElementById('show-infra').onchange = function() {
+    document.getElementById('infra-row').style.display = this.checked ? '' : 'none';
+  };
+
+  // Toggle PPC
+  document.getElementById('show-ppc').onchange = function() {
+    document.getElementById('ppc-wrap').style.display = this.checked ? 'block' : 'none';
+  };
+
+  // Markets
+  var markets = [];
+
+  function renderChips() {
+    var list = document.getElementById('chips-list');
+    if (!list) return;
+    var html = '';
+    for (var i = 0; i < markets.length; i++) {
+      html += '<span class="chip">' + esc(markets[i]) + '<button class="chip-rm" data-i="' + i + '" type="button">&times;</button></span>';
+    }
+    list.innerHTML = html;
+    var btns = list.querySelectorAll('.chip-rm');
+    for (var j = 0; j < btns.length; j++) {
+      (function(btn) {
+        btn.onclick = function() {
+          markets.splice(parseInt(btn.getAttribute('data-i')), 1);
+          renderChips();
+        };
+      })(btns[j]);
+    }
   }
-  list.innerHTML = html;
-  // attach remove handlers
-  var btns = list.querySelectorAll('.chip-rm');
-  for (var j = 0; j < btns.length; j++) {
-    btns[j].addEventListener('click', function() {
-      var idx = parseInt(this.getAttribute('data-idx'));
-      markets.splice(idx, 1);
-      renderChips();
-    });
+
+  function addCity() {
+    var inp = document.getElementById('city-input');
+    var v = inp.value.trim();
+    if (!v) return;
+    markets.push(v);
+    renderChips();
+    inp.value = '';
+    inp.focus();
   }
-}
 
-function addCity() {
-  var inp = document.getElementById('city-input');
-  var val = inp.value.trim();
-  if (!val) return;
-  markets.push(val);
-  renderChips();
-  inp.value = '';
-  inp.focus();
-}
+  document.getElementById('add-city-btn').onclick = addCity;
+  document.getElementById('city-input').onkeydown = function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); addCity(); }
+  };
 
-document.getElementById('add-city-btn').addEventListener('click', addCity);
-document.getElementById('city-input').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') { e.preventDefault(); addCity(); }
-});
-
-// ─── Helper getters ───────────────────────────────
-function gv(id) {
-  var el = document.getElementById(id);
-  return el ? el.value.trim() : '';
-}
-function gc(id) {
-  var el = document.getElementById(id);
-  return el ? el.checked : false;
-}
-
-// ─── Date formatter ───────────────────────────────
-function fmtDate(d) {
-  if (!d) return '';
-  try {
-    var parts = d.split('-');
-    var dt = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
-    return dt.toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
-  } catch(e) { return d; }
-}
-
-// ─── Markets grid ─────────────────────────────────
-function marketsGrid() {
-  if (!markets.length) {
-    return '<div class="mkt"><div class="mc" style="grid-column:1/-1;color:#aaa;font-style:italic;font-weight:400;">No markets added yet</div></div>';
+  // Helpers
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
-  var padded = markets.slice();
-  while (padded.length % 3 !== 0) padded.push('');
-  var html = '<div class="mkt">';
-  for (var i = 0; i < padded.length; i++) {
-    html += '<div class="mc">' + padded[i] + '</div>';
+  function gv(id) {
+    var el = document.getElementById(id);
+    return el ? el.value.trim() : '';
   }
-  html += '</div>';
-  return html;
-}
+  function gc(id) {
+    var el = document.getElementById(id);
+    return el ? el.checked : false;
+  }
+  function gn(id) {
+    return parseFloat(gv(id)) || 0;
+  }
+  function fmtMoney(n) {
+    return '$' + Math.round(n).toLocaleString('en-US');
+  }
+  function fmtDate(s) {
+    if (!s) return '';
+    try {
+      var p = s.split('-');
+      return new Date(+p[0], +p[1]-1, +p[2]).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+    } catch(e) { return s; }
+  }
 
-// ─── Bullets ──────────────────────────────────────
-function buildBullets(raw) {
-  var lines = raw ? raw.split('\n').filter(function(l){ return l.trim(); }) : [];
-  if (!lines.length) {
-    lines = [
-      'High intent: "near me" searches come from mobile, in-the-moment, ready to call.',
-      'The 3-Pack rules: the top three Maps results capture the large majority of clicks and calls.',
-      'Your footprint: every market you serve is a new stream of high-intent inbound calls.'
+  // Page header
+  function pgHeader() {
+    return '<div class="ph"><div class="lsm"><span class="r">RANK</span><span class="l">LOCAL</span></div><span style="color:#888;font-size:.75rem;">Local SEO &amp; Lead Generation Proposal</span></div>';
+  }
+
+  // Markets grid
+  function mktGrid() {
+    if (!markets.length) return '<div class="mkt"><div class="mc" style="grid-column:1/-1;color:#aaa;font-style:italic;font-weight:400;">No markets specified</div></div>';
+    var h = '<div class="mkt">';
+    for (var i = 0; i < markets.length; i++) h += '<div class="mc">' + esc(markets[i]) + '</div>';
+    return h + '</div>';
+  }
+
+  // Bullets
+  function bullets(raw) {
+    var lines = raw ? raw.split('\n').filter(function(l){return l.trim();}) : [];
+    if (!lines.length) lines = [
+      'High intent: "near me" searches come from people ready to call right now.',
+      'The 3-Pack rules: the top 3 Maps results capture the majority of clicks and calls.',
+      'Every market you serve is a new stream of high-intent inbound calls.'
     ];
+    var h = '<ul style="list-style:none;padding:0;">';
+    for (var i = 0; i < lines.length; i++) {
+      h += '<li style="padding:5px 0 5px 22px;position:relative;font-size:.86rem;color:#333;line-height:1.6;">' +
+           '<span style="position:absolute;left:0;color:#00cc88;font-weight:700;">&#10003;</span>' +
+           esc(lines[i].trim()) + '</li>';
+    }
+    return h + '</ul>';
   }
-  var html = '<ul class="chk">';
-  for (var i = 0; i < lines.length; i++) {
-    html += '<li>' + lines[i].trim() + '</li>';
-  }
-  html += '</ul>';
-  return html;
-}
 
-// ─── Page header ──────────────────────────────────
-function pageHeader() {
-  return '<div class="ph"><div class="lsm"><span class="r">RANK</span><span class="l">LOCAL</span></div><div>Local SEO &amp; Lead Generation Proposal</div></div>';
-}
+  // GENERATE
+  document.getElementById('gen-btn').onclick = function() {
+    try {
+      var company  = gv('f-company') || '[Client Name]';
+      var niche    = gv('f-niche') === 'Other' ? (gv('f-niche-custom') || 'Local Services') : (gv('f-niche') || 'Local Services');
+      var desc     = gv('f-desc') || (niche + ' services');
+      var dateStr  = fmtDate(gv('f-date')) || new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+      var opp      = gv('f-opp') || ('When a customer searches for "' + niche.toLowerCase() + ' near me," the top 3 Maps results win. Our job is to put ' + company + ' in that 3-Pack across every market you serve.');
+      var rawBullets = gv('f-bullets');
+      var n        = markets.length || 1;
 
-// ─── GENERATE ─────────────────────────────────────
-document.getElementById('gen-btn').addEventListener('click', generate);
+      var seoS   = gn('p-seo-s'), seoM  = gn('p-seo-m');
+      var gbpS   = gn('p-gbp-s'), gbpM  = gn('p-gbp-m');
+      var sitS   = gn('p-sites-s'), sitM = gn('p-sites-m');
+      var infra  = gc('show-infra');
+      var infS   = infra ? gn('p-infra-s') : 0;
+      var infM   = infra ? gn('p-infra-m') : 0;
+      var hasPPC = gc('show-ppc');
+      var ppcLbl = gv('p-ppc-label') || 'Google Ads Mgmt';
+      var ppcQty = gn('p-ppc-qty') || 1;
+      var ppcRt  = gn('p-ppc-rate');
+      var ppcM   = hasPPC ? ppcQty * ppcRt : 0;
 
-function generate() {
+      var totalSetup   = seoS + gbpS + sitS + infS;
+      var totalMonthly = (seoM + gbpM + sitM + infM) * n + ppcM;
+
+      var pRows = '';
+      pRows += '<tr><td>Local SEO (GBP Optimization)</td><td>' + fmtMoney(seoS) + '</td><td>' + fmtMoney(seoM) + '/mkt</td><td>' + fmtMoney(seoM*n) + '</td></tr>';
+      pRows += '<tr><td>GBP Management &amp; Review Generation</td><td>' + fmtMoney(gbpS) + '</td><td>' + fmtMoney(gbpM) + '/mkt</td><td>' + fmtMoney(gbpM*n) + '</td></tr>';
+      pRows += '<tr><td>Local Sites Network (' + n + ' market' + (n>1?'s':'') + ')</td><td>' + fmtMoney(sitS) + '</td><td>' + fmtMoney(sitM) + '/mkt</td><td>' + fmtMoney(sitM*n) + '</td></tr>';
+      if (infra) pRows += '<tr><td>Infrastructure Setup</td><td>' + fmtMoney(infS) + '</td><td>—</td><td>—</td></tr>';
+      if (hasPPC) pRows += '<tr><td>' + esc(ppcLbl) + ' (' + ppcQty + ')</td><td>—</td><td>' + fmtMoney(ppcRt) + '</td><td>' + fmtMoney(ppcM) + '</td></tr>';
+
+      var pages = '';
+
+      // PAGE 1 — Cover
+      pages += '<div class="ppage"><div class="cover-wrap">';
+      pages += '<div class="cover-top">';
+      pages += '<div class="cover-logo"><span class="r">RANK</span><span class="l">LOCAL</span></div>';
+      pages += '<div class="cover-sub">Local SEO &amp; Lead Generation</div>';
+      pages += '<div class="cover-doc">Proposal Prepared For</div>';
+      pages += '<div class="cover-title">' + esc(company) + '</div>';
+      pages += '<div class="cover-meta">';
+      pages += '<div class="cover-meta-item"><strong>Industry</strong>' + esc(niche) + '</div>';
+      pages += '<div class="cover-meta-item"><strong>Markets</strong>' + n + ' location' + (n>1?'s':'') + '</div>';
+      pages += '<div class="cover-meta-item"><strong>Date</strong>' + esc(dateStr) + '</div>';
+      pages += '</div></div>';
+      pages += '<div class="cover-bottom">';
+      pages += '<div class="cover-contact">isaac@ranklocall.com<br>ranklocall.com<br>(302) 899-2641</div>';
+      pages += '<div class="cover-stamp">RANK<span style="color:#7b4fff;">LOCAL</span></div>';
+      pages += '</div></div></div>';
+
+      // PAGE 2 — TOC
+      var toc = [['Executive Summary','3'],['About RankLocal','3'],['The Opportunity','3'],['What We Do','4'],['Citation Strategy','5'],['The Process','5'],['Why RankLocal','6'],['Investment Summary','7'],['90-Day Roadmap','8'],['Next Steps','8']];
+      pages += '<div class="ppage"><div class="pr"><div class="inn">' + pgHeader();
+      pages += '<div class="sec"><h2>Table of Contents</h2>';
+      for (var t2 = 0; t2 < toc.length; t2++) {
+        pages += '<div class="toc-item"><div><span class="toc-num">' + (t2+1) + '.&nbsp;</span>' + toc[t2][0] + '</div><div class="toc-pg">Page ' + toc[t2][1] + '</div></div>';
+      }
+      pages += '</div><div class="pnum">ranklocall.com &nbsp;&#183;&nbsp; (302) 899-2641 &nbsp;&#183;&nbsp; Since 2019 &nbsp;&nbsp; Page 2</div>';
+      pages += '</div></div></div>';
+
+      // PAGE 3 — Exec + About + Opportunity
+      pages += '<div class="ppage"><div class="pr"><div class="inn">' + pgHeader();
+      pages += '<div class="sec"><h2>1. Executive Summary</h2>';
+      pages += '<p>This proposal outlines how RankLocal will help <strong>' + esc(company) + '</strong> dominate Google Maps search results across <strong>' + n + ' market' + (n>1?'s':'') + '</strong>, generating a consistent flow of inbound calls and booked jobs.</p>';
+      pages += '<p>Our proven local SEO system combines GBP optimization, local authority building, and a proprietary local sites network to rank your business at the top — and keep it there.</p>';
+      pages += '</div>';
+      pages += '<div class="sec"><h2>2. About RankLocal</h2>';
+      pages += '<p>RankLocal is a boutique local SEO agency founded by Isaac Cohen in 2019, built specifically for home-service and local businesses. Every strategy we build is engineered around one goal: more calls from local customers searching for your service.</p>';
+      pages += '<div class="stats">';
+      pages += '<div class="stat-card"><div class="stat-n">500+</div><div class="stat-l">GBP Profiles Managed</div></div>';
+      pages += '<div class="stat-card"><div class="stat-n">Top 3</div><div class="stat-l">Maps Rankings Delivered</div></div>';
+      pages += '<div class="stat-card"><div class="stat-n">2019</div><div class="stat-l">Established</div></div>';
+      pages += '</div></div>';
+      pages += '<div class="sec"><h2>3. The Opportunity</h2>';
+      pages += '<div class="hbox"><p>' + esc(opp) + '</p></div>';
+      pages += bullets(rawBullets);
+      pages += '</div>';
+      pages += '<div class="pnum">ranklocall.com &nbsp;&#183;&nbsp; (302) 899-2641 &nbsp;&#183;&nbsp; Since 2019 &nbsp;&nbsp; Page 3</div>';
+      pages += '</div></div></div>';
+
+      // PAGE 4 — What We Do
+      pages += '<div class="ppage"><div class="pr"><div class="inn">' + pgHeader();
+      pages += '<div class="sec"><h2>4. What We Do</h2>';
+      pages += '<p>We deliver a complete local search dominance system — combining Maps optimization, review velocity, and web authority to rank <strong>' + esc(company) + '</strong> in the 3-Pack across all ' + n + ' target market' + (n>1?'s':'') + '.</p>';
+      pages += '<div class="svc-grid">';
+      var svcs = [
+        ['&#128205;','GBP Optimization','Full audit and rebuild of your Google Business Profile — categories, services, photos, posts, Q&A, and attributes tuned for maximum Maps visibility.'],
+        ['&#11088;','Review Generation','Automated system to request, collect, and respond to reviews — driving review velocity and star rating, two of the top local ranking signals.'],
+        ['&#127760;','Local Sites Network','Proprietary network of city-specific landing pages that build geographic authority and help you rank in markets where you have no physical address.'],
+        ['&#128279;','Citation Building','Complete NAP consistency audit and citation buildout across 80+ directories — the foundation every Maps ranking is built on.'],
+        ['&#128202;','Rank Tracking','Real-time Maps rank tracking across all your target markets and keywords — you always know exactly where you stand.'],
+        ['&#128222;','Call Tracking','Dedicated tracking numbers by market so you see exactly how many calls your Maps rankings generate each month.']
+      ];
+      for (var s = 0; s < svcs.length; s++) {
+        pages += '<div class="svc-card"><div class="svc-icon">' + svcs[s][0] + '</div><div class="svc-title">' + svcs[s][1] + '</div><div class="svc-desc">' + svcs[s][2] + '</div></div>';
+      }
+      pages += '</div></div>';
+      pages += '<div class="sec"><h2>Target Markets</h2>' + mktGrid() + '</div>';
+      pages += '<div class="pnum">ranklocall.com &nbsp;&#183;&nbsp; (302) 899-2641 &nbsp;&#183;&nbsp; Since 2019 &nbsp;&nbsp; Page 4</div>';
+      pages += '</div></div></div>';
+
+      // PAGE 5 — Citation + Process
+      pages += '<div class="ppage"><div class="pr"><div class="inn">' + pgHeader();
+      pages += '<div class="sec"><h2>5. Our Citation Strategy</h2>';
+      pages += '<p>Citations — mentions of your business name, address, and phone (NAP) across the web — are the foundation of local Maps rankings. Inconsistent citations are the most common reason businesses fail to crack the 3-Pack.</p>';
+      var citBullets = ['Full NAP audit across 80+ major directories (Google, Yelp, BBB, Angi, HomeAdvisor, and more)','Correction of all inconsistencies — wrong addresses, duplicate listings, outdated phone numbers','New citation creation across all major directories where you are missing','Niche-specific citations in ' + esc(niche) + ' industry directories','Ongoing citation monitoring to catch any drift or new duplicates'];
+      pages += '<ul style="list-style:none;padding:0;">';
+      for (var c = 0; c < citBullets.length; c++) {
+        pages += '<li style="padding:5px 0 5px 22px;position:relative;font-size:.86rem;color:#333;line-height:1.6;"><span style="position:absolute;left:0;color:#00cc88;font-weight:700;">&#10003;</span>' + citBullets[c] + '</li>';
+      }
+      pages += '</ul></div>';
+      pages += '<div class="sec"><h2>6. The Process</h2><div class="steps">';
+      var steps = [
+        ['Discovery &amp; Audit','Deep dive into your current GBP performance, citation landscape, competitor rankings, and keyword opportunities across all target markets.'],
+        ['Profile Optimization','Rebuild and optimize every GBP profile from the ground up — categories, services, photos, descriptions, and all ranking signals.'],
+        ['Authority Building','Deploy citations, launch local landing pages, and activate the review generation system to build real geographic authority.'],
+        ['Ranking &amp; Expansion','Push into the 3-Pack for priority keywords. Scale across all markets. Track rankings, calls, and revenue in real time.'],
+        ['Monthly Optimization','Continuous optimization based on ranking data. Monthly reporting on Maps position, call volume, and ROI by market.']
+      ];
+      for (var st = 0; st < steps.length; st++) {
+        pages += '<div class="step"><div class="step-num">' + (st+1) + '</div><div class="step-body"><div class="step-title">' + steps[st][0] + '</div><div class="step-desc">' + steps[st][1] + '</div></div></div>';
+      }
+      pages += '</div></div>';
+      pages += '<div class="pnum">ranklocall.com &nbsp;&#183;&nbsp; (302) 899-2641 &nbsp;&#183;&nbsp; Since 2019 &nbsp;&nbsp; Page 5</div>';
+      pages += '</div></div></div>';
+
+      // PAGE 6 — Why RankLocal
+      pages += '<div class="ppage"><div class="pr"><div class="inn">' + pgHeader();
+      pages += '<div class="sec"><h2>7. Why RankLocal</h2><div class="why-grid">';
+      var whys = [
+        ['&#127919;','Local SEO Only','We don\'t do general SEO, social, or web design. Local Maps rankings is all we do — which means we\'re better at it than anyone.'],
+        ['&#128205;','Multi-Market System','Most agencies can only rank you where you have a physical address. Our local sites network lets you rank in any market you serve.'],
+        ['&#128222;','Tracked to the Call','Every market gets a dedicated tracking number. You see exactly how many calls your rankings generate — no mystery metrics.'],
+        ['&#9889;','Fast Results','Most clients see first ranking movement within 30–45 days. We\'re aggressive because we know what actually moves the needle.'],
+        ['&#128274;','Proprietary Technology','Our local sites network is a custom-built system competitors can\'t replicate — built over 5 years of testing and refinement.'],
+        ['&#129309;','Direct Access','Work directly with Isaac and our senior team — no handoffs to junior account managers or overseas contractors.']
+      ];
+      for (var w = 0; w < whys.length; w++) {
+        pages += '<div class="why-item"><div class="why-icon">' + whys[w][0] + '</div><div class="why-title">' + whys[w][1] + '</div><div class="why-desc">' + whys[w][2] + '</div></div>';
+      }
+      pages += '</div></div></div>';
+      pages += '<div class="pnum">ranklocall.com &nbsp;&#183;&nbsp; (302) 899-2641 &nbsp;&#183;&nbsp; Since 2019 &nbsp;&nbsp; Page 6</div>';
+      pages += '</div></div></div>';
+
+      // PAGE 7 — Pricing
+      pages += '<div class="ppage"><div class="pr"><div class="inn">' + pgHeader();
+      pages += '<div class="sec"><h2>8. Investment Summary</h2>';
+      pages += '<p>Pricing below is based on <strong>' + n + ' target market' + (n>1?'s':'') + '</strong>. Monthly fees scale with markets — every additional market is another stream of inbound calls.</p>';
+      pages += '<table class="pricing-tbl"><thead><tr><th>Service</th><th>One-Time Setup</th><th>Rate</th><th>Monthly Total</th></tr></thead><tbody>';
+      pages += pRows;
+      pages += '<tr class="pricing-total"><td><strong>TOTAL</strong></td><td><strong>' + fmtMoney(totalSetup) + '</strong></td><td></td><td><strong>' + fmtMoney(totalMonthly) + '/mo</strong></td></tr>';
+      pages += '</tbody></table>';
+      pages += '<div class="hbox"><p><strong>Investment perspective:</strong> At ' + fmtMoney(totalMonthly) + '/month, you need just ' + Math.ceil(totalMonthly/150) + '&#8211;' + Math.ceil(totalMonthly/80) + ' additional jobs per month to cover this investment — jobs you\'re currently losing to competitors ranking above you.</p></div>';
+      pages += '<h3 style="font-size:.95rem;font-weight:700;margin:14px 0 8px;color:#222;">What\'s Included</h3><ul style="list-style:none;padding:0;">';
+      var inc = ['Full GBP optimization across all ' + n + ' market' + (n>1?'s':''),'Local sites network deployment for multi-market coverage','Complete citation audit and buildout (80+ directories)','Monthly review generation system','Real-time rank tracking dashboard','Dedicated call tracking per market','Monthly performance report and strategy call'];
+      for (var i2 = 0; i2 < inc.length; i2++) {
+        pages += '<li style="padding:5px 0 5px 22px;position:relative;font-size:.86rem;color:#333;line-height:1.6;"><span style="position:absolute;left:0;color:#00cc88;font-weight:700;">&#10003;</span>' + inc[i2] + '</li>';
+      }
+      pages += '</ul></div>';
+      pages += '<div class="pnum">ranklocall.com &nbsp;&#183;&nbsp; (302) 899-2641 &nbsp;&#183;&nbsp; Since 2019 &nbsp;&nbsp; Page 7</div>';
+      pages += '</div></div></div>';
+
+      // PAGE 8 — Roadmap + Next Steps
+      pages += '<div class="ppage"><div class="pr"><div class="inn">' + pgHeader();
+      pages += '<div class="sec"><h2>9. 90-Day Roadmap</h2>';
+      pages += '<table class="roadmap"><thead><tr><th>Phase</th><th>Focus</th></tr></thead><tbody>';
+      var road = [
+        ['Days 1&#8211;15','Deep audit of all ' + n + ' market' + (n>1?'s':'') + '. Rebuild and optimize Google Business Profiles. Fix citations and NAP consistency.'],
+        ['Days 16&#8211;45','Launch review-generation system, local landing pages, and authority building. First ranking movement begins.'],
+        ['Days 46&#8211;75','Push into the 3-Pack for priority keywords. Scale the local sites network. Turn on call tracking.'],
+        ['Days 76&#8211;90','Optimize toward the best-performing markets and keywords. Review results, report on calls and revenue, plan the next quarter.']
+      ];
+      for (var r = 0; r < road.length; r++) {
+        pages += '<tr><td><strong>' + road[r][0] + '</strong></td><td>' + road[r][1] + '</td></tr>';
+      }
+      pages += '</tbody></table>';
+      pages += '<p style="font-size:.83rem;color:#555;font-style:italic;margin-top:8px;">Tracked every step: Maps ranking by market, call volume, cost per call, lead-to-job rate, and review growth.</p>';
+      pages += '</div>';
+      pages += '<div class="sec"><h2>10. Next Steps</h2>';
+      pages += '<p>Let\'s find out exactly where <strong>' + esc(company) + '</strong> is losing calls to competitors, and how fast we can fix it. Your free strategy call includes a full GBP analysis, a 3-Pack ranking assessment, a citation audit, a competitor comparison, and a custom roadmap.</p>';
+      pages += '<div class="ctabox"><div class="ctabook">Book your free strategy call today.</div><div class="ctaphone">(302) 899-2641</div></div>';
+      pages += '<div class="sig"><div class="sname">Isaac Cohen</div><div class="stitle">Founder | RankLocal</div><div class="scontact">isaac@ranklocall.com &nbsp;&#183;&nbsp; ranklocall.com</div><div class="stag">Helping local businesses dominate Google Maps &amp; generate more calls.</div></div>';
+      pages += '</div>';
+      pages += '<div class="pnum">ranklocall.com &nbsp;&#183;&nbsp; (302) 899-2641 &nbsp;&#183;&nbsp; Since 2019 &nbsp;&nbsp; Page 8</div>';
+      pages += '</div></div></div>';
+
+      document.getElementById('preview-wrap').innerHTML = pages;
+
+    } catch(err) {
+      document.getElementById('preview-wrap').innerHTML =
+        '<div style="padding:40px;color:#ff4466;font-family:sans-serif;background:#fff;border-radius:8px;"><strong>Error:</strong> ' + err.message + '</div>';
+    }
+  };
+
+  // Auto-date
   try {
-    var company   = gv('f-company') || '[Client Name]';
-    var nicheVal  = gv('f-niche');
-    var nicheCustom = gv('f-niche-custom');
-    var niche     = (nicheVal === 'Other' && nicheCustom) ? nicheCustom : nicheVal;
-    var desc      = gv('f-desc') || (niche + ' Services');
-    var dateStr   = fmtDate(gv('f-date')) || new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-    var opp       = gv('f-opp') || (company + ' operates in a competitive local market where Google Maps visibility determines who gets the call. When a customer searches for "' + niche.toLowerCase() + ' near me," the top three results win. Our job is to put ' + company + ' in that 3-Pack across every market you serve.');
-    var bullets   = gv('f-bullets');
-    var showInfra = gc('show-infra');
-    var showPPC   = gc('show-ppc');
-    var ppcLabel  = gv('p-ppc-label') || (niche + ' calls (60+ sec after IVR)');
-    var ppcQty    = parseInt(gv('p-ppc-qty')) || 1000;
-    var ppcRate   = parseFloat(gv('p-ppc-rate')) || 75;
-    var ppcTotal  = '$' + (ppcQty * ppcRate).toLocaleString();
-    var numMkts   = markets.length || '___';
+    var d = new Date();
+    var mm = String(d.getMonth()+1).padStart(2,'0');
+    var dd = String(d.getDate()).padStart(2,'0');
+    document.getElementById('f-date').value = d.getFullYear() + '-' + mm + '-' + dd;
+  } catch(e) {}
 
-    // Pricing helper
-    function pv(id) { var v = gv(id); return v || ''; }
-
-    var pages = '';
-
-    // ── PAGE 1: Cover ──
-    pages += '<div class="ppage"><div class="pr"><div class="cv">' +
-      '<div class="cv-logo"><div class="cv-lbox">R</div><div class="cv-ltxt"><span class="r">RANK</span><span class="l">LOCAL</span></div></div>' +
-      '<div class="cv-pin">📍</div>' +
-      '<div class="cv-body">' +
-        '<div class="cv-eye">Get More Calls From Google Maps</div>' +
-        '<div class="cv-h1">Local SEO &amp; Lead Generation<br><em>Proposal</em></div>' +
-        '<div class="cv-rule"></div>' +
-        '<div class="cv-prep">Prepared for</div>' +
-        '<div class="cv-client">' + company + '</div>' +
-        '<div class="cv-desc">' + desc + '</div>' +
-        '<div class="cv-date">Prepared ' + dateStr + '</div>' +
-      '</div>' +
-      '<div class="cv-foot">' +
-        '<div class="cv-fl">ranklocall.com<span>(302) 899-2641 · isaac@ranklocall.com</span></div>' +
-        '<div class="cv-fr">Isaac Cohen · Founder</div>' +
-      '</div>' +
-    '</div></div></div>';
-
-    // ── PAGE 2: TOC ──
-    var tocItems = [
-      ['1. Executive Summary','2'],['2. About RankLocal','2'],
-      ['3. The Opportunity for ' + company,'2'],['4. What We Do','3'],
-      ['5. Citation Building','4'],['6. Our Process','5'],
-      ['7. Why RankLocal','5'],['8. Pricing','6'],
-      ['9. 90-Day Roadmap','7'],['10. Next Steps','7']
-    ];
-    var tocHtml = '';
-    for (var t = 0; t < tocItems.length; t++) {
-      tocHtml += '<div class="trow"><span>' + tocItems[t][0] + '</span><span class="pg">' + tocItems[t][1] + '</span></div>';
-    }
-    pages += '<div class="ppage"><div class="pr"><div class="inn">' +
-      pageHeader() +
-      '<div class="sec"><h2 style="border:none;font-size:1.15rem;padding:0;margin-bottom:18px;">Contents</h2>' + tocHtml + '</div>' +
-      '<div class="pnum">ranklocall.com · (302) 899-2641 · Since 2019 &nbsp;&nbsp; Page 1</div>' +
-    '</div></div></div>';
-
-    // ── PAGE 3: Exec + About + Opportunity ──
-    pages += '<div class="ppage"><div class="pr"><div class="inn">' +
-      pageHeader() +
-      '<div class="sec"><h2>1. Executive Summary</h2>' +
-        '<p>RankLocal helps local service businesses dominate Google Maps and turn local searches into a steady flow of inbound calls. This proposal outlines how we will do exactly that for <strong>' + company + '</strong> across all ' + numMkts + ' of your markets.</p>' +
-        '<p>Most ' + niche.toLowerCase() + ' customers find their provider the same way: they pull out a phone, search "' + niche.toLowerCase() + ' near me," and call one of the top three businesses on the map. If ' + company + ' isn\'t in that 3-Pack, those calls go to competitors. Every single day.</p>' +
-        '<p>Our job is to put ' + company + ' at the top of Google Maps in every city you serve, protect that position, and convert the visibility into booked jobs. We do it with a proven system: optimize your Google Business Profiles, build local ranking authority, generate reviews, and capture every call.</p>' +
-        '<div class="callout"><p><strong>Our promise:</strong> Top-of-Maps visibility, more inbound calls, and full transparency, with measurable results in 30 to 60 days.</p></div>' +
-      '</div>' +
-      '<div class="sec"><h2>2. About RankLocal</h2>' +
-        '<p>We started RankLocal back in 2019 for a simple reason: we kept seeing great local businesses lose work to competitors who weren\'t better at the job — they were just better at showing up on Google. That never sat right with us, so we set out to fix it.</p>' +
-        '<p>We\'re not a do-everything marketing agency. We focus on one thing: helping local service businesses rank on Google Maps and turn that visibility into real phone calls. Going deep on a single problem is how we get results that generalist agencies can\'t.</p>' +
-        '<p>When you work with us, you won\'t get buried in jargon or handed off to a junior account manager. We keep it straightforward: tell you what we\'re doing, show you exactly where your rankings stand, and measure success the only way that matters — how often the phone rings.</p>' +
-      '</div>' +
-      '<div class="sec"><h2>3. The Opportunity for ' + company + '</h2>' +
-        '<p>' + opp + '</p>' +
-        '<h3>Why Google Maps wins ' + niche.toLowerCase() + '</h3>' +
-        buildBullets(bullets) +
-        '<h3>The ' + numMkts + ' markets we\'ll target</h3>' +
-        marketsGrid() +
-      '</div>' +
-      '<div class="pnum">ranklocall.com · (302) 899-2641 · Since 2019 &nbsp;&nbsp; Page 2</div>' +
-    '</div></div></div>';
-
-    // ── PAGE 4: What We Do ──
-    var infraSection = '';
-    if (showInfra) {
-      infraSection = '<h3>Local Marketing Infrastructure (At Scale)</h3>' +
-        '<p>To blanket all ' + numMkts + ' markets and every neighborhood within them, we build and operate local presence at scale:</p>' +
-        '<table><thead><tr><th>Capability</th><th>What It Delivers</th></tr></thead><tbody>' +
-        '<tr><td><strong>Create &amp; manage 1,000 GMB profiles</strong></td><td>Build and actively manage up to 1,000 Google Business Profiles to cover every market, neighborhood, and service category.</td></tr>' +
-        '<tr><td><strong>Build &amp; manage 1,000 local websites</strong></td><td>A network of fast, location-targeted sites that rank for city + service keywords and feed leads into ' + company + '.</td></tr>' +
-        '<tr><td><strong>Local sites network</strong></td><td>Interlinked local pages and microsites that reinforce relevance and capture long-tail "near me" searches.</td></tr>' +
-        '<tr><td><strong>GMB optimization</strong></td><td>Full optimization of every profile (categories, services, photos, posts) to maximize visibility and clicks.</td></tr>' +
-        '<tr><td><strong>GMB ranking</strong></td><td>Ongoing ranking work to push profiles into the local 3-Pack.</td></tr>' +
-        '<tr><td><strong>Reviews management</strong></td><td>Systematic review generation, monitoring, and response across all profiles.</td></tr>' +
-        '<tr><td><strong>GBP insurance</strong></td><td>Profile protection and fast recovery, safeguarding against suspensions so leads never stop.</td></tr>' +
-        '</tbody></table>';
-    }
-    pages += '<div class="ppage"><div class="pr"><div class="inn">' +
-      pageHeader() +
-      '<div class="sec"><h2>4. What We Do</h2>' +
-        '<p>A complete local growth system designed to put ' + company + ' at the top of Google Maps and keep the phone ringing:</p>' +
-        '<table><thead><tr><th>Service</th><th>What It Delivers</th></tr></thead><tbody>' +
-        '<tr><td><strong>Local SEO</strong></td><td>Keyword research, on-page optimization, local landing pages, and NAP consistency built to dominate your entire service area.</td></tr>' +
-        '<tr><td><strong>Google Business Profile</strong></td><td>Full GBP audit and rebuild covering categories, services, photos, posts, and Q&amp;A, plus the technical signals that move the 3-Pack.</td></tr>' +
-        '<tr><td><strong>Google Maps Ranking</strong></td><td>Geo-targeted signals, review velocity, proximity optimization, and authority links to land you in the 3-Pack and keep you there.</td></tr>' +
-        '<tr><td><strong>Reputation Management</strong></td><td>Automated review generation, monitoring, and response, building a 5-star profile that turns searchers into callers.</td></tr>' +
-        '<tr><td><strong>Website SEO</strong></td><td>Technical SEO, speed, schema, and content that ranks your site for high-intent local searches.</td></tr>' +
-        '<tr><td><strong>Citation Building</strong></td><td>Consistent NAP citations across 100+ directories and data aggregators to build the authority Google rewards.</td></tr>' +
-        '</tbody></table>' +
-        infraSection +
-      '</div>' +
-      '<div class="pnum">ranklocall.com · (302) 899-2641 · Since 2019 &nbsp;&nbsp; Page 3</div>' +
-    '</div></div></div>';
-
-    // ── PAGE 5: Citation + Process ──
-    pages += '<div class="ppage"><div class="pr"><div class="inn">' +
-      pageHeader() +
-      '<div class="sec"><h2>5. Citation Building</h2>' +
-        '<p>Citations are consistent listings of your name, address, and phone across the web\'s map platforms, directories, and data aggregators — a core ranking signal for Google Maps. We build them at scale across every market.</p>' +
-        '<table><thead><tr><th>Platform</th><th>Volume</th><th>Why It Matters</th></tr></thead><tbody>' +
-        '<tr><td><strong>Apple Maps</strong></td><td class="bl">1,000</td><td>Listings across Apple\'s ecosystem: Maps, Siri, and Spotlight</td></tr>' +
-        '<tr><td><strong>Bing Places / Bing Maps</strong></td><td class="bl">1,000</td><td>Large-scale Bing presence feeding Microsoft\'s search &amp; map network</td></tr>' +
-        '<tr><td><strong>Yelp</strong></td><td class="bl">Per market</td><td>High-trust directory and consumer search engine</td></tr>' +
-        '<tr><td><strong>Facebook / Meta</strong></td><td class="bl">Per market</td><td>Social presence and NAP consistency signal</td></tr>' +
-        '<tr><td><strong>Foursquare</strong></td><td class="bl">Per market</td><td>Powers location data across thousands of apps</td></tr>' +
-        '<tr><td><strong>Top data aggregators</strong></td><td class="bl">Core feed</td><td>Data Axle, Localeze &amp; Foursquare push your data downstream to 300+ sites</td></tr>' +
-        '<tr><td><strong>General &amp; niche directories</strong></td><td class="bl">100+</td><td>' + niche + ' and local business directories that build authority</td></tr>' +
-        '</tbody></table>' +
-        '<p><em>Every citation is kept NAP-consistent and monitored across all ' + numMkts + ' service areas.</em></p>' +
-      '</div>' +
-      '<div class="sec"><h2>6. Our Process</h2>' +
-        '<p>A proven 4-step system that has ranked 100+ local businesses in competitive US markets.</p>' +
-        '<h3>1. Deep Audit</h3><p>We analyze your GBPs, website, citations, reviews, and competitors in all ' + numMkts + ' markets to find every gap holding you back from the top.</p>' +
-        '<h3>2. Full Optimization</h3><p>We rebuild your profiles, fix citations, optimize your site, and launch a review-generation system that stacks authority fast.</p>' +
-        '<h3>3. Rank &amp; Dominate</h3><p>Authority links and local signals push you into the Maps 3-Pack for every profitable keyword across your service areas.</p>' +
-        '<h3>4. Generate Calls</h3><p>We track every call, refine monthly, and keep optimizing so your lead flow grows instead of plateauing.</p>' +
-        '<div class="loopbox"><p><strong>The growth loop:</strong> Rank locally → capture the call → deliver great service → earn the review → rank higher → repeat.</p></div>' +
-      '</div>' +
-      '<div class="pnum">ranklocall.com · (302) 899-2641 · Since 2019 &nbsp;&nbsp; Page 4</div>' +
-    '</div></div></div>';
-
-    // ── PAGE 6: Why RankLocal ──
-    pages += '<div class="ppage"><div class="pr"><div class="inn">' +
-      pageHeader() +
-      '<div class="sec"><h2>7. Why RankLocal</h2>' +
-        '<p>We\'re not a generic marketing agency. Here\'s how we compare:</p>' +
-        '<table class="cmp"><thead><tr><th></th><th>RankLocal</th><th>Traditional Agency</th></tr></thead><tbody>' +
-        '<tr><td>Google Maps 3-Pack focus</td><td class="hl">Our specialty</td><td class="dim">Rarely specialized</td></tr>' +
-        '<tr><td>Ranking reports</td><td class="hl">Weekly live dashboard</td><td class="dim">Monthly PDFs</td></tr>' +
-        '<tr><td>Strategy focus</td><td class="hl">Calls &amp; revenue tracked</td><td class="dim">Impressions &amp; clicks</td></tr>' +
-        '<tr><td>Time to first results</td><td class="hl">30–60 days</td><td class="dim">6–12 months</td></tr>' +
-        '<tr><td>Local service expertise</td><td class="hl">100% focus</td><td class="dim">One of many niches</td></tr>' +
-        '<tr><td>GBP suspension recovery</td><td class="hl">Always included</td><td class="dim">Extra cost</td></tr>' +
-        '</tbody></table>' +
-      '</div>' +
-      '<div class="pnum">ranklocall.com · (302) 899-2641 · Since 2019 &nbsp;&nbsp; Page 5</div>' +
-    '</div></div></div>';
-
-    // ── PAGE 7: Pricing ──
-    var infraPricing = '';
-    if (showInfra) {
-      infraPricing = '<div class="psh">Local Marketing Infrastructure (At Scale)</div>' +
-        '<table><thead><tr><th>Capability</th><th>Billing</th><th>Setup Fee</th><th>Price</th></tr></thead><tbody>' +
-        '<tr><td><strong>Create &amp; manage 1,000 GMB profiles</strong></td><td>Monthly</td><td>' + pv('p-gmb-s') + '</td><td>' + pv('p-gmb-m') + '</td></tr>' +
-        '<tr><td><strong>Build &amp; manage 1,000 local websites</strong></td><td>Monthly</td><td>' + pv('p-web-s') + '</td><td>' + pv('p-web-m') + '</td></tr>' +
-        '<tr><td><strong>Local sites network</strong></td><td>Monthly</td><td>' + pv('p-net-s') + '</td><td>' + pv('p-net-m') + '</td></tr>' +
-        '<tr><td><strong>GMB optimization</strong></td><td>Monthly</td><td>' + pv('p-gopt-s') + '</td><td>' + pv('p-gopt-m') + '</td></tr>' +
-        '<tr><td><strong>GMB ranking</strong></td><td>Monthly</td><td>' + pv('p-grnk-s') + '</td><td>' + pv('p-grnk-m') + '</td></tr>' +
-        '<tr><td><strong>Reviews management</strong></td><td>Monthly</td><td>' + pv('p-rev-s') + '</td><td>' + pv('p-rev-m') + '</td></tr>' +
-        '<tr><td><strong>GBP insurance</strong></td><td>Monthly</td><td>' + pv('p-ins-s') + '</td><td>' + pv('p-ins-m') + '</td></tr>' +
-        '</tbody></table>';
-    }
-    var ppcSection = '';
-    if (showPPC) {
-      ppcSection = '<div class="psh">' + niche + ' Calls (Pay-Per-Call)</div>' +
-        '<div class="ppcbox">' +
-          '<p>Exclusive, qualified ' + niche.toLowerCase() + ' calls routed straight to ' + company + '. A call is billable once it runs longer than 60 seconds past the IVR — you only pay for real prospects.</p>' +
-          '<table><thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Total</th></tr></thead><tbody>' +
-          '<tr><td><strong>' + ppcLabel + '</strong></td><td>' + ppcQty.toLocaleString() + '</td><td>$' + ppcRate + '</td><td><strong>' + ppcTotal + '</strong></td></tr>' +
-          '</tbody></table>' +
-        '</div>';
-    }
-    pages += '<div class="ppage"><div class="pr"><div class="inn">' +
-      pageHeader() +
-      '<div class="sec"><h2>8. Pricing</h2>' +
-        '<p>Pricing is confirmed after your free strategy call, once the number of markets and scope are finalized. Bundled and multi-market discounts are available on request.</p>' +
-        '<div class="psh">Core Services</div>' +
-        '<table><thead><tr><th>Service</th><th>Billing</th><th>Setup Fee</th><th>Price</th></tr></thead><tbody>' +
-        '<tr><td><strong>Local SEO</strong></td><td>Monthly</td><td>' + pv('p-seo-s') + '</td><td>' + pv('p-seo-m') + '</td></tr>' +
-        '<tr><td><strong>Google Business Profile</strong></td><td>Monthly</td><td>' + pv('p-gbp-s') + '</td><td>' + pv('p-gbp-m') + '</td></tr>' +
-        '<tr><td><strong>Google Maps Ranking</strong></td><td>Monthly</td><td>' + pv('p-maps-s') + '</td><td>' + pv('p-maps-m') + '</td></tr>' +
-        '<tr><td><strong>Reputation Management</strong></td><td>Monthly</td><td>' + pv('p-rep-s') + '</td><td>' + pv('p-rep-m') + '</td></tr>' +
-        '<tr><td><strong>Website SEO</strong></td><td>Monthly / one-time</td><td>' + pv('p-wseo-s') + '</td><td>' + pv('p-wseo-m') + '</td></tr>' +
-        '<tr><td><strong>Citation Building</strong></td><td>One-time / monthly</td><td>' + pv('p-cit-s') + '</td><td>' + pv('p-cit-m') + '</td></tr>' +
-        '</tbody></table>' +
-        infraPricing +
-        ppcSection +
-        '<p style="margin-top:10px;"><strong>Total investment:</strong></p>' +
-        '<div class="totnote">Discounts apply when services are bundled or rolled out across multiple markets. Your custom quote is confirmed after the free strategy call.</div>' +
-      '</div>' +
-      '<div class="pnum">ranklocall.com · (302) 899-2641 · Since 2019 &nbsp;&nbsp; Page 6</div>' +
-    '</div></div></div>';
-
-    // ── PAGE 8: Roadmap + Next Steps ──
-    pages += '<div class="ppage"><div class="pr"><div class="inn">' +
-      pageHeader() +
-      '<div class="sec"><h2>9. 90-Day Roadmap</h2>' +
-        '<table><thead><tr><th>Phase</th><th>Focus</th></tr></thead><tbody>' +
-        '<tr><td><strong>Days 1–15</strong></td><td>Deep audit of all ' + numMkts + ' markets. Rebuild and optimize Google Business Profiles. Fix citations and NAP consistency.</td></tr>' +
-        '<tr><td><strong>Days 16–45</strong></td><td>Launch review-generation system, local landing pages, and authority building. First ranking movement begins.</td></tr>' +
-        '<tr><td><strong>Days 46–75</strong></td><td>Push into the 3-Pack for priority keywords. Scale the local sites network. Turn on call tracking.</td></tr>' +
-        '<tr><td><strong>Days 76–90</strong></td><td>Optimize toward the best-performing markets and keywords. Review results, report on calls and revenue, plan the next quarter.</td></tr>' +
-        '</tbody></table>' +
-        '<p><em>Tracked every step: Maps ranking by market, call volume, cost per call, lead-to-job rate, and review growth.</em></p>' +
-      '</div>' +
-      '<div class="sec"><h2>10. Next Steps</h2>' +
-        '<p>Let\'s find out exactly where ' + company + ' is losing calls to competitors, and how fast we can fix it. Your free strategy call includes a full GBP analysis, a 3-Pack ranking assessment, a citation audit, a competitor comparison, and a custom roadmap for your markets.</p>' +
-        '<div class="ctabox">' +
-          '<div class="ctabook">Book your free strategy call today.</div>' +
-          '<div class="ctaphone">(302) 899-2641</div>' +
-        '</div>' +
-        '<div class="sig">' +
-          '<div class="sname">Isaac Cohen</div>' +
-          '<div class="stitle">Founder | RankLocal</div>' +
-          '<div class="scontact">isaac@ranklocall.com · ranklocall.com</div>' +
-          '<div class="stag">Helping local businesses dominate Google Maps &amp; generate more calls.</div>' +
-        '</div>' +
-      '</div>' +
-      '<div class="pnum">ranklocall.com · (302) 899-2641 · Since 20
+})();
+</script>
+</body>
+</html>
