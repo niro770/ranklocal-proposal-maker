@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Credit Card Authorization — RankLocal</title>
-<meta name="description" content="RANK LOCAL LLC credit card authorization form for pay-per-call billing.">
+<title>Credit Card Authorization — RANK LOCAL LLC</title>
+<meta name="robots" content="noindex">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-:root{--bg:#07070a;--card:#0f0f14;--border:#1e1e2e;--blue:#00aaff;--purple:#7b4fff;--muted:#8a8a9a;--light:#f0f0f8;--green:#00cc88;}
+:root{--bg:#07070a;--card:#0f0f14;--border:#1e1e2e;--blue:#00aaff;--purple:#7b4fff;--muted:#8a8a9a;--light:#f0f0f8;--green:#00cc88;--red:#ff5566;}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--light);min-height:100vh;}
 .topbar{background:#0a0a0f;border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:12px;}
 .logo{font-size:1.15rem;font-weight:800;letter-spacing:-.5px;text-decoration:none;}
@@ -16,23 +16,53 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--light);min-
 .topbar-sub{color:var(--muted);font-size:.85rem;margin-left:4px;}
 .topbar-link{margin-left:auto;color:var(--muted);font-size:.83rem;text-decoration:none;}
 .topbar-link:hover{color:var(--light);}
-.hero{padding:56px 24px 24px;text-align:center;max-width:640px;margin:0 auto;}
-.hero h1{font-size:1.9rem;font-weight:800;letter-spacing:-.5px;line-height:1.25;margin-bottom:12px;}
+.hero{padding:48px 24px 24px;text-align:center;max-width:680px;margin:0 auto;}
+.hero h1{font-size:1.8rem;font-weight:800;letter-spacing:-.5px;line-height:1.25;margin-bottom:10px;}
 .hero h1 span{background:linear-gradient(90deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .hero p{color:var(--muted);font-size:.95rem;line-height:1.6;}
-.wrap{max-width:640px;margin:0 auto;padding:8px 24px 80px;}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:32px;text-align:center;}
-.btn{display:inline-block;border:none;border-radius:12px;padding:16px 32px;font-size:1rem;font-weight:700;cursor:pointer;text-decoration:none;background:linear-gradient(90deg,var(--blue),var(--purple));color:#fff;transition:transform .15s,box-shadow .15s;}
-.btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,170,255,.25);}
-.steps{text-align:left;margin:28px 0 4px;display:flex;flex-direction:column;gap:14px;}
-.step{display:flex;gap:12px;align-items:flex-start;font-size:.88rem;color:var(--light);line-height:1.5;}
-.step .n{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff;flex-shrink:0;margin-top:1px;}
-.step b{color:#fff;}
-.sec{margin-top:24px;background:rgba(0,204,136,.07);border:1px solid rgba(0,204,136,.25);border-radius:10px;padding:14px 16px;font-size:.82rem;color:#b8e8d4;line-height:1.55;text-align:left;}
-.sec b{color:var(--green);}
+.security{max-width:760px;margin:0 auto 24px;padding:0 24px;}
+.security div{background:rgba(0,204,136,.07);border:1px solid rgba(0,204,136,.3);border-radius:10px;padding:12px 16px;font-size:.84rem;color:#b8eed8;line-height:1.55;}
+.dl{max-width:760px;margin:0 auto 28px;padding:0 24px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+.btn{border:none;border-radius:10px;padding:13px 22px;font-family:'Inter',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s;text-decoration:none;display:inline-block;}
+.btn-primary{background:linear-gradient(90deg,var(--blue),var(--purple));color:#fff;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,170,255,.25);}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--light);}
+.btn-ghost:hover{border-color:var(--blue);}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px 80px;}
+.section{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:20px;overflow:hidden;}
+.section h2{font-size:.95rem;font-weight:700;letter-spacing:.3px;padding:14px 20px;border-bottom:1px solid var(--border);background:#12121a;display:flex;align-items:center;gap:10px;}
+.section h2 .num{width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;font-size:.78rem;color:#fff;flex-shrink:0;}
+.fields{padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:14px 16px;}
+.field{display:flex;flex-direction:column;gap:5px;}
+.field.full{grid-column:1/-1;}
+label{font-size:.78rem;font-weight:600;color:var(--light);}
+.hint{font-size:.72rem;color:var(--muted);font-weight:400;}
+input,select{background:#0a0a10;border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--light);font-family:'Inter',sans-serif;font-size:.88rem;width:100%;transition:border-color .15s;}
+input:focus,select:focus{outline:none;border-color:var(--blue);}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a8a9a'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;}
+.checks{display:flex;flex-direction:column;gap:12px;padding:18px 20px;}
+.check{display:flex;align-items:flex-start;gap:10px;font-size:.88rem;line-height:1.4;}
+.check input{width:16px;height:16px;margin-top:2px;flex-shrink:0;accent-color:var(--blue);}
+.check .inline-amt{display:inline-block;width:90px;margin:0 6px;padding:5px 8px;font-size:.85rem;}
+.terms{padding:18px 20px;font-size:.8rem;line-height:1.65;color:#c5c5d4;}
+.sig{padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:14px 16px;}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px;}
+.note{font-size:.78rem;color:var(--muted);margin-top:14px;line-height:1.6;}
 .footer{text-align:center;padding:20px 24px 40px;color:var(--muted);font-size:.82rem;}
 .footer a{color:var(--muted);text-decoration:none;}
 .footer a:hover{color:var(--light);}
+@media(max-width:620px){.fields,.sig{grid-template-columns:1fr;}}
+@media print{
+ body{background:#fff;color:#000;}
+ .topbar,.actions,.security,.dl,.note,.topbar-link{display:none;}
+ .section{border:1px solid #999;background:#fff;}
+ .section h2{background:#eee;color:#000;}
+ .section h2 .num{background:#000;}
+ input,select{border:1px solid #999;background:#fff;color:#000;}
+ label,.terms,.check{color:#000;}.hint{color:#555;}
+ .hero h1 span{-webkit-text-fill-color:initial;color:#000;background:none;}
+ .hero p{color:#333;}
+}
 </style>
 </head>
 <body>
@@ -44,26 +74,73 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--light);min-
 </div>
 
 <div class="hero">
-  <h1>Credit Card<br><span>Authorization Form</span></h1>
-  <p>Authorize RANK LOCAL LLC to bill your card for pay-per-call services — one-time, recurring per invoice, or auto-replenish prepay.</p>
+  <h1>RANK LOCAL LLC<br><span>Credit Card Authorization</span></h1>
+  <p>Fill out below, then print or save as PDF, sign, and return securely. Or download the fillable PDF version.</p>
 </div>
 
-<div class="wrap">
-<div class="card">
-  <a class="btn" href="RankLocal_CC_Authorization.pdf" download>&#11015;&#65039; Download Fillable PDF</a>
+<div class="security"><div>&#128274; <strong>Your card data never leaves this page.</strong> This form has no submit button and sends nothing over the internet &mdash; you fill it in your browser, save/print it locally, and return it through a secure channel. Please do not send card details by plain-text email or SMS.</div></div>
 
-  <div class="steps">
-    <div class="step"><div class="n">1</div><div><b>Download &amp; fill</b> — every field is fillable directly in your PDF reader (Adobe, Preview, Chrome).</div></div>
-    <div class="step"><div class="n">2</div><div><b>Sign</b> — type or e-sign the cardholder signature field, or print and sign by hand.</div></div>
-    <div class="step"><div class="n">3</div><div><b>Return securely</b> — send the completed form to <b>admin@ranklocall.com</b>, ideally via encrypted email or a password-protected PDF.</div></div>
-  </div>
-
-  <div class="sec">&#128274; <b>Your security:</b> we intentionally do not collect card details through this website, and the form does not ask for your CVV. Never send your CVV by email — if it's needed, we'll request it over a secure channel.</div>
+<div class="dl">
+  <a class="btn btn-primary" href="RankLocal_CC_Authorization.pdf" download>&#11015;&#65039; Download Fillable PDF</a>
+  <button class="btn btn-ghost" onclick="window.print()">&#128424;&#65039; Print / Save This Page as PDF</button>
 </div>
+
+<div class="wrap" id="ccform">
+
+<div class="section">
+<h2><span class="num">1</span> Cardholder Information</h2>
+<div class="fields">
+  <div class="field"><label>Cardholder Name <span class="hint">as it appears on card</span></label><input autocomplete="off"></div>
+  <div class="field"><label>Billing Address</label><input autocomplete="off"></div>
+  <div class="field"><label>City / State / ZIP</label><input autocomplete="off"></div>
+  <div class="field"><label>Phone</label><input autocomplete="off"></div>
+  <div class="field full"><label>Email</label><input autocomplete="off"></div>
+</div>
+</div>
+
+<div class="section">
+<h2><span class="num">2</span> Card Information</h2>
+<div class="fields">
+  <div class="field"><label>Card Type</label><select><option value="">Select…</option><option>Visa</option><option>Mastercard</option><option>Amex</option><option>Discover</option></select></div>
+  <div class="field"><label>Card Number</label><input autocomplete="off" inputmode="numeric"></div>
+  <div class="field"><label>Expiration Date (MM/YY)</label><input autocomplete="off" placeholder="MM/YY"></div>
+  <div class="field"><label class="hint" style="margin-top:18px;">Do NOT write your CVV on this form. It will be requested securely if needed.</label></div>
+</div>
+</div>
+
+<div class="section">
+<h2><span class="num">3</span> Authorization Type</h2>
+<div class="checks">
+  <label class="check"><input type="checkbox"> <span>One-Time Charge of $<input class="inline-amt" autocomplete="off"></span></label>
+  <label class="check"><input type="checkbox"> <span>Recurring &mdash; authorize charges per invoice / signed insertion order (pay-per-call services)</span></label>
+  <label class="check"><input type="checkbox"> <span>Prepay Top-Up &mdash; auto-replenish $<input class="inline-amt" autocomplete="off"> when call balance falls below $<input class="inline-amt" autocomplete="off"></span></label>
+</div>
+</div>
+
+<div class="section">
+<h2><span class="num">4</span> Authorization Agreement</h2>
+<div class="terms">
+I authorize RANK LOCAL LLC to charge the credit card listed above for services rendered under the agreed insertion order, invoice, or service agreement, including pay-per-call lead generation services. I certify that I am an authorized user of this credit card and will not dispute valid charges with my card issuer, provided the charges correspond to the terms of our agreement. Billable call disputes must follow the dispute process defined in the insertion order. This authorization remains in effect until I cancel it in writing with thirty (30) days notice to admin@ranklocall.com. Cancellation does not waive payment for services already delivered.
+</div>
+<div class="sig">
+  <div class="field"><label>Cardholder Signature <span class="hint">sign after printing</span></label><input disabled style="background:#101018;"></div>
+  <div class="field"><label>Date</label><input autocomplete="off"></div>
+  <div class="field"><label>Printed Name</label><input autocomplete="off"></div>
+  <div class="field"><label>Title</label><input autocomplete="off"></div>
+  <div class="field full"><label>Company</label><input autocomplete="off"></div>
+</div>
+</div>
+
+<div class="actions">
+  <button class="btn btn-primary" onclick="window.print()">&#128424;&#65039; Print / Save as PDF</button>
+  <a class="btn btn-ghost" href="RankLocal_CC_Authorization.pdf" download>&#11015;&#65039; Download Fillable PDF Instead</a>
+</div>
+<div class="note">After printing/saving: sign the form and return it to RANK LOCAL LLC through the secure channel provided by your account manager. Refreshing or closing this page erases everything you typed &mdash; nothing is stored.</div>
+
 </div>
 
 <div class="footer">
-  &copy; 2026 RANK LOCAL LLC &nbsp;&middot;&nbsp; <a href="https://ranklocall.com">ranklocall.com</a> &nbsp;&middot;&nbsp; admin@ranklocall.com
+  &copy; 2026 RANK LOCAL LLC &nbsp;&middot;&nbsp; <a href="https://ranklocall.com">ranklocall.com</a> &nbsp;&middot;&nbsp; (833) 779-9997
 </div>
 
 </body>
