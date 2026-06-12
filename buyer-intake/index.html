@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pay-Per-Call Buyer Intake — RankLocal</title>
+<meta name="description" content="RankLocal pay-per-call buyer intake form. Complete before campaign launch.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--bg:#07070a;--card:#0f0f14;--border:#1e1e2e;--blue:#00aaff;--purple:#7b4fff;--muted:#8a8a9a;--light:#f0f0f8;--green:#00cc88;--red:#ff5566;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--light);min-height:100vh;}
+a{color:var(--blue);}
+.topbar{background:#0a0a0f;border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:12px;}
+.logo{font-size:1.15rem;font-weight:800;letter-spacing:-.5px;text-decoration:none;}
+.logo .r{color:var(--blue);}.logo .l{color:var(--purple);}
+.topbar-sub{color:var(--muted);font-size:.85rem;margin-left:4px;}
+.topbar-link{margin-left:auto;color:var(--muted);font-size:.83rem;text-decoration:none;}
+.topbar-link:hover{color:var(--light);}
+.hero{padding:48px 24px 28px;text-align:center;max-width:680px;margin:0 auto;}
+.hero h1{font-size:1.8rem;font-weight:800;letter-spacing:-.5px;line-height:1.25;margin-bottom:10px;}
+.hero h1 span{background:linear-gradient(90deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero p{color:var(--muted);font-size:.95rem;line-height:1.6;}
+.notice{max-width:760px;margin:0 auto 28px;padding:0 24px;}
+.notice div{background:rgba(0,170,255,.08);border:1px solid rgba(0,170,255,.25);border-radius:10px;padding:12px 16px;font-size:.85rem;color:#bcdcf5;line-height:1.5;}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px 80px;}
+.section{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:20px;overflow:hidden;}
+.section h2{font-size:.95rem;font-weight:700;letter-spacing:.3px;padding:14px 20px;border-bottom:1px solid var(--border);background:#12121a;display:flex;align-items:center;gap:10px;}
+.section h2 .num{width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--blue),var(--purple));display:inline-flex;align-items:center;justify-content:center;font-size:.78rem;color:#fff;flex-shrink:0;}
+.fields{padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:14px 16px;}
+.field{display:flex;flex-direction:column;gap:5px;}
+.field.full{grid-column:1/-1;}
+label{font-size:.78rem;font-weight:600;color:var(--light);}
+label .req{color:var(--red);}
+.hint{font-size:.72rem;color:var(--muted);font-weight:400;}
+input,select,textarea{background:#0a0a10;border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--light);font-family:'Inter',sans-serif;font-size:.88rem;width:100%;transition:border-color .15s;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);}
+textarea{min-height:64px;resize:vertical;}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a8a9a'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px;}
+.btn{border:none;border-radius:10px;padding:13px 22px;font-family:'Inter',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s;}
+.btn-primary{background:linear-gradient(90deg,var(--blue),var(--purple));color:#fff;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,170,255,.25);}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--light);}
+.btn-ghost:hover{border-color:var(--blue);}
+.status{font-size:.82rem;color:var(--green);margin-top:10px;display:none;}
+.footer{text-align:center;padding:20px 24px 40px;color:var(--muted);font-size:.82rem;}
+.footer a{color:var(--muted);text-decoration:none;}
+.footer a:hover{color:var(--light);}
+@media(max-width:620px){.fields{grid-template-columns:1fr;}}
+@media print{
+ body{background:#fff;color:#000;}
+ .topbar,.actions,.notice,.topbar-link{display:none;}
+ .section{border:1px solid #999;background:#fff;}
+ .section h2{background:#eee;color:#000;}
+ input,select,textarea{border:1px solid #999;background:#fff;color:#000;}
+ label,.hero p{color:#000;}.hint{color:#555;}
+ .hero h1 span{-webkit-text-fill-color:initial;color:#000;background:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="/" class="logo"><span class="r">RANK</span><span class="l">LOCAL</span></a>
+  <div class="topbar-sub">Tools</div>
+  <a href="https://ranklocall.com" class="topbar-link">ranklocall.com &rarr;</a>
+</div>
+
+<div class="hero">
+  <h1>Pay-Per-Call<br><span>Buyer Intake Form</span></h1>
+  <p>You only pay when the phone rings. Complete this form so we can set up your call campaign correctly from day one.</p>
+</div>
+
+<div class="notice"><div>&#9888;&#65039; No calls route until this form and the signed insertion order (IO) are returned. New buyers are set up on a prepay basis.</div></div>
+
+<form class="wrap" id="intake" onsubmit="return false;">
+
+<div class="section">
+<h2><span class="num">1</span> Company &amp; Contacts</h2>
+<div class="fields">
+  <div class="field"><label>Legal Company Name <span class="req">*</span></label><input name="Legal Company Name" required></div>
+  <div class="field"><label>DBA (if different)</label><input name="DBA"></div>
+  <div class="field"><label>Website</label><input name="Website" placeholder="https://"></div>
+  <div class="field"><label>Business Address</label><input name="Business Address"></div>
+  <div class="field"><label>Primary Contact — Name / Title <span class="req">*</span></label><input name="Primary Contact" required></div>
+  <div class="field"><label>Primary Contact — Phone / Email <span class="req">*</span></label><input name="Primary Phone/Email" required></div>
+  <div class="field"><label>Live Ops Contact <span class="hint">name + cell, reachable during routing hours</span></label><input name="Live Ops Contact"></div>
+  <div class="field"><label>Billing Contact — Name / Email</label><input name="Billing Contact"></div>
+  <div class="field"><label>W-9 Provided?</label><select name="W-9 Provided"><option value="">Select…</option><option>Yes</option><option>No — will send</option></select></div>
+</div>
+</div>
+
+<div class="section">
+<h2><span class="num">2</span> Campaign &amp; Deal Terms</h2>
+<div class="fields">
+  <div class="field"><label>Vertical / Service Type <span class="req">*</span> <span class="hint">e.g., garage door, water damage, plumbing</span></label><input name="Vertical" required></div>
+  <div class="field"><label>Payout Per Qualified Call ($) <span class="req">*</span></label><input name="Payout Per Call" required></div>
+  <div class="field full"><label>Target Geos <span class="req">*</span> <span class="hint">states / cities / zips included</span></label><textarea name="Target Geos" required></textarea></div>
+  <div class="field full"><label>Excluded Geos</label><input name="Excluded Geos"></div>
+  <div class="field"><label>Qualification Buffer <span class="hint">connected seconds = billable</span></label><select name="Qualification Buffer"><option value="">Select…</option><option>60 seconds</option><option>90 seconds</option><option>120 seconds</option><option>Other (note below)</option></select></div>
+  <div class="field"><label>Raw or Qualified Calls?</label><select name="Raw or Qualified"><option value="">Select…</option><option>Qualified only</option><option>Raw</option><option>Mixed</option></select></div>
+  <div class="field"><label>Daily Call Cap</label><input name="Daily Cap"></div>
+  <div class="field"><label>Weekly / Monthly Cap or Budget</label><input name="Weekly/Monthly Cap"></div>
+  <div class="field"><label>Hours of Operation + Timezone <span class="req">*</span> <span class="hint">e.g., Mon–Fri 8am–6pm ET</span></label><input name="Hours of Operation" required></div>
+  <div class="field"><label>Concurrency <span class="hint">simultaneous calls you can answer</span></label><input name="Concurrency"></div>
+  <div class="field full"><label>Duplicate Window <span class="hint">e.g., same caller ID = 1 billable per 30 days</span></label><input name="Duplicate Window"></div>
+</div>
+</div>
+
+<div class="section">
+<h2><span class="num">3</span> Routing &amp; Technical</h2>
+<div class="fields">
+  <div class="field"><label>Destination Number(s) / DID <span class="req">*</span></label><input name="Destination Number" required></div>
+  <div class="field"><label>SIP Endpoint (if applicable)</label><input name="SIP Endpoint"></div>
+  <div class="field full"><label>IVR / Screening Required? <span class="hint">press-1, zip prompt, screening questions</span></label><input name="IVR/Screening"></div>
+  <div class="field"><label>Failover Number <span class="hint">if main line busy / no answer</span></label><input name="Failover Number"></div>
+  <div class="field"><label>Call Recording Consent <span class="hint">OK to record in all target states</span></label><select name="Recording Consent"><option value="">Select…</option><option>Yes</option><option>No</option></select></div>
+  <div class="field full"><label>CRM / Tracking Integration Needed? <span class="hint">webhook, tracking pixel, etc.</span></label><input name="CRM Integration"></div>
+</div>
+</div>
+
+<div class="section">
+<h2><span class="num">4</span> Billable Call Criteria</h2>
+<div class="fields">
+  <div class="field"><label>Caller must be in service area?</label><select name="In-Area Required"><option value="">Select…</option><option>Yes</option><option>No</option></select></div>
+  <div class="field"><label>Existing customers billable?</label><select name="Existing Customers Billable"><option value="">Select…</option><option>Yes</option><option>No</option></select></div>
+  <div class="field full"><label>Other disqualifiers <span class="hint">anything else that makes a call non-billable</span></label><textarea name="Other Disqualifiers"></textarea></div>
+  <div class="field"><label>Dispute Window</label><select name="Dispute Window"><option value="">Select…</option><option>24 hours</option><option>48 hours</option><option>72 hours</option></select></div>
+  <div class="field"><label>Dispute Method</label><input name="Dispute Method" value="Email with call ID — resolved via recording review"></div>
+</div>
+</div>
+
+<div class="section">
+<h2><span class="num">5</span> Billing &amp; Compliance</h2>
+<div class="fields">
+  <div class="field"><label>Billing Model <span class="req">*</span></label><select name="Billing Model" required><option value="">Select…</option><option>Prepay</option><option>Weekly</option><option>Net-7</option><option>Net-15</option></select></div>
+  <div class="field"><label>Payment Method</label><select name="Payment Method"><option value="">Select…</option><option>ACH</option><option>Wire</option><option>Card</option></select></div>
+  <div class="field"><label>Initial Deposit / Prepay Amount ($)</label><input name="Initial Deposit"></div>
+  <div class="field"><label>License # <span class="hint">if regulated vertical</span></label><input name="License Number"></div>
+  <div class="field"><label>Insurance Certificate Provided? <span class="hint">home services</span></label><select name="Insurance Certificate"><option value="">Select…</option><option>Yes</option><option>No</option><option>N/A</option></select></div>
+  <div class="field full"><label>Compliance Notes <span class="hint">TCPA, state disclosures — only if outbound/transfers involved</span></label><textarea name="Compliance Notes"></textarea></div>
+  <div class="field full"><label>Anything else we should know?</label><textarea name="Additional Notes"></textarea></div>
+</div>
+</div>
+
+<div class="actions">
+  <button class="btn btn-primary" onclick="sendEmail()">&#128231; Submit via Email</button>
+  <button class="btn btn-ghost" onclick="downloadSummary()">&#11015;&#65039; Download Summary</button>
+  <button class="btn btn-ghost" onclick="window.print()">&#128424;&#65039; Print / Save PDF</button>
+</div>
+<div class="status" id="status"></div>
+
+</form>
+
+<div class="footer">
+  &copy; 2026 RankLocal &nbsp;&middot;&nbsp; <a href="https://ranklocall.com">ranklocall.com</a> &nbsp;&middot;&nbsp; admin@ranklocall.com
+</div>
+
+<script>
+function collect(){
+  const f=document.getElementById('intake');
+  if(!f.reportValidity())return null;
+  const lines=[];
+  f.querySelectorAll('input[name],select[name],textarea[name]').forEach(el=>{
+    const v=el.value.trim();
+    if(v)lines.push(el.name+': '+v);
+  });
+  return lines;
+}
+function sendEmail(){
+  const lines=collect();if(!lines)return;
+  const body='RankLocal Pay-Per-Call Buyer Intake\n'+'='.repeat(40)+'\n\n'+lines.join('\n')+'\n\nSubmitted: '+new Date().toLocaleString();
+  const company=(document.querySelector('[name="Legal Company Name"]').value||'New Buyer');
+  location.href='mailto:admin@ranklocall.com?subject='+encodeURIComponent('PPC Buyer Intake — '+company)+'&body='+encodeURIComponent(body);
+  show('Email draft opened — hit send in your mail app.');
+}
+function downloadSummary(){
+  const lines=collect();if(!lines)return;
+  const body='RankLocal Pay-Per-Call Buyer Intake\n'+'='.repeat(40)+'\n\n'+lines.join('\n')+'\n\nSubmitted: '+new Date().toLocaleString();
+  const blob=new Blob([body],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='RankLocal_Buyer_Intake.txt';
+  a.click();
+  show('Summary downloaded.');
+}
+function show(msg){const s=document.getElementById('status');s.textContent='\u2705 '+msg;s.style.display='block';}
+</script>
+
+</body>
+</html>
