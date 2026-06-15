@@ -60,46 +60,6 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 </style>
 </head>
 <body>
-<!-- ACCESS GATE (client-side; change CODE below to set the password) -->
-<style>
-#biGate{position:fixed;inset:0;z-index:99999;background:#07070a;display:flex;align-items:center;justify-content:center;padding:24px;font-family:'Inter',sans-serif;}
-#biGate.hidden{display:none;}
-#biGate .card{background:#0f0f14;border:1px solid #1e1e2e;border-radius:16px;padding:34px 30px;max-width:380px;width:100%;text-align:center;}
-#biGate .logo{font-weight:800;font-size:1.3rem;letter-spacing:-.5px;margin-bottom:4px;}
-#biGate .logo .r{color:#00aaff;}#biGate .logo .l{color:#7b4fff;}
-#biGate h2{color:#f0f0f8;font-size:1.05rem;font-weight:700;margin:14px 0 6px;}
-#biGate p{color:#8a8a9a;font-size:.85rem;margin-bottom:20px;}
-#biGate input{width:100%;background:#0a0a10;border:1px solid #1e1e2e;border-radius:9px;padding:13px 14px;color:#f0f0f8;font-family:'Inter',sans-serif;font-size:.95rem;text-align:center;letter-spacing:2px;}
-#biGate input:focus{outline:none;border-color:#00aaff;}
-#biGate button{width:100%;margin-top:12px;background:linear-gradient(90deg,#00aaff,#7b4fff);color:#fff;border:none;border-radius:10px;padding:13px;font-family:'Inter',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;}
-#biGate .err{color:#ff5566;font-size:.82rem;margin-top:12px;min-height:1em;}
-</style>
-<div id="biGate">
-  <div class="card">
-    <div class="logo"><span class="r">RANK</span><span class="l">LOCAL</span></div>
-    <h2>Protected form</h2>
-    <p>Enter your access code to continue.</p>
-    <input id="biCode" type="password" placeholder="Access code" autocomplete="off">
-    <button type="button" id="biEnter">Continue</button>
-    <div class="err" id="biErr"></div>
-  </div>
-</div>
-<script>
-(function(){
-  var CODE='RankLocal2026';            /* <-- change this to set the password */
-  var gate=document.getElementById('biGate');
-  if(sessionStorage.getItem('bi_authed')==='yes'){gate.classList.add('hidden');return;}
-  function tryCode(){
-    if(document.getElementById('biCode').value===CODE){
-      sessionStorage.setItem('bi_authed','yes'); gate.classList.add('hidden');
-    } else { document.getElementById('biErr').textContent='Incorrect code \u2014 try again.'; }
-  }
-  document.getElementById('biEnter').addEventListener('click',tryCode);
-  document.getElementById('biCode').addEventListener('keydown',function(e){if(e.key==='Enter')tryCode();});
-  document.getElementById('biCode').focus();
-})();
-</script>
-<!-- /ACCESS GATE -->
 
 
 <div class="topbar">
