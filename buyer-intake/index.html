@@ -155,12 +155,18 @@ function collect(){
 }
 function sendEmail(){
   const lines=collect();if(!lines)return;
-  const body='RankLocal Pay-Per-Call Buyer Intake\n'+'='.repeat(40)+'\n\n'+lines.join('\n')+'\n\nSubmitted: '+new Date().toLocaleString();
-  const company=(document.querySelector('[name="Legal Company Name"]').value||'New Buyer');
-  location.href='mailto:admin@ranklocall.com?subject='+encodeURIComponent('PPC Buyer Intake — '+company)+'&body='+encodeURIComponent(body);
   const _card=(document.querySelector('[name="Payment Method"]')||{}).value==='Card';
   if(_card){window.open('https://ranklocal.tools/deposit/','_blank');}
-  show(_card?'Submitted — your card deposit page opened in a new tab. Finish the email draft in your mail app.':'Email draft opened — hit send in your mail app.');
+  const body='RankLocal Pay-Per-Call Buyer Intake
+'+'='.repeat(40)+'
+
+'+lines.join('
+')+'
+
+Submitted: '+new Date().toLocaleString();
+  const company=(document.querySelector('[name="Legal Company Name"]').value||'New Buyer');
+  location.href='mailto:admin@ranklocall.com?subject='+encodeURIComponent('PPC Buyer Intake — '+company)+'&body='+encodeURIComponent(body);
+  show(_card?'Submitted — card deposit page opened in a new tab. Finish the email draft in your mail app.':'Email draft opened — hit send in your mail app.');
 }
 function downloadSummary(){
   const lines=collect();if(!lines)return;
