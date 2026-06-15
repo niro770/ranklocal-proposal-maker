@@ -184,6 +184,26 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
   &copy; 2026 RankLocal &nbsp;&middot;&nbsp; <a href="https://ranklocall.com">ranklocall.com</a> &nbsp;&middot;&nbsp; admin@ranklocall.com
 </div>
 
+<style>
+#biThanks{position:fixed;inset:0;z-index:99998;background:#07070a;display:flex;align-items:center;justify-content:center;padding:24px;font-family:'Inter',sans-serif;}
+#biThanks.hidden{display:none;}
+#biThanks .card{background:#0f0f14;border:1px solid #1e1e2e;border-radius:16px;padding:40px 32px;max-width:440px;width:100%;text-align:center;}
+#biThanks .check{width:62px;height:62px;border-radius:50%;background:rgba(0,204,136,.12);border:1px solid rgba(0,204,136,.4);display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 18px;}
+#biThanks h2{color:#f0f0f8;font-size:1.5rem;font-weight:800;letter-spacing:-.5px;margin-bottom:10px;}
+#biThanks p{color:#8a8a9a;font-size:.92rem;line-height:1.6;}
+#biThanks .note{display:none;margin-top:16px;background:rgba(0,170,255,.07);border:1px solid rgba(0,170,255,.25);border-radius:10px;padding:12px 14px;color:#bcd6e6;font-size:.85rem;line-height:1.5;}
+#biThanks .note a{color:#6cf;}
+#biThanks a.tbtn{display:inline-block;margin-top:24px;background:linear-gradient(90deg,#00aaff,#7b4fff);color:#fff;text-decoration:none;border-radius:10px;padding:12px 26px;font-weight:700;font-size:.95rem;}
+</style>
+<div id="biThanks" class="hidden">
+  <div class="card">
+    <div class="check">&#9989;</div>
+    <h2>Thank you!</h2>
+    <p>We&rsquo;ve received your buyer intake. Our team will review it and reach out shortly to get your campaign live.</p>
+    <div class="note" id="biThanksNote">Your card deposit page opened in a new tab. <a href="https://ranklocal.tools/deposit/" target="_blank" rel="noopener">Open it here</a> if you don&rsquo;t see it, to complete your deposit.</div>
+    <a class="tbtn" href="https://ranklocall.com">Back to RankLocAll</a>
+  </div>
+</div>
 <script>
 function collect(){
   const f=document.getElementById('intake');
@@ -202,7 +222,7 @@ function sendEmail(){
   const body='RankLocal Pay-Per-Call Buyer Intake\n'+'='.repeat(40)+'\n\n'+lines.join('\n')+'\n\nSubmitted: '+new Date().toLocaleString();
   const company=(document.querySelector('[name="Legal Company Name"]').value||'New Buyer');
   location.href='mailto:admin@ranklocall.com?subject='+encodeURIComponent('PPC Buyer Intake \u2014 '+company)+'&body='+encodeURIComponent(body);
-  show(_card?'Submitted \u2014 card deposit page opened in a new tab. Finish the email draft in your mail app.':'Email draft opened \u2014 hit send in your mail app.');
+  showThanks(_card);
 }
 function downloadSummary(){
   const lines=collect();if(!lines)return;
@@ -215,6 +235,11 @@ function downloadSummary(){
   show('Summary downloaded.');
 }
 function show(msg){const s=document.getElementById('status');s.textContent='\u2705 '+msg;s.style.display='block';}
+function showThanks(card){
+  if(card){document.getElementById('biThanksNote').style.display='block';}
+  document.getElementById('biThanks').classList.remove('hidden');
+  window.scrollTo(0,0);
+}
 </script>
 
 </body>
