@@ -83,7 +83,8 @@ input:focus{outline:none;border-color:var(--blue);}
       <span class="chip" data-v="5000">$5,000</span>
     </div>
   </div>
-  <button class="btn" id="pay" onclick="checkout()">&#128274; Pay Deposit Securely</button>
+  <div id="breakdown" style="display:none;margin:2px 0 16px;padding:13px 15px;background:#0a0a12;border:1px solid #1e1e2e;border-radius:11px;font-size:.87rem;color:#8a8a9a;"><div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>Deposit</span><span id="bd-dep">$0.00</span></div><div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span>Card processing fee (3%)</span><span id="bd-fee">$0.00</span></div><div style="display:flex;justify-content:space-between;padding-top:9px;border-top:1px solid #1e1e2e;color:#f0f0f8;font-weight:700;font-size:.95rem;"><span>Total charged to card</span><span id="bd-total">$0.00</span></div></div>
+      <button class="btn" id="pay" onclick="checkout()">&#128274; Pay Deposit Securely</button>
   <div class="err" id="err"></div>
   <div class="secure">&#128274; Powered by <b>&nbsp;Stripe</b>&nbsp;— card details never touch our servers</div>
 </div>
@@ -106,10 +107,26 @@ if (p.get('status') === 'cancelled') document.getElementById('msg-cancelled').st
 document.querySelectorAll('.chip').forEach(c => c.onclick = () => {
   document.getElementById('amount').value = c.dataset.v;
   document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
-  c.classList.add('active');
+  c.classList.add('active'); updateTotal();
 });
 
-async function checkout() {
+function updateTotal(){
+  const a = Number(document.getElementById('amount').value) || 0;
+  const fee = a * 0.03, total = a + fee;
+  const bd = document.getElementById('breakdown'), pay = document.getElementById('pay');
+  if (a > 0) {
+    document.getElementById('bd-dep').textContent = '$' + a.toFixed(2);
+    document.getElementById('bd-fee').textContent = '$' + fee.toFixed(2);
+    document.getElementById('bd-total').textContent = '$' + total.toFixed(2);
+    bd.style.display = 'block';
+    pay.innerHTML = '\u{1F512} Pay $' + total.toFixed(2) + ' Securely';
+  } else {
+    bd.style.display = 'none';
+    pay.innerHTML = '\u{1F512} Pay Deposit Securely';
+  }
+}
+document.getElementById('amount').addEventListener('input', updateTotal);
+      async function checkout() {
   const company = document.getElementById('company').value.trim();
   const email = document.getElementById('email').value.trim();
   const amount = Number(document.getElementById('amount').value);
