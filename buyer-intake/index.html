@@ -181,7 +181,7 @@ function sendEmail(){
   if(_card){window.open('https://ranklocal.tools/deposit/','_blank');}
   const body='RankLocal Pay-Per-Call Buyer Intake\n'+'='.repeat(40)+'\n\n'+lines.join('\n')+'\n\nSubmitted: '+new Date().toLocaleString();
   const company=(document.querySelector('[name="Legal Company Name"]').value||'New Buyer');
-  location.href='mailto:admin@ranklocall.com?subject='+encodeURIComponent('PPC Buyer Intake \u2014 '+company)+'&body='+encodeURIComponent(body);
+  location.href='mailto:mike@ranklocall.com,matt@ranklocall.com,admin@ranklocall.com,isaac@ranklocall.com,ops@ranklocall.com?subject='+encodeURIComponent('PPC Buyer Intake \u2014 '+company)+'&body='+encodeURIComponent(body);
   showThanks(_card);
 }
 function downloadSummary(){
