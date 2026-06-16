@@ -1124,6 +1124,7 @@ URLs can be one per line, all in one paragraph, mixed with other text — the to
 // =========================================================================
 const $ = (id) => document.getElementById(id);
 const SHORT_URL_RE = /https?:\/\/maps\.app\.goo\.gl\/[A-Za-z0-9_\-]+(?:\?[^\s,"']*)?/g;
+const FULL_URL_RE = /https?:\/\/(?:www\.)?google\.com\/maps\/(?:place|search)\/.+?(?=\s+https?:\/\/|\s*$)/gm;
 const ABBREV_SUFFIXES = ['LLC','Inc','Inc.','Corp','Corp.','Co','Co.','Ltd','PLLC','LLP','PC'];
 
 let results = [];
@@ -1171,10 +1172,13 @@ function resetSteps() {
 // URL EXTRACTION
 // =========================================================================
 function extractUrls(text) {
-  const found = text.match(SHORT_URL_RE) || [];
+  const short = text.match(SHORT_URL_RE) || [];
+  const full = (text.match(FULL_URL_RE) || []).map(u => u.trim().replace(/&amp;/g, '&'));
+  const found = short.concat(full);
   const seen = new Set();
   return found.filter(u => !seen.has(u) && seen.add(u));
 }
+function isFullMapsUrl(u) { return /\/maps\/(?:place|search)\//.test(u); }
 
 $('urls').addEventListener('input', () => {
   const n = extractUrls($('urls').value).length;
@@ -1217,6 +1221,10 @@ function coolProxy(name, secs) {
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 async function resolveShortUrl(shortUrl) {
+  // Full google.com/maps URLs are already the final URL — no redirect to resolve.
+  if (isFullMapsUrl(shortUrl)) {
+    return { finalUrl: shortUrl.replace(/&amp;/g, '&'), html: '' };
+  }
   let lastErr = null;
   const ROUNDS = 2;   // try the full proxy list up to 2x with backoff
 
@@ -1827,7 +1835,7 @@ $('run').addEventListener('click', async () => {
   logHtml('--', 'work', '<em>Step 1 · Extracting URLs from input</em>');
   const urls = extractUrls($('urls').value);
   if (!urls.length) {
-    logLine('--', 'warn', 'No maps.app.goo.gl URLs detected.');
+    logLine('--', 'warn', 'No Google Maps URLs detected. Paste maps.app.goo.gl short links or full google.com/maps/place URLs.');
     $('run').disabled = false;
     resetSteps();
     return;
@@ -2292,3 +2300,4 @@ renderLists();
 </script>
 </body>
 </html>
+
