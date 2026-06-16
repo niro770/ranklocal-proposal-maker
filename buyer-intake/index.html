@@ -132,7 +132,7 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 </div>
 
 <div class="actions">
-  <button type="button" class="btn btn-primary" onclick="sendEmail()">&#128231; Submit via Email</button>
+  <button type="button" id="biSubmitBtn" class="btn btn-primary" onclick="submitIntake()">&#128231; Submit via Email</button>
   <button type="button" class="btn btn-ghost" onclick="downloadSummary()">&#11015;&#65039; Download Summary</button>
   <button type="button" class="btn btn-ghost" onclick="window.print()">&#128424;&#65039; Print / Save PDF</button>
 </div>
@@ -183,6 +183,31 @@ function sendEmail(){
   const company=(document.querySelector('[name="Legal Company Name"]').value||'New Buyer');
   location.href='mailto:mike@ranklocall.com,matt@ranklocall.com,admin@ranklocall.com,isaac@ranklocall.com,ops@ranklocall.com?subject='+encodeURIComponent('PPC Buyer Intake \u2014 '+company)+'&body='+encodeURIComponent(body);
   showThanks(_card);
+}
+async function submitIntake(){
+  const lines=collect();if(!lines)return;
+  const card=((document.querySelector('[name="Payment Method"]')||{}).value)==='Card';
+  const company=((document.querySelector('[name="Legal Company Name"]')||{}).value)||'New Buyer';
+  const emailEl=document.querySelector('[name="Primary Contact Email"]')||document.querySelector('input[type=email]');
+  const replyTo=emailEl?emailEl.value.trim():'';
+  const payment=((document.querySelector('[name="Payment Method"]')||{}).value)||'';
+  const btn=document.getElementById('biSubmitBtn');
+  const orig=btn?btn.innerHTML:'';
+  if(btn){btn.disabled=true;btn.innerHTML='Sending\u2026';}
+  try{
+    const r=await fetch('https://ranklocal-stripe.vercel.app/api/intake',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({company:company,replyTo:replyTo,payment:payment,lines:lines})
+    });
+    const data=await r.json().catch(function(){return {};});
+    if(!r.ok)throw new Error(data.error||('HTTP '+r.status));
+    if(card){window.open('https://ranklocal.tools/deposit/','_blank');}
+    showThanks(card);
+  }catch(e){
+    if(btn){btn.disabled=false;btn.innerHTML=orig;}
+    show('Could not auto-send ('+e.message+') \u2014 opening your email app as a backup.');
+    sendEmail();
+  }
 }
 function downloadSummary(){
   const lines=collect();if(!lines)return;
